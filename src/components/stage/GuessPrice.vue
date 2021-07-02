@@ -16,10 +16,10 @@
                 >
                     <div class="card_warp">
                         <div 
-                            v-for="(item, index) in 7" 
-                            :key="index"
+                            v-for="(num, numIndex) in 7" 
+                            :key="numIndex"
                             class="item"
-                            :class="setPosition(item.correctDigit).includes(index) ? 'success' : 'error'"
+                            :class="item.rule.includes(numIndex) ? 'success' : 'error'"
                         >
                         </div>
                     </div>
@@ -57,7 +57,14 @@ export default {
         })
 
         const guessRules = computed(() => {
-            return props.gameData.guessRules
+            let rules = []
+            props.gameData.guessRules.forEach(item => {
+                rules.push({
+                    ...item,
+                    rule: setPosition(item.correctDigit)
+                })
+            });
+            return rules
         })
 
         //猜对的位置 
@@ -86,6 +93,7 @@ export default {
                     break;
             }
 
+            console.log(num, arr)
             return arr
         }
 

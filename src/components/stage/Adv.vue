@@ -38,18 +38,22 @@
 </template>
 
 <script>
-import { reactive, toRefs, onMounted, ref } from 'vue'
+import { reactive, toRefs, onMounted, computed } from 'vue'
 import RightQrcode from '../RightQrcode.vue'
 import { useStore } from 'vuex'
 import { translatesToHoursMinutesSeconds } from '../../util/index'
 export default {
+    props: ['showAdv'],
     setup(props) {
         const store = useStore()
+
+        const show = computed(() => {
+            return props.showAdv
+        })
 
         onMounted(() => {
             state.resData = store.state.goodsDataDetail
 
-            console.log(' state.resData=============',  state.resData)
             let num = state.resData.preheatTime
             countDownFun(num)
             videoPlay()
@@ -58,7 +62,7 @@ export default {
             
             elevideo.addEventListener('ended', () => { //结束.
                 let videoTotal = state.resData.goods.video.length
-                console.log('结束')
+                console.log('视频播放结束')
                 state.currentVideoIndex = state.currentVideoIndex + 1 >= videoTotal ? 0 : state.currentVideoIndex + 1
                 videoPlay()
             }, false);
@@ -87,6 +91,7 @@ export default {
         }
 
         const state = reactive({
+            show,
             videoUrl: '',
             currentVideoIndex: 0,
             resData: {},
@@ -111,6 +116,7 @@ export default {
         left: 0;
         top: 0;
         z-index: 999;
+
         &:before {
             content: '';
             position: absolute;

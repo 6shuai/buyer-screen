@@ -3,7 +3,7 @@ import { createStore } from 'vuex'
 const state = {
 	goodsListData: [],         //今日抢购列表
 	currentGoodsIndex: 0,      //当前开始抢购 索引
-	goodsDataDetail: {guessTime:45},       //抢购详情
+	goodsDataDetail: {},       //抢购详情
 	gameState: null,           //抢购状态  游戏的状态，0预热阶段，1竞猜阶段，2开始倒计时，3出价阶段 ,4结束
 	buySuccessMember: {},      //抢购成功的用户信息
 	guessNotice: {},           //猜价通知

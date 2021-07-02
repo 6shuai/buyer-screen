@@ -84,16 +84,17 @@ export default {
             state.testArr = new Array(20)
             state.testArr2 = new Array(20)
             let i = 0
+
             let timer = setInterval(() => {
-                if(i == 40){
-                    clearInterval(timer)
-                    state.realTimePrice = priceFormat(newPrice)
-                    return
-                }
                 if(i < 20){
                     state.testArr[i] = true
                 }else{
                     state.testArr2[40-i-1] = true
+                }
+                if(i > 40){
+                    clearInterval(timer)
+                    state.realTimePrice = priceFormat(newPrice)
+                    return
                 }
                 i+=1
             }, priceDeclineFrequency * 1000 / 40);

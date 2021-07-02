@@ -2,7 +2,7 @@
     <div class="main_wrap">
 
         <!-- 阶段提示 -->
-        <stage-tip @countDown="countDown"></stage-tip>
+        <stage-tip></stage-tip>
         
         <div class="panic_buy_left">
             <div class="card_content">
@@ -10,15 +10,21 @@
             </div>
         </div>
 
-        <div class="panic_buy_center">
+        <div 
+            class="panic_buy_center"
+            :class="{
+                panic_buy: gameState == 3,
+                end: gameState == 4,
+            }"
+        >
             <div class="card_content">
 
                 <!-- 即将开始  倒计时 -->
-                <before v-if="!gameState"></before>
+                <before v-if="!gameState"  @countDown="countDown"></before>
 
                 <!-- 竞猜阶段 -->
                 <guess-price 
-                    v-if="gameState == 1"
+                    v-if="gameState == 1 || gameState == 2"
                     :gameData="gameData"
                 ></guess-price>
 
@@ -81,15 +87,15 @@ export default {
                     state.audioUrl = ''
                     break;
                 case 1:
-                    state.audioUrl = '/static/sounds/guess.mp3'
+                    state.audioUrl = './sounds/guess.mp3'
                     state.isLoop = true
-                    break;
+                    break; 
                 case 2:
-                    state.audioUrl = ''
+                    // state.audioUrl = ''
                     break;
                 case 3:
                     state.isLoop = true
-                    state.audioUrl = '/static/sounds/buying.mp3'
+                    state.audioUrl = './sounds/buying.mp3'
                     break;
                 default:
                     break;
@@ -99,16 +105,17 @@ export default {
 
         //倒计时
         const countDown = (e) => {
-            state.audioUrl = ''
-            nextTick(() => {
-                if(e == 'end'){
-                    state.audioUrl = '/static/sounds/count_down_end.wav'
-                }else{
-                    state.audioUrl = '/static/sounds/count_down_num.wav'
-                }
-                state.isLoop = false
-
-            })
+            if(store.state.gameState == null){
+                state.audioUrl = ''
+                nextTick(() => {
+                    if(e == 'end'){
+                        state.audioUrl = './sounds/count_down_end.wav'
+                    }else{
+                        state.audioUrl = './sounds/count_down_num.wav'
+                    }
+                    state.isLoop = false
+                })
+            }
         }
 
         //抢购详情数据
@@ -154,7 +161,7 @@ export default {
         const state = reactive({
             gameState,
             gameData,
-            audioUrl: '/static/sounds/before.mp3',
+            audioUrl: './sounds/before.mp3',
             isLoop: true,
             countDown,
             hasPlayAudio
@@ -195,6 +202,11 @@ export default {
                 height: 374px;
                 padding: 22px 0;
                 position: relative;
+            }
+
+            &.panic_buy{
+                background: url('../images/card_center_02.png') no-repeat center;
+                background-size: 100% 414px;
             }
 
             &.end{

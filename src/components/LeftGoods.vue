@@ -120,7 +120,7 @@ export default {
 
             img{
                 width: 386px;
-                height: 386px;
+                max-height: 386px;
                 margin-right: 48px;
                 margin-top: -50%;
                 display: inline-block;

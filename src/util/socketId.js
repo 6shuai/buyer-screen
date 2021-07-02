@@ -4,6 +4,12 @@ export const socketId = {
 
     //心跳请求
     HeartbeatPing: 3004,
+    
+    //预览抢购 参加抢购
+    ParticipateAuctionRequest: 3011,
+
+    //预览抢购
+    Preview: 3013,                 
 
     //抢购详情
     GoodsDataDetail: 7005,
@@ -25,6 +31,9 @@ export const socketId = {
     
     //游戏状态改变通知
     GameStateChangeNotice: 7023,
+
+    //预览抢购 返回的消息
+    PreviewResponse: 7024,         
     
     //屏幕抢购列表通知
     ScreenAuctionListNotice: 7025,

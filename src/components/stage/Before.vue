@@ -11,10 +11,10 @@ import { reactive, toRefs, computed, watch } from 'vue'
 import { translatesToHoursMinutesSeconds } from '../../util/index'
 import { useStore } from 'vuex'
 export default {
-    setup(props) {
+    emits: ['countDown'],
+    setup(props, { emit }) {
 
         const store = useStore()
-
         
         //开始时间
         const beginTime = computed(() => {
@@ -26,16 +26,23 @@ export default {
             let now = new Date().getTime() / 1000
             let startTime = new Date(beginTime).getTime() / 1000
             let num = parseInt(startTime - now)
-            countDownFun(num)
+            
+            if(num > 0){
+                // countDownFun(num)
+            }
+            countDownFun(30)
         }
 
         const countDownFun = (num) => {
+            num -= 1
+            state.countDownTime = translatesToHoursMinutesSeconds(num)
             if(num <= 0){
                 clearTimeout(state.timer)
+                emit('countDown', 'end')
                 return
+            }else if(num <= 10){
+                emit('countDown')
             }
-            state.countDownTime = translatesToHoursMinutesSeconds(num)
-            num -= 1
             state.timer = setTimeout(() => {
                 countDownFun(num)
             }, 1000);
@@ -48,7 +55,7 @@ export default {
         })
 
         const state = reactive({
-            countDownTime: '',
+            countDownTime: '00:00',
             timer: undefined
         })
 

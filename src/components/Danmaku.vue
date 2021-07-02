@@ -141,7 +141,7 @@ export default {
             state.list.push({
                 ...newData,
                 type: 1,
-                price: priceFormat(newData.price, 'hide') 
+                price: priceFormat(newData.price) 
             })
         })
 

@@ -1,7 +1,7 @@
 <template>
     <div class="stage_wrap">
         <div 
-            v-if="gameState == 1"
+            v-if="gameState == 1 || gameState == 2"
             class="guess_price_stage">
             猜价阶段<span class="count_down text_heavy">{{ countDownNum }}</span>
         </div>    
@@ -32,7 +32,7 @@ export default {
             //猜价阶段 
             if(store.state.gameState == 1){
                 //抢购详情   拿到猜价时长 做倒计时
-                countDownFun(store.state.goodsDataDetail.guessTime)
+                countDownFun(store.state.goodsDataDetail.guessTime + store.state.goodsDataDetail.countdown)
             }
 
             return store.state.gameState

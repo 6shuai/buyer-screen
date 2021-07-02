@@ -142,11 +142,11 @@ export default {
 
                     img{
                         width: 114px;
-                        height: 114px;
+                        max-height: 114px;
                         display: inline-block;
                         margin-top: -53px;
                         border: 1px solid #e5e5e5;
-                        vertical-align: top;
+                        vertical-align: middle;
                         margin-right: 12px;
                     }
 
