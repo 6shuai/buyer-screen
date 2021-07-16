@@ -1,27 +1,3 @@
-# vue3-vite-domo
-
+# 极限买手大屏端
 #### 介绍
-集成vue-router、vuex、axios、postcss-pxtorem、less、vite2、vue3、vant
-
-#### 软件架构
-软件架构说明
-
-
-#### 安装教程
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 使用说明
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 参与贡献
-
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
+vue3 vuex
