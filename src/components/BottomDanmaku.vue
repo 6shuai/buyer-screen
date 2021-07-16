@@ -1,10 +1,10 @@
 <template>
     <div class="danmaku_wrap">
-        <!-- <div class="text">
+        <div class="text">
             对宝贝不感兴趣?没关系,参与宝贝猜价可能赢得现金奖励哦!
-        </div> -->
+        </div>
 
-        <div class="danmaku_list">
+        <!-- <div class="danmaku_list">
             <div 
                 class="item"
                 v-for="(item, index) in danmakulist"
@@ -18,7 +18,7 @@
                     <span>已报价:<span class="num">1,2???</span></span>
                 </div>
             </div>
-        </div>
+        </div> -->
 
     </div>
 
@@ -38,7 +38,7 @@ export default {
         })
 
         onMounted(() => {
-           danmaku() 
+        //    danmaku() 
 
             setTimeout(() => {
                 state.list.push({ name: 'madongmei' })

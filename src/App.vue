@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { reactive, toRefs, computed } from 'vue'
+import { reactive, toRefs, computed, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import LeftGoodsList from './layout/left.vue'
 import GoodsContent from './layout/content.vue'
@@ -42,6 +42,10 @@ export default {
 		//游戏状态
 		const gameState = computed(() => {
 			return store.state.gameState
+		})
+
+		onMounted(() => {
+			initWebsocket.value()
 		})
 
 		const state = reactive({

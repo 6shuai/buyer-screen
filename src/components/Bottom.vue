@@ -2,7 +2,7 @@
     <div class="bottom_wrap">
         
         <!-- 箭头 -->
-        <!-- <arraw-card></arraw-card> -->
+        <arraw-card></arraw-card>
 
          <!-- 优惠进度 -->
         <!-- <sale-progress></sale-progress> -->
@@ -11,10 +11,10 @@
         <!-- <king></king> -->
 
         <!-- 最底部 -->
-        <!-- <bottom-danmaku></bottom-danmaku> -->
+        <bottom-danmaku></bottom-danmaku>
 
         <!-- 下个宝贝 预告 -->
-        <foreshow></foreshow>
+        <!-- <foreshow></foreshow> -->
 
     </div>
 </template>

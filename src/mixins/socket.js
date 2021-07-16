@@ -62,7 +62,6 @@ export default function () {
                 break;
             // 抢购列表
             case socketId.ScreenAuctionListNotice:
-                console.log(data)
                 store.commit('SET_GOODS_LIST', data.auctionList)
                 test()
                 break;

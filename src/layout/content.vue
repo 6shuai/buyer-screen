@@ -2,32 +2,41 @@
     <!-- 当前宝贝 -->
     <div class="current_goods_content">
         <!-- 未开始 -->
-        <!-- <div class="content_box clear">
+        <div 
+            class="content_box clear"
+            v-if="(!gameState || gameState==1) && currentGoods"
+        >
             <div class="tip">当前宝贝</div>
             <div class="goods_detail">
-
-                <img src="" class="goods_image">
-                <p class="goods_name text_overflow">任天堂Switch</p>
-                <p class="goods_desc text_overflow">国行红蓝版</p>
+                <div class="goods_image">
+                    <img :src="currentGoods.goodsCover" class="img">
+                </div>
+                <p class="goods_name text_overflow">{{ currentGoods.goodsName }}</p>
+                <p class="goods_desc text_overflow">{{ currentGoods.goodsDescription }}</p>
             </div>
             <div class="goods_price_wrap">
                 <div class="real_price">
-                    <span class="int">￥2,099</span>
-                    <span class="decimals">.00</span>
+                    <span class="int">￥{{ priceFormat(currentGoods.marketValue).int }}</span>
+                    <span class="decimals">{{ priceFormat(currentGoods.marketValue).decimals }}</span>
                     <span class="price_text_qi">起</span>
                 </div>
                 <div class="price_down_wrap">   
                     <p class="down_text">每分钟<span>直降</span></p>
-                    <p class="down_price">￥150 <span class="decimals">.00</span></p>
+                    <p class="down_price">￥{{ priceFormat(currentGoods.priceDeclineRate).int }}<span class="decimals">{{ priceFormat(currentGoods.priceDeclineRate).decimals }}</span></p>
                 </div>
             </div>
-        </div> -->
+        </div>
 
         <!-- 抢购中 -->
-        <!-- <div class="content_box buy_in clear">
+        <div 
+            class="content_box buy_in clear"
+            v-if="gameState == 3"
+        >
             <div class="tip">当前宝贝</div>
             <div class="goods_detail">
-                <img src="" class="goods_image">
+                <div class="goods_image">
+                    <img src="" class="img">
+                </div>
                 <div class="goods_detail_right">
                     <p class="goods_name text_overflow">任天堂Switch<span class="goods_desc">国行红蓝版</span></p>
                     <p class="buy_in_price">￥2,099.00起</p>
@@ -38,11 +47,14 @@
                 <div class="data">实时价格: <span class="price_int">￥1,929</span><span class="price_decimals">.34</span></div>
                 <div class="data">已售罄</div>
             </div>
-        </div> -->
+        </div>
 
 
         <!-- 抢购结束 -->
-        <div class="content_box buy_end clear">
+        <div 
+            class="content_box buy_end clear" 
+            v-if="gameState == 4"
+        >
             <div class="tip">抢购结束</div>
             <div class="goods_detail">
                 <div class="goods_image">
@@ -96,17 +108,33 @@
 </template>
 
 <script>
-import { reactive, toRefs } from 'vue'
+import { reactive, toRefs, computed } from 'vue'
 import VideoAdv from '../components/VideoAdv.vue'
 import BottomInfo from '../components/Bottom.vue'
 import CountDown from '../components/CountDown.vue'
 import BuySuccessMember from '../components/BuySuccessMember.vue'
 import MemberList from '../components/MemberList.vue'
+import { useStore } from 'vuex'
+import { priceFormat } from '../util/index'
 
 export default {
     setup(props) {
+        const store = useStore()
+
+        //游戏状态
+        const gameState = computed(() => {
+            return store.state.gameState
+        })
+
+        //当前宝贝
+        const currentGoods = computed(() => {
+            return store.state.goodsListData[store.state.currentGoodsIndex]
+        })
+
         const state = reactive({
-            
+            gameState,
+            currentGoods,
+            priceFormat
         })
 
         return toRefs(state)
@@ -326,7 +354,6 @@ export default {
                 .img{
                     width: 500px;
                     height: 500px;
-                    border: 1px solid #000;
                 }
 
                 .sell_out{

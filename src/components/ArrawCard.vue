@@ -1,14 +1,13 @@
 <template>
     <div class="arraw_wrap">
-
         <!-- 即将开始  倒计时 -->
-        <!-- <div class="about_begin">
+        <div class="about_begin" v-if="!gameState">
             <div class="text">即将开始</div>
             <div class="count_down">09:32</div>
-        </div> -->
+        </div>
 
         <!-- 开始竞猜 -->
-        <div class="guess_price">
+        <div class="guess_price" v-if="gameState==1">
             <div class="msg">参与竞猜<span class="msg_01">平分</span><span class="cash">现金大礼!</span></div>
         </div>
 

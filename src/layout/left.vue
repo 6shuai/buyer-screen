@@ -2,7 +2,7 @@
     <div class="goods_list_wrap">
 
         <!-- 当前宝贝 -->
-        <div class="current_goods_wrap">
+        <div class="current_goods_wrap" v-if="false">
             <div class="title_card">当前宝贝</div>
             <div class="goods_detail buy_end">
                 <div class="goods_detail_top">
@@ -35,22 +35,25 @@
         </div>
 
 
-        <!-- 即将开始 -->
-        <div class="goods_list put_away">
+        <!-- 即将开始  class  put_away  收起-->
+        <div class="goods_list">
             <div class="title_card">即将开始</div>
-            <div class="goods_item" v-for="item in 3" :key="item">
+            <div class="goods_item" 
+                v-for="(item, index) in goodsList" 
+                :key="index"
+            >
                 <div class="goods_info">
-                    <img src="" class="goods_img">
+                    <img :src="item.goodsCover" class="goods_img">
                     <div class="info text_overflow">
-                        <p class="time">19:45</p>
-                        <p class="goods_name">索尼85寸液晶电视</p>
+                        <p class="time">{{ formatTime(item.beginTime) }}</p>
+                        <p class="goods_name">{{ item.goodsName }}</p>
                     </div>
                 </div>
                 
                 <div class="goods_bottom">
-                    <p class="price">￥10,099.00起</p>
+                    <p class="price">￥{{ priceFormat(item.marketValue).int }}{{ priceFormat(item.marketValue).decimals }}起</p>
                     <p class="down_text">每分钟直降</p>
-                    <p class="down_price">￥1050.00</p>
+                    <p class="down_price">￥{{ priceFormat(item.priceDeclineRate).int }}{{ priceFormat(item.priceDeclineRate).decimals }}</p>
                 </div>
 
             </div>
@@ -60,6 +63,7 @@
 
 <script>
 import { reactive, toRefs, computed } from 'vue'
+import { formatTime, priceFormat } from '../util/index'
 import { useStore } from 'vuex'
 export default {
     setup(props){
@@ -71,7 +75,9 @@ export default {
         })
 
         const state = reactive({
-            
+            goodsList,
+            formatTime,
+            priceFormat
         })
 
         return toRefs(state)
@@ -204,9 +210,9 @@ export default {
     }
     .goods_list{
         height: 100%;
-        display:flex;
-        flex-flow: column;
-        justify-content: space-around;
+        // display:flex;
+        // flex-flow: column;
+        // justify-content: space-around;
         transition: all .5s ease-in-out;
 
         .goods_item{
@@ -260,7 +266,7 @@ export default {
                 .price{
                     font-size: 35px;
                     color: #4a2453;
-                    padding: 15px 0 30px 0;
+                    padding: 15px 0 25px 0;
                 }
 
                 .down_text{
