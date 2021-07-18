@@ -21,9 +21,46 @@
 </template>
 
 <script>
+import { reactive, toRefs, ref, computed } from 'vue'
+import { useStore } from 'vuex'
+import { priceFormat } from '../util/index'
+
 export default {
     setup(props) {
+        const store = useStore()
+
+        const buyMemberList = computed(() => {
+            return store.state.buyMemberList
+        })
+
+        setTimeout(() => {
+            showRankKing()
+        }, 1000);
+
+        //抢购排行榜第一  极限秒杀王
+        const showRankKing = () => {
+            setTimeout(() => {
+                showAllRank()
+            }, 5000);
+        }
         
+        //抢购排行榜列表
+        const showAllRank = () => {
+            clearInterval(state.timer)
+            state.timer = setInterval(() => {
+
+            }, 10000);
+        }
+
+
+        const state = reactive({
+            rankList: [],
+            priceFormat,
+            timer: undefined,
+            buyMemberList
+        })
+
+        return toRefs(state)
     }
 }
 </script>

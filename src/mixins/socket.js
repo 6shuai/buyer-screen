@@ -189,17 +189,17 @@ export default function () {
     const test = () => {
 
         //预览
-        setTimeout(() => {
-            let data = {
-                id: socketId.Preview,
-                auctionId: 20
-            }
-            websocketSendData(data);
-        }, 30000);
+        // setTimeout(() => {
+        //     let data = {
+        //         id: socketId.Preview,
+        //         auctionId: 20
+        //     }
+        //     websocketSendData(data);
+        // }, 30000);
 
 
 
-        return
+        // return
 
 
         setTimeout(() => {
@@ -226,35 +226,35 @@ export default function () {
                     setTimeout(() => {
                         store.commit('SET_GAME_STATE', 3)
 
-                        // setTimeout(() => {
-                        //     store.commit('SET_GAME_STATE', 4)
-                        //     store.commit('SET_BUY_MEMBER_LIST', [{"avatar":"999.jpg","nickName":"小钱","price":3.0},{"avatar":"555.jpg","nickName":"小王","price":3.1},{"avatar":"333.jpg","nickName":"小花","price":3.2},{"avatar":"888.jpg","nickName":"小赵","price":3.5},{"avatar":"111.jpg","nickName":"小红","price":3.6},{"avatar":"444.jpg","nickName":"小翠","price":3.7},{"avatar":"777.jpg","nickName":"小韩","price":3.8},{"avatar":"1100.jpg","nickName":"随便","price":3.9},{"avatar":"1000.jpg","nickName":"小王八","price":4.0},{"avatar":"222.jpg","nickName":"小吕","price":4.3}])
+                        setTimeout(() => {
+                            store.commit('SET_GAME_STATE', 4)
+                            store.commit('SET_BUY_MEMBER_LIST', [{"avatar":"999.jpg","nickName":"小钱","price":3.0},{"avatar":"555.jpg","nickName":"小王","price":3.1},{"avatar":"333.jpg","nickName":"小花","price":3.2},{"avatar":"888.jpg","nickName":"小赵","price":3.5},{"avatar":"111.jpg","nickName":"小红","price":3.6},{"avatar":"444.jpg","nickName":"小翠","price":3.7},{"avatar":"777.jpg","nickName":"小韩","price":3.8},{"avatar":"1100.jpg","nickName":"随便","price":3.9},{"avatar":"1000.jpg","nickName":"小王八","price":4.0},{"avatar":"222.jpg","nickName":"小吕","price":4.3}])
 
-                        //     store.commit('SET_GUESS_PRICE_MEMBER_LIST', [
-                        //         {
-                        //             nickName: '王钢蛋', // 抢购的人的名字
-                        //             avatar: 'https://ec.xfengjing.com/picture/2020/12/09/804e982b-a0ce-4e0b-bfac-845c910b7d20.png',// 头像
-                        //             correctDigit: '2', // 猜中位数
-                        //             award: '12.3' // 获得奖金
-                        //         },
-                        //         {
-                        //             nickName: '刘海柱', // 抢购的人的名字
-                        //             avatar: 'https://ec.xfengjing.com/picture/2020/12/09/804e982b-a0ce-4e0b-bfac-845c910b7d20.png',// 头像
-                        //             correctDigit: '4', // 猜中位数
-                        //             award: '35.45' // 获得奖金
-                        //         }
-                        //     ])
+                            store.commit('SET_GUESS_PRICE_MEMBER_LIST', [
+                                {
+                                    nickName: '王钢蛋', // 抢购的人的名字
+                                    avatar: 'https://ec.xfengjing.com/picture/2020/12/09/804e982b-a0ce-4e0b-bfac-845c910b7d20.png',// 头像
+                                    correctDigit: '2', // 猜中位数
+                                    award: '12.3' // 获得奖金
+                                },
+                                {
+                                    nickName: '刘海柱', // 抢购的人的名字
+                                    avatar: 'https://ec.xfengjing.com/picture/2020/12/09/804e982b-a0ce-4e0b-bfac-845c910b7d20.png',// 头像
+                                    correctDigit: '4', // 猜中位数
+                                    award: '35.45' // 获得奖金
+                                }
+                            ])
 
-                        // }, 10000);
+                        }, 10000);
 
-                        // setTimeout(() => {
-                        //     store.commit('SET_BUY_SUCCESS_MEMBER', {
-                        //         nickName: '马冬梅',
-                        //         avatar: 'https://ec.xfengjing.com/picture/2020/12/09/804e982b-a0ce-4e0b-bfac-845c910b7d20.png',// 头像
-                        //         price: '56.78'// 买下的金额
+                        setTimeout(() => {
+                            store.commit('SET_BUY_SUCCESS_MEMBER', {
+                                nickName: '马冬梅',
+                                avatar: 'https://ec.xfengjing.com/picture/2020/12/09/804e982b-a0ce-4e0b-bfac-845c910b7d20.png',// 头像
+                                price: '56.78'// 买下的金额
 
-                        //     })
-                        // }, 2000);
+                            })
+                        }, 2000);
 
                     }, 1000);
 

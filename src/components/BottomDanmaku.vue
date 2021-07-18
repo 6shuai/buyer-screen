@@ -1,32 +1,35 @@
 <template>
     <div class="danmaku_wrap">
-        <div class="text">
+        <div class="text" v-if="!gameState">
             对宝贝不感兴趣?没关系,参与宝贝猜价可能赢得现金奖励哦!
         </div>
-
-        <!-- <div class="danmaku_list">
+       {{danmakulist}}  {{danmakulist[0]}} 
+        <div class="danmaku_list" v-show="showDanmaku">
             <div 
                 class="item"
                 v-for="(item, index) in danmakulist"
                 :key="index"
                 :class="`danmaku_${index}`"
             >
-                <div class="head_img"><img src=""></div>
-                <div class="name">{{ item.name }}</div>
+                <div class="head_img"><img :src="item.avatar"></div>
+                <div class="name">{{ item.nickName }}</div>
                 <div class="price">
-                    <span v-if="false">猜对4位:<span class="num cash">赢得现金￥4.31</span></span>
-                    <span>已报价:<span class="num">1,2???</span></span>
+                    <span v-if="itme.type == 1">已报价:<span class="num">{{ item.price.int }}{{ item.price.decimals }}</span></span>
+                    <span v-if="item.type == 2">猜对{{ item.correctDigit }}位:
+                        <span class="num cash">赢得现金￥{{ item.price.int }}{{ item.price.decimals }}</span>
+                    </span>
                 </div>
             </div>
-        </div> -->
+        </div>
 
     </div>
 
 </template>
 
 <script>
-import { reactive, toRefs, computed, onMounted } from 'vue'
+import { reactive, toRefs, computed, onMounted, watch } from 'vue'
 import { useStore } from 'vuex'
+import { priceFormat } from '../util/index'
 export default {
     setup(props) {
         const windowWidth = window.innerWidth
@@ -37,21 +40,30 @@ export default {
             return store.state.gameState
         })
 
-        onMounted(() => {
-        //    danmaku() 
+        //猜价通知
+        const guessNotice = computed(() => {
+            return store.state.guessNotice
+        })
 
-            setTimeout(() => {
-                state.list.push({ name: 'madongmei' })
-                setTimeout(() => {
-                    state.list.push({ name: 'madongmei222' })
-                    setTimeout(() => {
-                        state.list.push({ name: 'madongmei3333' })
-                        setTimeout(() => {
-                            state.list.push({ name: 'madongmei4444' })
-                        }, 100);
-                    }, 100);
-                }, 1000);
-            }, 1000);
+        //猜价成功 获得红包的用户  弹幕
+        const guessPriceData = computed(() => {
+            return store.state.guessPriceMemberList
+        })
+
+        onMounted(() => {
+
+            // setTimeout(() => {
+            //     state.list.push({ name: 'madongmei' })
+            //     setTimeout(() => {
+            //         state.list.push({ name: 'madongmei222' })
+            //         setTimeout(() => {
+            //             state.list.push({ name: 'madongmei3333' })
+            //             setTimeout(() => {
+            //                 state.list.push({ name: 'madongmei4444' })
+            //             }, 100);
+            //         }, 100);
+            //     }, 1000);
+            // }, 1000);
         })
 
         const danmaku = () => {
@@ -92,7 +104,40 @@ export default {
             })
         }
 
+        //游戏状态
+        watch(gameState, (newState, oldState) => {
+            if(newState && !state.showDanmaku){
+                state.showDanmaku = true
+                danmaku() 
+            }else{
+                state.showDanmaku = false
+            }
+        })
+
+         //猜价通知
+        watch(guessNotice, (newData, oldData) => {
+            state.list.push({
+                ...newData,
+                type: 1,
+                price: priceFormat(newData.price) 
+            })
+        })
+
+        //猜价结果 通知
+        watch(guessPriceData, (newData, oldData) => {
+            newData.forEach(item => {
+                state.list.push({
+                    ...item,
+                    type:2,
+                    price: priceFormat(item.award)
+                })
+            })
+        })
+
+
         const state = reactive({
+            gameState,
+            showDanmaku: false,
             list: [],   // 普通的弹幕队列
             danmakulist: [], // 当前正在执行的
         })

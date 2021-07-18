@@ -2,13 +2,13 @@
     <div class="bottom_wrap">
         
         <!-- 箭头 -->
-        <arraw-card></arraw-card>
+        <arraw-card v-if="!gameState || gameState==1"></arraw-card>
 
-         <!-- 优惠进度 -->
-        <!-- <sale-progress></sale-progress> -->
+        <!-- 优惠进度 -->
+        <sale-progress v-if="gameState==3"></sale-progress>
 
         <!-- 秒杀王 -->
-        <!-- <king></king> -->
+        <king v-if="gameState == 4"></king>
 
         <!-- 最底部 -->
         <bottom-danmaku></bottom-danmaku>
@@ -25,9 +25,23 @@ import bottomDanmaku from './BottomDanmaku.vue'
 import SaleProgress from '../components/SaleProgress.vue'
 import King from '../components/King.vue'
 import Foreshow from '../components/foreshow.vue'
+import { useStore } from 'vuex'
+import { reactive, toRefs, computed } from 'vue'
 
 export default {
     setup(props) {
+        const store = useStore()
+
+        // 游戏状态
+        const gameState = computed(() => {
+            return store.state.gameState
+        })
+
+        const state = reactive({
+            gameState
+        })
+
+        return toRefs(state)
         
     },
     components: {

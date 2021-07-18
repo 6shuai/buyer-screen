@@ -1,14 +1,33 @@
 <template>
     <div class="buy_count_down_wrap">
-        <div class="count_down_num">9</div>
+        <div class="count_down_num">{{ countdownNum }}</div>
         <div class="text">抢购马上开始!</div>
     </div>
 </template>
 
 <script>
+import { reactive, toRefs, onMounted } from 'vue'
 export default {
     setup(props) {
-        
+        onMounted(() => {
+            countdown()
+        })
+
+        const countdown = () => {
+            if(state.countdownNum <= 1){
+                clearTimeout(state.timer)
+                return
+            }
+            state.countdownNum = state.countdownNum - 1
+            state.timer = setTimeout(() => {
+                countdown()
+            }, 1000);
+        }
+
+        const state = reactive({
+            timer: undefined,
+            countdownNum: 9
+        })
     }
 }
 </script>

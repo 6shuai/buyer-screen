@@ -32,78 +32,26 @@
             class="content_box buy_in clear"
             v-if="gameState == 3"
         >
-            <div class="tip">当前宝贝</div>
-            <div class="goods_detail">
-                <div class="goods_image">
-                    <img src="" class="img">
-                </div>
-                <div class="goods_detail_right">
-                    <p class="goods_name text_overflow">任天堂Switch<span class="goods_desc">国行红蓝版</span></p>
-                    <p class="buy_in_price">￥2,099.00起</p>
-                    <p class="buy_in_price_down">每分钟直降<span>￥150.00</span></p>
-                </div>
-            </div>
-            <div class="real_price_warp sell_out_crad">
-                <div class="data">实时价格: <span class="price_int">￥1,929</span><span class="price_decimals">.34</span></div>
-                <div class="data">已售罄</div>
-            </div>
+            <panic-buy :data="currentGoods"></panic-buy>
         </div>
 
 
         <!-- 抢购结束 -->
-        <div 
-            class="content_box buy_end clear" 
-            v-if="gameState == 4"
-        >
-            <div class="tip">抢购结束</div>
-            <div class="goods_detail">
-                <div class="goods_image">
-                    <img src="" class="img">
-                    <img src="../images/sell_out.png" alt="已售罄" class="sell_out">
-                </div>
-                <div class="goods_detail_right">
-                    <p class="goods_name text_overflow">任天堂Switch<span class="goods_desc">国行红蓝版</span></p>
-                    <p class="goods_count">宝贝库存: 23</p>
-                    <p class="goods_del_price">￥2099.00</p>
-                </div>
-            </div>
-            <div class="real_price_warp">
-                <div class="data">极限秒杀价: <span class="price_int">￥1,929</span><span class="price_decimals">.34</span></div>
-            </div>
-        </div>
-
-
-        <div class="content_box clear" v-if="false">
-            <div class="tip">抢购结束</div>
-            <div class="goods_detail">
-
-                <div class="goods_image">
-                    <img src="" class="img">
-                    <img src="../images/sell_out.png" alt="已售罄" class="sell_out">
-                </div>
-                <p class="goods_name text_overflow">任天堂Switch</p>
-                <p class="goods_desc text_overflow">国行红蓝版</p>
-            </div>
-            <div class="goods_price_wrap">
-                <!-- 买手榜 -->
-                <member-list></member-list>
-            </div>
-        </div>
-
+        <buy-end :data="currentGoods" v-if="gameState == 4"></buy-end>
 
     </div>
 
     <!-- 视频广告 -->
-    <video-adv v-if="false"></video-adv>
+    <video-adv v-if="gameState == 0"></video-adv>
 
     <!-- 倒计时 -->
-    <count-down v-if="false"></count-down>
+    <count-down v-if="showCountDown && !gameState"></count-down>
 
     <!-- 底部 -->
     <bottom-info></bottom-info>
 
     <!-- 抢购成功  弹幕 -->
-    <buy-success-member v-if="false"></buy-success-member>
+    <buy-success-member v-if="gameState == 3"></buy-success-member>
 
 </template>
 
@@ -113,7 +61,9 @@ import VideoAdv from '../components/VideoAdv.vue'
 import BottomInfo from '../components/Bottom.vue'
 import CountDown from '../components/CountDown.vue'
 import BuySuccessMember from '../components/BuySuccessMember.vue'
-import MemberList from '../components/MemberList.vue'
+
+import PanicBuy from '../components/PanicBuy.vue'
+import BuyEnd from '../components/BuyEnd.vue'
 import { useStore } from 'vuex'
 import { priceFormat } from '../util/index'
 
@@ -126,13 +76,19 @@ export default {
             return store.state.gameState
         })
 
+        //是否显示倒计时
+        const showCountDown = computed(() => {
+            return store.state.showCountDown
+        })
+
         //当前宝贝
         const currentGoods = computed(() => {
             return store.state.goodsListData[store.state.currentGoodsIndex]
-        })
+        }) 
 
         const state = reactive({
             gameState,
+            showCountDown,
             currentGoods,
             priceFormat
         })
@@ -144,7 +100,8 @@ export default {
         BottomInfo,
         CountDown,
         BuySuccessMember,
-        MemberList
+        PanicBuy,
+        BuyEnd
     }
 }
 </script>

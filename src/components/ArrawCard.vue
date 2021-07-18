@@ -3,7 +3,7 @@
         <!-- 即将开始  倒计时 -->
         <div class="about_begin" v-if="!gameState">
             <div class="text">即将开始</div>
-            <div class="count_down">09:32</div>
+            <div class="count_down">{{ countDownTime }}</div>
         </div>
 
         <!-- 开始竞猜 -->
@@ -15,8 +15,9 @@
 </template>
 
 <script>
-import { reactive, toRefs, computed } from 'vue'
+import { reactive, toRefs, computed, watch } from 'vue'
 import { useStore } from 'vuex'
+import { translatesToHoursMinutesSeconds } from '../util/index'
 export default {
     setup(props) {
         const store = useStore()
@@ -26,8 +27,48 @@ export default {
             return store.state.gameState
         })
 
+        //开始时间
+        const beginTime = computed(() => {
+            return store.state.goodsListData[store.state.currentGoodsIndex] ? store.state.goodsListData[store.state.currentGoodsIndex].beginTime : null
+        })
+
+        //开始倒计时
+        const countDownStart = (beginTime) => {
+            let now = new Date().getTime() / 1000
+            let startTime = new Date(beginTime).getTime() / 1000
+            let num = parseInt(startTime - now)
+            
+            if(num > 0){
+                // countDownFun(num)
+            }
+            countDownFun(30)
+        }
+
+        const countDownFun = (num) => {
+            num -= 1
+            state.countDownTime = translatesToHoursMinutesSeconds(num)
+            if(num <= 0){
+                clearTimeout(state.timer)
+                return
+            }else if(num < 10){
+                //还剩最后十秒
+                store.state.showCountDown = true
+            }
+            state.timer = setTimeout(() => {
+                countDownFun(num)
+            }, 1000);
+        }
+
+        watch(beginTime, (newData, oldData) => {
+            if(newData){
+                countDownStart(beginTime.value)
+            }
+        })
+
         const state = reactive({
-            gameState
+            gameState,
+            countDownTime: '00:00',
+            timer: undefined
         })
 
         return toRefs(state)

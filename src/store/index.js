@@ -1,6 +1,7 @@
 import { createStore } from 'vuex'
 
 const state = {
+	showCountDown: false,      //显示倒计时页
 	goodsListData: [],         //今日抢购列表
 	currentGoodsIndex: 0,      //当前开始抢购 索引
 	goodsDataDetail: {},       //抢购详情
@@ -9,7 +10,9 @@ const state = {
 	guessNotice: {},           //猜价通知
 	
 	buyMemberList: [],         //抢购用户列表
+	buyKing: {},               //秒杀王
 	guessPriceMemberList: [],  //猜价用户列表
+	realTimePrice: null,       //实时价格
 }
 
 
@@ -37,6 +40,7 @@ const mutations = {
 	//抢购的用户列表
 	SET_BUY_MEMBER_LIST(state, data){
 		state.buyMemberList = data
+		state.buyKing = data[0]
 	},
 
 	//猜价的用户列表
@@ -47,7 +51,12 @@ const mutations = {
 	//收到某个用户的猜价 通知
 	SET_GUESS_NOTICE(state, data){
 		state.guessNotice = data
-	}
+	},
+
+	//实时价格
+	SET_REAL_TIME_PRICE(state, data){
+		state.realTimePrice = data
+	},
 }
 
 

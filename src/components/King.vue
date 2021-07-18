@@ -6,17 +6,29 @@
         </div>
         <div class="member_info">
             <div class="img_wrap">
-                <img src="">
+                <img :src="buyKing.avatar">
             </div>
-            <div class="name text_overflow">马冬梅</div>
+            <div class="name text_overflow">{{ buyKing.nickName }}</div>
         </div>
     </div>
 </template>
 
 <script>
+import { reactive, toRefs, computed } from 'vue'
+import { useStore } from 'vuex'
 export default {
     setup(props) {
-        
+        const store = useStore()
+
+        const buyKing = computed(() => {
+            return store.state.buyKing
+        })
+
+        const state = reactive({
+            buyKing
+        })
+
+        return toRefs(state)
     }
 }
 </script>

@@ -9,11 +9,11 @@
         >
             <div class="content">
                 <div class="member_img">
-                    <img src="">
+                    <img :src="item.avatar">
                 </div>
                 <div class="member_right">
-                    <p class="name text_overflow">马冬梅{{ item.id }}</p>
-                    <p class="price">秒杀价￥1,929.34</p>
+                    <p class="name text_overflow">{{ item.nickName }}</p>
+                    <p class="price">秒杀价￥{{ item.price.int }}{{ item.price.decimals }}</p>
 
                     <div class="buy_success">抢到宝贝!</div>
                 </div>
@@ -23,29 +23,37 @@
 </template>
 
 <script>
-import { reactive, toRefs, onMounted } from 'vue'
+import { reactive, toRefs, onMounted, computed, watch  } from 'vue'
+import { useStore } from 'vuex'
+import { priceFormat } from '../util/index'
 export default {
     setup(props) {
         const windowWidth = window.innerWidth
+        const store = useStore()
 
         onMounted(() => {
             danmaku()
 
-            setTimeout(() => {
-                state.list.push({ id: 12 })
-                setTimeout(() => {
-                    state.list.push({ id: 13 })
-                }, 500);
-                setTimeout(() => {
-                    state.list.push({ id: 14 })
-                }, 600);
-                setTimeout(() => {
-                    state.list.push({ id: 15 })
-                }, 630);
-                setTimeout(() => {
-                    state.list.push({ id: 16 })
-                }, 670);
-            }, 1000);
+            // setTimeout(() => {
+            //     state.list.push({ id: 12 })
+            //     setTimeout(() => {
+            //         state.list.push({ id: 13 })
+            //     }, 500);
+            //     setTimeout(() => {
+            //         state.list.push({ id: 14 })
+            //     }, 600);
+            //     setTimeout(() => {
+            //         state.list.push({ id: 15 })
+            //     }, 630);
+            //     setTimeout(() => {
+            //         state.list.push({ id: 16 })
+            //     }, 670);
+            // }, 1000);
+        })
+
+        //抢购成功的用户 弹幕
+        const buySuccessData = computed(() => {
+            return store.state.buySuccessMember
         })
 
         const danmaku = () => {
@@ -89,6 +97,14 @@ export default {
                 
             })
         }
+
+         //监听抢购成功 通知
+        watch(buySuccessData, (newData, oldData) => {
+            state.list.push({
+                ...newData,
+                price: priceFormat(newData.price)
+            })
+        })
 
         const state = reactive({
             timer: undefined,

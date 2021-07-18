@@ -1,13 +1,46 @@
 <template>
     <div class="video_adv_wrap">
-        <video src="https://static.xfengjing.com/video/2021/07/13/01a7fef3-67c1-48cb-af77-de94201661f0.mp4"></video>
+        <video id="video" autoplay :src="videoUrl"></video>
     </div>
 </template>
 
 <script>
+import { reactive, toRefs, onMounted, computed } from 'vue'
+import { useStore } from 'vuex'
 export default {
     setup(props) {
-        
+        const store = useStore()
+
+        onMounted(() => {
+            state.resData = store.state.goodsDataDetail
+
+            let num = state.resData.preheatTime
+            videoPlay()
+
+            var elevideo = document.getElementById("video");
+            
+            elevideo.addEventListener('ended', () => { //结束.
+                let videoTotal = state.resData.goods.video.length
+                console.log('视频播放结束')
+                state.currentVideoIndex = state.currentVideoIndex + 1 >= videoTotal ? 0 : state.currentVideoIndex + 1
+                videoPlay()
+            }, false);
+
+        })
+
+        //播放视频
+        const videoPlay = () => {
+            state.videoUrl = state.resData.goods.video[state.currentVideoIndex].url
+            console.log(state.videoUrl)
+        } 
+
+        const state = reactive({
+            videoUrl: '',
+            currentVideoIndex: 0,
+            resData: {},
+        })
+
+        return toRefs(state)
     }
 }
 </script>

@@ -1,19 +1,37 @@
 <template>
-    <div class="progress_wrap">
+    <div class="progress_wrap" v-if="realTimePrice">
         <div class="progress">
-            <div class="progress_bar">
+            <div 
+                class="progress_bar"
+                :style="{ width: 100 - (100 - realTimePrice.full / marketValue * 100).toFixed(2) + '%' }"
+            >
                 <img src="../images/loading_bar.png">
             </div>
 
-            <div class="sale_data">已优惠: 12.23%</div>
+            <div class="sale_data">已优惠: {{(100 - realTimePrice.full / marketValue * 100).toFixed(2) }}%</div>
         </div>
     </div>
 </template>
 
 <script>
+import { reactive, toRefs, computed } from 'vue'
+import { useStore } from 'vuex'
 export default {
     setup(props) {
+        const store = useStore()
+        let { marketValue } = store.state.goodsDataDetail
         
+        //实时价格
+        const realTimePrice = computed(() => {
+            return store.state.realTimePrice
+        })
+
+        const state = reactive({
+            realTimePrice,
+            marketValue
+        })
+
+        return toRefs(state)
     }
 }
 </script>
