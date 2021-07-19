@@ -38,6 +38,9 @@ export const socketId = {
     //屏幕抢购列表通知
     ScreenAuctionListNotice: 7025,
 
+    //库存预警
+    InventoryForewarnNotice: 7034
+
     // 抢购结果列表
     // 猜价结果列表
     // 抢购成功

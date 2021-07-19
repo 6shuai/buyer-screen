@@ -2,41 +2,51 @@
     <div class="goods_list_wrap">
 
         <!-- 当前宝贝 -->
-        <div class="current_goods_wrap" v-if="false">
-            <div class="title_card">当前宝贝</div>
-            <div class="goods_detail buy_end">
-                <div class="goods_detail_top">
-                    <img src="" class="goods_img">
-                    <p class="goods_name">任天堂Switch</p>
-                    <p class="goods_desc">国行红蓝版</p>
+        <div 
+            class="current_goods_box"
+            :class="{ current_goods_card_anim: showAdvVideo }"
+        >
+            <div 
+                class="current_goods_wrap"
+            >
+                <div class="title_card">{{ gameState == 4 ? '抢购结束' : '当前宝贝' }}</div>
+                <div class="goods_detail buy_end" v-if="goodsDataDetail.goods">
+                    <div class="goods_detail_top">
+                        <img :src="goodsDataDetail.goods.cover" class="goods_img">
+                        <p class="goods_name">{{ goodsDataDetail.goods.displayName }}</p>
+                        <p class="goods_desc">{{ goodsDataDetail.goods.description }}</p>
+                    </div>
+
+                    <div class="goods_detail_bottom" v-if="!gameState || gameState < 3">
+                        <p class="price_start">￥{{ priceFormat(goodsDataDetail.marketValue).int }}{{ priceFormat(goodsDataDetail.marketValue).decimals }}起</p>
+                        <p class="price_down_text">每分钟直降</p>
+                        <p class="price">￥{{ priceFormat(goodsDataDetail.priceDeclineRate).int }}{{ priceFormat(goodsDataDetail.priceDeclineRate).decimals }}</p>
+                    </div>
+
+                    <!-- 抢购中 实时价格 -->
+                    <div class="goods_detail_bottom real_time_price" v-if="gameState == 3">
+                        <p class="real_time_text">实时价格</p>
+                        <p class="price" v-if="realTimePrice">￥{{ priceFormat(realTimePrice).int }}{{ priceFormat(realTimePrice).decimals }}</p>
+                    </div>
+
+                    <!-- 抢购结束 -->
+                    <div class="goods_detail_bottom end" v-if="gameState == 4">
+                        <p class="goods_count">宝贝库存: 23</p>
+                        <p class="price_text">极限秒杀价</p>
+                        <p class="del_price">￥{{ priceFormat(goodsDataDetail.marketValue).int }}{{ priceFormat(goodsDataDetail.marketValue).decimals }}</p>
+                        <p class="price">￥{{ priceFormat(buyKing.price).int }}{{ priceFormat(buyKing.price).decimals }}</p>
+                    </div>
+
                 </div>
-
-                <!-- <div class="goods_detail_bottom">
-                    <p class="price_start">￥2,099.00起</p>
-                    <p class="price_down_text">每分钟直降</p>
-                    <p class="price">￥150.00</p>
-                </div> -->
-
-                <!-- 抢购中 实时价格 -->
-                <!-- <div class="goods_detail_bottom real_time_price">
-                    <p class="real_time_text">实时价格</p>
-                    <p class="price">￥1929.00</p>
-                </div> -->
-
-                <!-- 抢购结束 -->
-                <div class="goods_detail_bottom end">
-                    <p class="goods_count">宝贝库存: 23</p>
-                    <p class="price_text">极限秒杀价</p>
-                    <p class="del_price">￥2,099.00</p>
-                    <p class="price">￥1234.56</p>
-                </div>
-
             </div>
         </div>
 
 
         <!-- 即将开始  class  put_away  收起-->
-        <div class="goods_list">
+        <div 
+            class="goods_list"
+            :class="{ put_away: showAdvVideo }"
+        >
             <div class="title_card">即将开始</div>
             <div class="goods_item" 
                 v-for="(item, index) in goodsList" 
@@ -69,6 +79,31 @@ export default {
     setup(props){
         const store = useStore()
 
+        //抢购状态
+        const gameState = computed(() => {
+            return store.state.gameState
+        })
+
+        //是否显示视频
+        const showAdvVideo = computed(() => {
+            return store.state.showAdvVideo
+        })
+
+        //抢购详情
+        const goodsDataDetail = computed(() => {
+            return store.state.goodsDataDetail
+        })
+
+        //实时价格
+        const realTimePrice = computed(() => {
+            return store.state.realTimePrice
+        })
+
+        //极限秒杀价
+        const buyKing = computed(() => {
+            return store.state.buyKing
+        })
+
         //即将开始的 抢购列表
         const goodsList = computed(() => {
             return store.state.goodsListData
@@ -77,7 +112,12 @@ export default {
         const state = reactive({
             goodsList,
             formatTime,
-            priceFormat
+            priceFormat,
+            gameState,
+            showAdvVideo,
+            realTimePrice,
+            goodsDataDetail,
+            buyKing
         })
 
         return toRefs(state)
@@ -89,6 +129,7 @@ export default {
     .goods_list_wrap{
         height: 100%;
         padding: 0 45px;
+        overflow: hidden;
         
         .title_card{
             font-size: 40px;
@@ -103,6 +144,17 @@ export default {
             margin-top: 26px;
         }
 
+        .current_goods_box{
+            height: 0;
+            overflow: hidden;
+            transition: all .2s;
+
+            &.current_goods_card_anim{
+                display: block;
+                height: 643px;
+                animation: currentGoodsCardAnim .5s linear both;
+            }
+        }
 
         .current_goods_wrap{
             margin-top: 66px;
@@ -213,7 +265,7 @@ export default {
         // display:flex;
         // flex-flow: column;
         // justify-content: space-around;
-        transition: all .5s ease-in-out;
+        transition: all .3s ease-in-out;
 
         .goods_item{
             margin: 15px 0;
@@ -223,6 +275,11 @@ export default {
             background: url('../images/goods_card_01.png') no-repeat center;
             border-radius: 10px;
             overflow: hidden;
+            transition: all .3s ease-in-out;
+            
+            &.mini{
+                animation: goodsItemAnim 1s linear both;
+            }
 
             &:last-child{
                 margin-bottom: 34px !important;
@@ -262,6 +319,7 @@ export default {
             .goods_bottom{
                 text-align: center;
                 font-weight: bold;
+                transition: all .3s ease-in-out;
 
                 .price{
                     font-size: 35px;
@@ -282,6 +340,7 @@ export default {
             }
         }
 
+
         &.put_away{
             height: calc(100% - 646px);
             justify-content: flex-end;
@@ -290,8 +349,8 @@ export default {
                 margin-bottom:2px;
             }
             .goods_item{
-                height: 98px;
-                min-height: 98px;
+                height: 96px;
+                min-height: 96px;
                 background: url('../images/put_away.png') no-repeat top;
                 background-size: 100% 100%;
                 overflow: hidden;
@@ -299,14 +358,14 @@ export default {
 
                 .goods_info{
                     width: 100%;
-                    height: 98px;
+                    height: 96px;
                     display: flex;
 
                     .goods_img{
                         width: 75px;
                         height: 75px;
                         display: inline-block;
-                        margin: 10px 10px;
+                        margin: 12px 10px;
                         vertical-align: top
                     }
 
@@ -328,7 +387,16 @@ export default {
                         }
                     }
                 }
+
+                .goods_bottom{
+                    opacity: 0;
+                }
             }
+        }
+
+        @keyframes currentGoodsCardAnim {
+            0% {transform: translate(calc(100% + 45px))}
+            100% {transform: translate(0)}
         }
     }
 </style>

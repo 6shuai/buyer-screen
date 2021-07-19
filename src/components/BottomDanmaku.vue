@@ -3,7 +3,6 @@
         <div class="text" v-if="!gameState">
             对宝贝不感兴趣?没关系,参与宝贝猜价可能赢得现金奖励哦!
         </div>
-       {{danmakulist}}  {{danmakulist[0]}} 
         <div class="danmaku_list" v-show="showDanmaku">
             <div 
                 class="item"
@@ -14,7 +13,7 @@
                 <div class="head_img"><img :src="item.avatar"></div>
                 <div class="name">{{ item.nickName }}</div>
                 <div class="price">
-                    <span v-if="itme.type == 1">已报价:<span class="num">{{ item.price.int }}{{ item.price.decimals }}</span></span>
+                    <span v-if="item.type == 1">已报价:<span class="num">{{ item.price.int }}{{ item.price.decimals }}</span></span>
                     <span v-if="item.type == 2">猜对{{ item.correctDigit }}位:
                         <span class="num cash">赢得现金￥{{ item.price.int }}{{ item.price.decimals }}</span>
                     </span>
@@ -109,7 +108,8 @@ export default {
             if(newState && !state.showDanmaku){
                 state.showDanmaku = true
                 danmaku() 
-            }else{
+            }
+            if(!newState){
                 state.showDanmaku = false
             }
         })
@@ -136,6 +136,7 @@ export default {
 
 
         const state = reactive({
+            timer: undefined,
             gameState,
             showDanmaku: false,
             list: [],   // 普通的弹幕队列

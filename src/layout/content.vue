@@ -1,6 +1,10 @@
 <template>
     <!-- 当前宝贝 -->
-    <div class="current_goods_content">
+    <div 
+        class="current_goods_content"
+        :class="{ hide: showAdvVideo }"
+        :style="{ transition: `all .5s ease-in-out ${showAdvVideo ? '0s' : '.3s'}` }"
+    >
         <!-- 未开始 -->
         <div 
             class="content_box clear"
@@ -42,7 +46,7 @@
     </div>
 
     <!-- 视频广告 -->
-    <video-adv v-if="gameState == 0"></video-adv>
+    <video-adv></video-adv>
 
     <!-- 倒计时 -->
     <count-down v-if="showCountDown && !gameState"></count-down>
@@ -51,12 +55,12 @@
     <bottom-info></bottom-info>
 
     <!-- 抢购成功  弹幕 -->
-    <buy-success-member v-if="gameState == 3"></buy-success-member>
+    <buy-success-member v-if="gameState == 3 || gameState == 4"></buy-success-member>
 
 </template>
 
 <script>
-import { reactive, toRefs, computed } from 'vue'
+import { reactive, toRefs, computed, onMounted } from 'vue'
 import VideoAdv from '../components/VideoAdv.vue'
 import BottomInfo from '../components/Bottom.vue'
 import CountDown from '../components/CountDown.vue'
@@ -70,6 +74,11 @@ import { priceFormat } from '../util/index'
 export default {
     setup(props) {
         const store = useStore()
+
+        //是否显示视频
+        const showAdvVideo = computed(() => {
+            return store.state.showAdvVideo
+        })
 
         //游戏状态
         const gameState = computed(() => {
@@ -86,7 +95,17 @@ export default {
             return store.state.goodsListData[store.state.currentGoodsIndex]
         }) 
 
+        onMounted(() => {
+            let { bottom , height } = document.getElementsByClassName('current_goods_content')[0].getBoundingClientRect()
+            console.log(bottom , height)
+            if((bottom - height) < 200){
+                console.log('??')
+                document.getElementsByClassName('current_goods_content')[0].style.top = `calc(50% - 100px)`
+            }
+        })
+
         const state = reactive({
+            showAdvVideo,
             gameState,
             showCountDown,
             currentGoods,
@@ -117,6 +136,11 @@ export default {
         margin-top: -352px;
         position: relative;
         z-index: 99;
+        transition: all .5s ease-in-out;
+
+        &.hide{
+            transform: translate(-100%);
+        }
 
         .content_box{
             padding: 13px 32px 112px 108px;

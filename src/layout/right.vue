@@ -4,9 +4,11 @@
             <img src="../images/logo.png" alt="logo">
         </div>
 
-        <div class="state_info">
-            <p class="text">竞猜进行中</p>
-            <p class="count_down">09:32</p>
+        <div class="guess_count_down">
+            <div class="state_info" v-if="gameState == 1 || gameState == 2">
+                <p class="text">竞猜进行中</p>
+                <p class="count_down">{{ countDownNum }}</p>
+            </div>
         </div>
 
         <div class="qrcode_wrap">
@@ -21,11 +23,42 @@
 </template>
 
 <script>
-import { reactive, toRefs } from 'vue'
+import { reactive, toRefs, computed } from 'vue'
+import { useStore } from 'vuex'
+import { translatesToHoursMinutesSeconds } from '../util/index'
 export default {
     setup(props) {
-        const state = reactive({
+        const store = useStore()
 
+        //游戏状态
+        const gameState = computed(() => {
+
+            //猜价阶段 
+            if(store.state.gameState == 1){
+                //抢购详情   拿到猜价时长 做倒计时
+                countDownFun(store.state.goodsDataDetail.guessTime + store.state.goodsDataDetail.countdown)
+            }
+
+            return store.state.gameState
+        })
+
+        //倒计时
+        const countDownFun = (num) => {
+            if(num < 0){
+                clearTimeout(state.timer)
+                return
+            }
+            state.countDownNum = translatesToHoursMinutesSeconds(num)
+            num -= 1
+            state.timer = setTimeout(() => {
+                countDownFun(num)
+            }, 1000);
+        }
+
+        const state = reactive({
+            timer: undefined,
+            countDownNum: 0,    //倒计时
+            gameState
         })
 
         return toRefs(state)
@@ -50,6 +83,11 @@ export default {
                 width: 100%;
                 height: 100%;
             }
+        }
+
+        .guess_count_down{
+            width: 100%;
+            height: 226px;
         }
 
         .state_info{

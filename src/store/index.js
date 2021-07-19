@@ -13,6 +13,9 @@ const state = {
 	buyKing: {},               //秒杀王
 	guessPriceMemberList: [],  //猜价用户列表
 	realTimePrice: null,       //实时价格
+	showRankList: false,       //抢购结束  显示排行榜
+	showAdvVideo: false,          //显示视频广告
+	showWarning: false,         //库存不足 警告
 }
 
 
@@ -57,6 +60,12 @@ const mutations = {
 	SET_REAL_TIME_PRICE(state, data){
 		state.realTimePrice = data
 	},
+
+	//库存不足 警告
+	SET_SHOW_WRRNING(state, data){
+		state.showWarning = data
+	}
+
 }
 
 

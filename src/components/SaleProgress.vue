@@ -40,6 +40,7 @@ export default {
     .progress_wrap{
         width: 100%;
         text-align: center;
+        padding-bottom: 32px;
         
         .progress{
             width: 1442px;
@@ -51,9 +52,10 @@ export default {
             position: relative;
 
             .progress_bar{
-                width: 80%;
+                width: 100%;
                 height: 100%;
                 overflow: hidden;
+                transition: all .3s ease-in-out;
 
                 img{
                     width: 1437px;

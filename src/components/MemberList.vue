@@ -1,19 +1,25 @@
 <template>
     <div class="member_list_wrap">
         <div class="member_box">
-            <div class="member_list">
-                <div 
-                    class="item"
-                    v-for="(item, index) in 5"
-                    :key="index"
-                    :style="{ animation: `listAnmi_${index} 1s linear ${index * 0.2}s both` }"
-                >
-                    <div class="index">{{ index + 1 }}</div>
-                    <div class="head_img">
-                        <img src="">
+            <div 
+                class="member_list"
+                v-for="(page, pindex) in totalPage"
+                :key="pindex"
+            >
+                <div v-if="pageIndex == pindex">
+                    <div 
+                        class="item"
+                        v-for="(item, index) in rankList"
+                        :key="index"
+                        :style="{ animation: `listAnmi_${index} 1s linear ${index * 0.2}s both` }"
+                    >
+                        <div class="index">{{ item.index + 1 }}</div>
+                        <div class="head_img">
+                            <img :src="item.avatar">
+                        </div>
+                        <div class="name text_overflow">{{ item.nickName }}</div>
+                        <div class="price">￥{{ priceFormat(item.price).int }}{{ priceFormat(item.price).decimals }}</div>
                     </div>
-                    <div class="name text_overflow">马冬梅</div>
-                    <div class="price">￥1,534.59</div>
                 </div>
             </div>
         </div>
@@ -21,7 +27,7 @@
 </template>
 
 <script>
-import { reactive, toRefs, ref, computed } from 'vue'
+import { reactive, toRefs, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { priceFormat } from '../util/index'
 
@@ -29,35 +35,51 @@ export default {
     setup(props) {
         const store = useStore()
 
-        const buyMemberList = computed(() => {
-            return store.state.buyMemberList
+        onMounted(() => {
+            state.buyMemberList = store.state.buyMemberList
+            state.totalPage = Math.ceil(state.buyMemberList.length / 5)
+            console.log('totalPage------->', state.totalPage)
+
+            state.buyMemberList.forEach((item, index) => {
+                item.index = index
+            })
+
+            for(let i = 0; i < state.totalPage; i++){
+                let data = JSON.parse(JSON.stringify(state.buyMemberList))
+                if(i == state.totalPage - 1){
+                    state.resData[i] = data.splice(i * 5, data.length-1)
+                }else{
+                    state.resData[i] = data.splice(i * 5, (i + 1) *5)
+                }
+            }
+            
+            showRankData()
+            console.log(state.resData)
         })
 
-        setTimeout(() => {
-            showRankKing()
-        }, 1000);
-
-        //抢购排行榜第一  极限秒杀王
-        const showRankKing = () => {
+        //抢购排行榜
+        const showRankData = () => {
+            state.rankList = state.resData[state.pageIndex] 
+            console.log(state.rankList)
             setTimeout(() => {
-                showAllRank()
+                if(state.pageIndex + 1 > state.totalPage - 1){
+                    state.pageIndex = 0
+                }else{
+                    state.pageIndex += 1
+                }
+                showRankData()
             }, 5000);
-        }
-        
-        //抢购排行榜列表
-        const showAllRank = () => {
-            clearInterval(state.timer)
-            state.timer = setInterval(() => {
-
-            }, 10000);
         }
 
 
         const state = reactive({
+            totalPage: 0,
+            pageIndex: 0,
+            resData: [],
             rankList: [],
             priceFormat,
             timer: undefined,
-            buyMemberList
+            buyMemberList: []
         })
 
         return toRefs(state)

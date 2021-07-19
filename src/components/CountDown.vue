@@ -1,6 +1,8 @@
 <template>
     <div class="buy_count_down_wrap">
-        <div class="count_down_num">{{ countdownNum }}</div>
+        <div class="count_down_num">
+            <img :src="`/src/images/count_down_${countdownNum}.png`">
+        </div>
         <div class="text">抢购马上开始!</div>
     </div>
 </template>
@@ -18,6 +20,7 @@ export default {
                 clearTimeout(state.timer)
                 return
             }
+            console.log(state.countdownNum)
             state.countdownNum = state.countdownNum - 1
             state.timer = setTimeout(() => {
                 countdown()
@@ -26,8 +29,10 @@ export default {
 
         const state = reactive({
             timer: undefined,
-            countdownNum: 9
+            countdownNum: 10
         })
+
+        return toRefs(state)
     }
 }
 </script>
@@ -45,6 +50,10 @@ export default {
         .count_down_num{
             font-size: 340px;
             color: #fe0000;
+
+            img{
+                height: 390px;
+            }
         }
 
         .text{

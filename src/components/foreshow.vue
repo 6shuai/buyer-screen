@@ -23,9 +23,27 @@
 </template>
 
 <script>
+import { reactive, toRefs, onMounted } from 'vue'
+import { useStore } from 'vuex'
+import { formatTime, priceFormat } from '../util/index'
 export default {
     setup(props) {
+        const store = useStore()
+
+        onMounted(() => {
+            let { currentGoodsIndex, goodsListData } = store.state
+            if(currentGoodsIndex >= goodsListData.length-1){
+                state.nextGoods = goodsListData[currentGoodsIndex]
+            }
+        })
         
+        const state = reactive({
+            nextGoods: undefined,
+            formatTime,
+            priceFormat
+        })
+        
+        return toRefs(state)
     }
 }
 </script>

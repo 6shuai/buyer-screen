@@ -1,40 +1,54 @@
 <template>
-    <div class="video_adv_wrap">
-        <video id="video" autoplay :src="videoUrl"></video>
+    <div 
+        class="video_adv_wrap"
+        :style="{ transition: `all .5s ease-in-out ${showAdvVideo ? '.3s' : '0s'}` }"
+        :class="{ show: showAdvVideo }"
+    >
+        <video id="video" :autoplay="showAdvVideo" :src="videoUrl"></video>
     </div>
 </template>
 
 <script>
-import { reactive, toRefs, onMounted, computed } from 'vue'
+import { reactive, toRefs, onMounted, computed, watch } from 'vue'
 import { useStore } from 'vuex'
 export default {
     setup(props) {
         const store = useStore()
 
-        onMounted(() => {
-            state.resData = store.state.goodsDataDetail
-
-            let num = state.resData.preheatTime
-            videoPlay()
-
-            var elevideo = document.getElementById("video");
-            
-            elevideo.addEventListener('ended', () => { //结束.
-                let videoTotal = state.resData.goods.video.length
-                console.log('视频播放结束')
-                state.currentVideoIndex = state.currentVideoIndex + 1 >= videoTotal ? 0 : state.currentVideoIndex + 1
-                videoPlay()
-            }, false);
-
+        //是否显示视频
+        const showAdvVideo = computed(() => {
+            return store.state.showAdvVideo
         })
 
         //播放视频
         const videoPlay = () => {
+            console.log(state.resData.goods.video)
             state.videoUrl = state.resData.goods.video[state.currentVideoIndex].url
-            console.log(state.videoUrl)
         } 
 
+         //猜价通知
+         watch(showAdvVideo, (newData, oldData) => {
+            var elevideo = document.getElementById("video");
+            if(newData){
+                state.resData = store.state.goodsDataDetail
+
+                let num = state.resData.preheatTime
+                videoPlay()
+
+                elevideo.addEventListener('ended', () => { //结束.
+                    let videoTotal = state.resData.goods.video.length
+                    console.log('视频播放结束')
+                    state.currentVideoIndex = state.currentVideoIndex + 1 >= videoTotal ? 0 : state.currentVideoIndex + 1
+                    videoPlay()
+                }, false);
+            }else{
+                elevideo.pause()
+            }
+        })
+
+
         const state = reactive({
+            showAdvVideo,
             videoUrl: '',
             currentVideoIndex: 0,
             resData: {},
@@ -59,6 +73,12 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
+        transform: translateY(-106%);
+
+        &.show{
+            transform: translateY(0);
+        }
+
 
         video{
             width: 1168px;

@@ -1,13 +1,20 @@
 <template>
     <div class="arraw_wrap">
+        <img src="../images/arraw_02.png" class="arraw_hight" />
         <!-- 即将开始  倒计时 -->
-        <div class="about_begin" v-if="!gameState">
+        <div 
+            class="about_begin" 
+            v-if="!gameState"
+        >
             <div class="text">即将开始</div>
             <div class="count_down">{{ countDownTime }}</div>
         </div>
 
         <!-- 开始竞猜 -->
-        <div class="guess_price" v-if="gameState==1">
+        <div 
+            class="guess_price" 
+            v-if="gameState == 1"
+        >
             <div class="msg">参与竞猜<span class="msg_01">平分</span><span class="cash">现金大礼!</span></div>
         </div>
 
@@ -79,9 +86,21 @@ export default {
 <style lang="less" scope>
     .arraw_wrap{
         height: 179px;
-        margin: 0 23px;
+        margin: 0 23px 30px 23px;
         background: url('../images/arraw.png') center no-repeat;
         background-size: 100% 100%;
+
+        .arraw_hight{
+            width: 254px;
+            height: 179px;
+            position: absolute;
+            animation: arrawHightAnim 2s linear infinite;
+
+            @keyframes arrawHightAnim {
+                0% {transform: translate(0)}
+                100% {transform: translate(1200px)}
+            }
+        }
 
         .about_begin{
             padding: 15px 0 0 350px;
@@ -119,6 +138,28 @@ export default {
                     color: #ffcc00;
                 }
             }
+        }
+    }
+
+    @keyframes cardHide {
+        0% {
+            transform: translate(0);
+            // opacity: 1;
+        }
+        100%{
+            transform: translate(100%);
+            // opacity: 0;
+        }
+    }
+
+    @keyframes cardShow {
+        0% {
+            transform: translate(-100%);
+            // opacity: 0;
+        }
+        100%{
+            transform: translate(0);
+            // opacity: 1;
         }
     }
 </style>

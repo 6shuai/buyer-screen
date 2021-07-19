@@ -1,21 +1,24 @@
 <template>
     <div class="bottom_wrap">
         
-        <!-- 箭头 -->
-        <arraw-card v-if="!gameState || gameState==1"></arraw-card>
-
-        <!-- 优惠进度 -->
-        <sale-progress v-if="gameState==3"></sale-progress>
-
-        <!-- 秒杀王 -->
-        <king v-if="gameState == 4"></king>
-
-        <!-- 最底部 -->
-        <bottom-danmaku></bottom-danmaku>
 
         <!-- 下个宝贝 预告 -->
-        <!-- <foreshow></foreshow> -->
+        <foreshow v-if="showRankList"></foreshow>
+        
+        <div v-else>
+            <!-- 箭头 -->
+            <arraw-card v-if="!gameState || gameState==1"></arraw-card>
 
+            <!-- 优惠进度 -->
+            <sale-progress v-if="gameState==3"></sale-progress>
+
+            <!-- 秒杀王 -->
+            <king v-if="gameState == 4"></king>
+
+            <!-- 最底部 -->
+            <bottom-danmaku></bottom-danmaku>
+
+        </div>
     </div>
 </template>
 
@@ -37,8 +40,14 @@ export default {
             return store.state.gameState
         })
 
+        //抢购结束 显示下个宝贝预告
+        const showRankList = computed(() => {
+            return store.state.showRankList
+        })
+
         const state = reactive({
-            gameState
+            gameState,
+            showRankList
         })
 
         return toRefs(state)

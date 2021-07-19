@@ -20,7 +20,7 @@
 		</div>
 
 		<!-- 数量不多了 警告 -->
-		<!-- <warning></warning> -->
+		<warning v-if="showWarning"></warning>
 
 	</div>
 </template>
@@ -44,12 +44,17 @@ export default {
 			return store.state.gameState
 		})
 
+		//是否显示  库存不足警告
+		const showWarning = computed(() => {
+			return store.state.showWarning
+		})
+
 		onMounted(() => {
 			initWebsocket.value()
 		})
 
 		const state = reactive({
-
+			showWarning
 		})
 
 		return toRefs(state)
@@ -87,6 +92,7 @@ export default {
 			flex: 1;
 			height: 100%;
 			position: relative;
+			overflow: hidden;
 
 			.goods_box{
 				width: 100%;

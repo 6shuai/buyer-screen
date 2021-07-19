@@ -1,6 +1,7 @@
 <template>
     <div 
         class="content_box buy_end clear" 
+        v-if="!showRankList"
     >
     <div class="tip">抢购结束</div>
     <div class="goods_detail">
@@ -20,7 +21,7 @@
 </div>
 
 
-<div class="content_box clear" v-if="false">
+<div class="content_box clear" v-if="showRankList">
     <div class="tip">抢购结束</div>
     <div class="goods_detail">
 
@@ -39,13 +40,27 @@
 </template>
 
 <script>
-import { reactive, toRefs } from 'vue'
+import { reactive, toRefs, onMounted, computed } from 'vue'
 import { priceFormat } from '../util/index'
+import { useStore } from 'vuex'
 import MemberList from './MemberList.vue'
 export default {
     props: ['data'],
     setup(props) {
+        const store = useStore()
+
+        const showRankList = computed(() => {
+            return store.state.showRankList
+        })
+        
+        onMounted(() => {
+            setTimeout(() => {
+                store.state.showRankList = true
+            }, 5000);
+        })
+
         const state = reactive({
+            showRankList,
             priceFormat 
         })
         

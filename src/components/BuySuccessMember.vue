@@ -33,22 +33,6 @@ export default {
 
         onMounted(() => {
             danmaku()
-
-            // setTimeout(() => {
-            //     state.list.push({ id: 12 })
-            //     setTimeout(() => {
-            //         state.list.push({ id: 13 })
-            //     }, 500);
-            //     setTimeout(() => {
-            //         state.list.push({ id: 14 })
-            //     }, 600);
-            //     setTimeout(() => {
-            //         state.list.push({ id: 15 })
-            //     }, 630);
-            //     setTimeout(() => {
-            //         state.list.push({ id: 16 })
-            //     }, 670);
-            // }, 1000);
         })
 
         //抢购成功的用户 弹幕
@@ -71,7 +55,7 @@ export default {
                     let item = state.list.shift()
                     if(item){
                         state.danmakulist.push(item)
-                        console.log(item)
+                        deleteDanmaku()
                     }
                 })
             }, 500)
@@ -84,7 +68,6 @@ export default {
                 let right = 0
                 let query = document.getElementsByClassName(`danmaku_${state.danmakulist.length-1}`)[0]
                 if(query){
-                    console.log(windowWidth, query.getBoundingClientRect().right)
                     right = query.getBoundingClientRect().right
                     if(windowWidth - right > 20){
                         resolve(true)
@@ -93,12 +76,18 @@ export default {
                     }
                 }else{
                     resolve(true)
-                }
-                
+                }     
             })
         }
 
-         //监听抢购成功 通知
+        //10秒后删除弹幕
+        const deleteDanmaku = () => {
+            setTimeout(() => {
+                state.danmakulist.splice(0, 1)
+            }, 10 * 1000);
+        }
+
+        //监听抢购成功 通知
         watch(buySuccessData, (newData, oldData) => {
             state.list.push({
                 ...newData,

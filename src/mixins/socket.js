@@ -84,6 +84,7 @@ export default function () {
             //已购买的用户列表  抢购结束后 结算页展示
             case socketId.BidResultNotice:         
                 store.commit('SET_GAME_STATE', 4)
+                store.commit('SET_SHOW_WRRNING', false)
                 store.commit('SET_BUY_MEMBER_LIST', data.result)
                 break;
             //已猜价的用户列表  抢购结束后 结算页展示
@@ -95,6 +96,10 @@ export default function () {
             case socketId.PreviewResponse:
                 // store.commit('SET_PREVIEW_ID', data.auctionId)
                 break;
+
+            //库存 预警
+            case socketId.InventoryForewarnNotice:
+                store.commit('SET_SHOW_WRRNING', true)
         
             default:
                 break;
@@ -213,13 +218,48 @@ export default function () {
                 totalGuessAward: 0
             }])
 
+            // return
+
 
             setTimeout(() => {
-                store.commit('SET_GOODS_DETAIL', {"auctionId":675026,"beginTime":1624944864000,"countdown":10,"currentPrice":10.0,"depositRatio":2,"gameStateId":0,"getGameStateTimer":9,"goods":{"cover":"https://quiz.xfengjing.com/picture/2021/06/09/7881b66d-d556-4f21-8dd1-a3124e56be0a.jpeg","description":"小米电视大师","displayName":"小米电视","id":5,"showPicture":"https://quiz.xfengjing.com/picture/2021/06/16/3012d5a2-f0d0-4fec-8ff4-2856541824d6.jpg","skuId":7,"video":[{"id":11,"url":"https://quiz.xfengjing.com/video/2021/06/09/6cfc17fb-9710-47ee-9c53-49fd4e2fc73c.mp4","usage":2},{"id":12,"url":"https://quiz.xfengjing.com/video/2021/06/09/00097d0e-9b79-4061-9676-add41bc3f6ec.mp4","usage":2}]},"guessRules":[{"award":30.0,"correctDigit":3,"id":13},{"award":20.0,"correctDigit":2,"id":12},{"award":10.0,"correctDigit":1,"id":11}],"guessTime":10,"id":7005,"marketValue":10.0,"orderExpiration":30,"paymentMethod":1,"pickUpAddresses":[{"address":"酷乐潮玩  上海市宝山区  宝山龙湖天街B1-104号","deliverType":1,"id":35,"placeId":15}],"preheatTime":10,"priceDecline":0.1,"priceDeclineFrequency":3,"priceDeclineRate":6.0})
+                store.commit('SET_GOODS_DETAIL', {
+                    "auctionId":675026,
+                    "beginTime":1624944864000,
+                    "countdown":10,
+                    "currentPrice":10.0,
+                    "depositRatio":2,
+                    "gameStateId":0,
+                    "getGameStateTimer":9,
+                    "goods":{
+                        "cover":"https://quiz.xfengjing.com/picture/2021/06/09/7881b66d-d556-4f21-8dd1-a3124e56be0a.jpeg",
+                        "description":"小米电视大师",
+                        "displayName":"小米电视",
+                        "id":5,
+                        "showPicture":"https://quiz.xfengjing.com/picture/2021/06/16/3012d5a2-f0d0-4fec-8ff4-2856541824d6.jpg",
+                        "skuId":7,
+                        "video":[{"id":11,"url":"https://quiz.xfengjing.com/video/2021/06/09/6cfc17fb-9710-47ee-9c53-49fd4e2fc73c.mp4","usage":2},
+                        {"id":12,"url":"https://quiz.xfengjing.com/video/2021/06/09/00097d0e-9b79-4061-9676-add41bc3f6ec.mp4","usage":2}]
+                    },
+                    "guessRules":[{"award":30.0,"correctDigit":3,"id":13},{"award":20.0,"correctDigit":2,"id":12},{"award":10.0,"correctDigit":1,"id":11}],
+                    "guessTime":10,
+                    "id":7005,
+                    "marketValue":10.0,
+                    "orderExpiration":30,
+                    "paymentMethod":1,
+                    "pickUpAddresses":[{"address":"酷乐潮玩  上海市宝山区  宝山龙湖天街B1-104号","deliverType":1,"id":35,"placeId":15}],
+                    "preheatTime":10,
+                    "priceDecline":0.1,
+                    "priceDeclineFrequency":3,
+                    "priceDeclineRate":6.0
+                })
 
                 store.commit('SET_GAME_STATE', 0)
 
                 setTimeout(() => {
+                    store.state.showAdvVideo = true
+                    setTimeout(() => {
+                        store.state.showAdvVideo = false
+                    }, 5000);
                     store.commit('SET_GAME_STATE', 1)
 
 
@@ -254,9 +294,17 @@ export default function () {
                                 price: '56.78'// 买下的金额
 
                             })
+                            setTimeout(() => {
+                                store.commit('SET_BUY_SUCCESS_MEMBER', {
+                                    nickName: '哈哈哈',
+                                    avatar: 'https://ec.xfengjing.com/picture/2020/12/09/804e982b-a0ce-4e0b-bfac-845c910b7d20.png',// 头像
+                                    price: '56.78'// 买下的金额
+    
+                                })
+                            }, 1000);
                         }, 2000);
 
-                    }, 1000);
+                    }, 10000);
 
                 }, 3000);
 
