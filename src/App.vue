@@ -6,13 +6,12 @@
 		</div>
 
 		<div class="goods_content">
+
+			<!-- 倒计时 -->
+			<count-down v-if="showCountDown" @countDown="countDown"></count-down>
+
 			<!-- 抢购 -->
 			<goods-content></goods-content>
-			<!-- <div class="goods_box">
-				<div class="card card1"></div>
-				<div class="card card2"></div>
-			</div> -->
-
 		</div>
 
 		<div class="right_info">
@@ -22,16 +21,23 @@
 		<!-- 数量不多了 警告 -->
 		<warning v-if="showWarning"></warning>
 
+		<!-- 背景音乐 -->
+		<audio :src="bgmUrl" autoplay :loop="isLoop"></audio>
+
+		<!-- 音效 -->
+		<audio :src="audioUrl" autoplay></audio>
+
 	</div>
 </template>
 
 <script>
-import { reactive, toRefs, computed, onMounted } from 'vue'
+import { reactive, toRefs, computed, onMounted, nextTick, watch } from 'vue'
 import { useStore } from 'vuex'
 import LeftGoodsList from './layout/left.vue'
 import GoodsContent from './layout/content.vue'
 import RightInfo from './layout/right.vue'
 import Warning from './components/Warning.vue'
+import CountDown from './components/CountDown.vue'
 import mixin from './mixins/socket'
 
 export default {
@@ -39,10 +45,31 @@ export default {
 		const store = useStore()
 		const { initWebsocket } = mixin()
 
+		//是否显示倒计时
+        const showCountDown = computed(() => {
+            return store.state.showCountDown
+        })
+
 		//游戏状态
 		const gameState = computed(() => {
 			return store.state.gameState
 		})
+
+		//倒计时
+        const countDown = (e) => {
+            if(store.state.gameState == null){
+                state.bgmUrl = ''
+                nextTick(() => {
+                    if(e == 'end'){
+                        state.bgmUrl = './sounds/count_down_end.mp3'
+                    }else{
+                        state.bgmUrl = './sounds/count_down.mp3'
+                    }
+                    state.isLoop = false
+                })
+            }
+        }
+
 
 		//是否显示  库存不足警告
 		const showWarning = computed(() => {
@@ -53,8 +80,46 @@ export default {
 			initWebsocket.value()
 		})
 
+		watch(gameState, (newState, oldState) => {
+			state.isLoop = false
+			store.state.showAdvVideo = false
+			switch (newState) {
+                case 0:
+					store.state.showAdvVideo = true
+                    state.bgmUrl = ''
+                    break;
+                case 1:
+
+                    break; 
+                case 2:
+
+                    break;
+                case 3: 
+					state.isLoop = true
+					state.bgmUrl = './sounds/buy_ing.mp3'
+                    break;
+				case 4: 
+					state.bgmUrl = './sounds/buy_end.mp3'
+                    break;
+                default:
+                    break;
+            }
+		})
+
+		watch(showWarning, (newState, oldState) => {
+			if(newState){
+				state.audioUrl = './sounds/warning.mp3'
+			}
+		})
+
 		const state = reactive({
-			showWarning
+			gameState,
+			showCountDown,
+			showWarning,
+			isLoop: false,
+			bgmUrl: '',
+			audioUrl: '',
+			countDown
 		})
 
 		return toRefs(state)
@@ -63,7 +128,8 @@ export default {
 		LeftGoodsList,
 		GoodsContent,
 		RightInfo,
-		Warning
+		Warning,
+		CountDown
 	}
 }
 </script>

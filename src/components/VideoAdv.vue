@@ -34,7 +34,7 @@ export default {
 
                 let num = state.resData.preheatTime
                 videoPlay()
-
+                if(state.videoUrl) elevideo.play()
                 elevideo.addEventListener('ended', () => { //结束.
                     let videoTotal = state.resData.goods.video.length
                     console.log('视频播放结束')

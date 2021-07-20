@@ -3,17 +3,17 @@
         
 
         <!-- 下个宝贝 预告 -->
-        <foreshow v-if="showRankList"></foreshow>
+        <foreshow v-if="showRankList && !showTomorrowGoods"></foreshow>
         
         <div v-else>
             <!-- 箭头 -->
-            <arraw-card v-if="!gameState || gameState==1"></arraw-card>
+            <arraw-card v-if="!gameState || gameState==1 || gameState==2 || showTomorrowGoods"></arraw-card>
 
             <!-- 优惠进度 -->
-            <sale-progress v-if="gameState==3"></sale-progress>
+            <sale-progress v-else-if="gameState==3"></sale-progress>
 
             <!-- 秒杀王 -->
-            <king v-if="gameState == 4"></king>
+            <king v-else-if="gameState == 4"></king> 
 
             <!-- 最底部 -->
             <bottom-danmaku></bottom-danmaku>
@@ -40,6 +40,10 @@ export default {
             return store.state.gameState
         })
 
+        const showTomorrowGoods = computed(() => {
+            return store.state.showTomorrowGoods
+        })
+
         //抢购结束 显示下个宝贝预告
         const showRankList = computed(() => {
             return store.state.showRankList
@@ -47,7 +51,8 @@ export default {
 
         const state = reactive({
             gameState,
-            showRankList
+            showRankList,
+            showTomorrowGoods
         })
 
         return toRefs(state)

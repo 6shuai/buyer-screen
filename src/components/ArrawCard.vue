@@ -4,7 +4,7 @@
         <!-- 即将开始  倒计时 -->
         <div 
             class="about_begin" 
-            v-if="!gameState"
+            v-if="gameState == null"
         >
             <div class="text">即将开始</div>
             <div class="count_down">{{ countDownTime }}</div>
@@ -13,9 +13,17 @@
         <!-- 开始竞猜 -->
         <div 
             class="guess_price" 
-            v-if="gameState == 1"
+            v-else-if="gameState <= 2"
         >
             <div class="msg">参与竞猜<span class="msg_01">平分</span><span class="cash">现金大礼!</span></div>
+        </div>
+
+        <!-- 明日精彩继续 -->
+        <div 
+            class="guess_price tomorrow" 
+            v-if="showTomorrowGoods"
+        >
+            <div class="msg">明日精彩继续</div>
         </div>
 
     </div>
@@ -39,6 +47,11 @@ export default {
             return store.state.goodsListData[store.state.currentGoodsIndex] ? store.state.goodsListData[store.state.currentGoodsIndex].beginTime : null
         })
 
+        const showTomorrowGoods = computed(() => {
+            return store.state.showTomorrowGoods
+        })
+
+
         //开始倒计时
         const countDownStart = (beginTime) => {
             let now = new Date().getTime() / 1000
@@ -48,7 +61,7 @@ export default {
             if(num > 0){
                 // countDownFun(num)
             }
-            countDownFun(30)
+            countDownFun(15)
         }
 
         const countDownFun = (num) => {
@@ -60,6 +73,8 @@ export default {
             }else if(num < 10){
                 //还剩最后十秒
                 store.state.showCountDown = true
+                clearTimeout(state.timer)
+                return
             }
             state.timer = setTimeout(() => {
                 countDownFun(num)
@@ -74,6 +89,7 @@ export default {
 
         const state = reactive({
             gameState,
+            showTomorrowGoods,
             countDownTime: '00:00',
             timer: undefined
         })
@@ -94,10 +110,12 @@ export default {
             width: 254px;
             height: 179px;
             position: absolute;
-            animation: arrawHightAnim 2s linear infinite;
+            animation: arrawHightAnim 1.5s linear infinite;
 
             @keyframes arrawHightAnim {
-                0% {transform: translate(0)}
+                0% { opacity: 0; }
+                69% { opacity: 0.1; }
+                70% {opacity: 1; transform: translate(0)}
                 100% {transform: translate(1200px)}
             }
         }
@@ -123,6 +141,11 @@ export default {
         .guess_price{
             padding: 0 0 0 430px;
             line-height: 179px;
+
+            &.tomorrow{
+                padding: 0;
+                text-align: center;
+            }
             
             .msg{
                 font-size: 70px;

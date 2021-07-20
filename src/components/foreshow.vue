@@ -1,24 +1,28 @@
 <template>
     <!-- 预告  下个宝贝 -->
-    <div class="next_goods_wrap">
+    <div class="next_goods_wrap" v-if="nextGoods">
         <div class="goods_card">
             <div class="next_text">
                 <p class="text">下个宝贝</p>
-                <p class="time">19:45</p>
+                <p class="time">{{ formatTime(nextGoods.beginTime) }}</p>
             </div>
             <div class="goods_img">
-                <img src="">
+                <img :src="nextGoods.goodsCover">
             </div>
         </div>
 
         <div class="goods_info">
             <div class="goods_name text_overflow">
-                索尼85寸液晶电视
-                <span>4k HDR 人工智能</span>
+                {{ nextGoods.goodsName }}
+                <span>{{ nextGoods.goodsDescription }}</span>
             </div>
-            <div class="price_s">￥10,099.00起</div>
-            <div class="price_d">每分钟直降 ￥1050.00</div>
+            <div class="price_s">￥{{ priceFormat(nextGoods.marketValue).int }}{{ priceFormat(nextGoods.marketValue).decimals }}起</div>
+            <div class="price_d">每分钟直降 ￥{{ priceFormat(nextGoods.priceDeclineRate).int }}{{ priceFormat(nextGoods.priceDeclineRate).decimals }}</div>
         </div>
+    </div>
+
+    <div class="next_goods_wrap" v-else>
+        <p class="end_text">本场抢购已结束</p>
     </div>
 </template>
 
@@ -32,8 +36,13 @@ export default {
 
         onMounted(() => {
             let { currentGoodsIndex, goodsListData } = store.state
-            if(currentGoodsIndex >= goodsListData.length-1){
+            if(currentGoodsIndex < goodsListData.length-1){
                 state.nextGoods = goodsListData[currentGoodsIndex]
+            }else{
+                setTimeout(() => {
+                    store.state.showTomorrowGoods = true
+                    store.state.showAdvVideo = true
+                }, 5 * 60000);
             }
         })
         
@@ -131,6 +140,13 @@ export default {
                 font-size: 50px;
                 color: #fff;
             }
+        }
+
+        .end_text{
+            font-size: 100px;
+            color: #e9b086;
+            margin: 0 auto;
+            line-height: 250px;
         }
     }
     

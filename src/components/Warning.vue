@@ -7,9 +7,16 @@
 </template>
 
 <script>
+import { onMounted } from 'vue'
+import { useStore } from 'vuex'
 export default {
     setup(props) {
-        
+        const store = useStore()
+        onMounted(() => {
+            setTimeout(() => {
+                store.state.showWarning = false
+            }, 4000);  
+        })
     }
 }
 </script>
@@ -22,7 +29,7 @@ export default {
         top: 0;
         left: 0;
         z-index: 99999;
-        animation: shadowAnim 2s linear both;
+        animation: shadowAnim .5s linear both;
         animation-iteration-count: infinite;
         // box-shadow:inset 0px 0px 100px 40px red;
 

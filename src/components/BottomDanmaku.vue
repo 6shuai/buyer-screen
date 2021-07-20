@@ -119,7 +119,7 @@ export default {
             state.list.push({
                 ...newData,
                 type: 1,
-                price: priceFormat(newData.price) 
+                price: priceFormat(newData.price, true) 
             })
         })
 
@@ -129,7 +129,7 @@ export default {
                 state.list.push({
                     ...item,
                     type:2,
-                    price: priceFormat(item.award)
+                    price: priceFormat(item.award, true)
                 })
             })
         })
@@ -191,6 +191,7 @@ export default {
                         width: 70px;
                         height: 70px;
                         margin: 5px;
+                        border-radius: 50%;
                     }
                 }
 

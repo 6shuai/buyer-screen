@@ -3,29 +3,30 @@
 
         <!-- 当前宝贝 -->
         <div 
+            v-if="!showTomorrowGoods"
             class="current_goods_box"
-            :class="{ current_goods_card_anim: showAdvVideo }"
+            :class="(showAdvVideo || showRankList || showCountDown) ? 'current_goods_card_anim_show' : 'current_goods_card_anim_hide' "
         >
             <div 
                 class="current_goods_wrap"
             >
                 <div class="title_card">{{ gameState == 4 ? '抢购结束' : '当前宝贝' }}</div>
-                <div class="goods_detail buy_end" v-if="goodsDataDetail.goods">
+                <div class="goods_detail buy_end" v-if="currentGoods">
                     <div class="goods_detail_top">
-                        <img :src="goodsDataDetail.goods.cover" class="goods_img">
-                        <p class="goods_name">{{ goodsDataDetail.goods.displayName }}</p>
-                        <p class="goods_desc">{{ goodsDataDetail.goods.description }}</p>
+                        <img :src="currentGoods.goodsCover" class="goods_img">
+                        <p class="goods_name">{{ currentGoods.goodsName }}</p>
+                        <p class="goods_desc">{{ currentGoods.goodsDescription }}</p>
                     </div>
 
                     <div class="goods_detail_bottom" v-if="!gameState || gameState < 3">
-                        <p class="price_start">￥{{ priceFormat(goodsDataDetail.marketValue).int }}{{ priceFormat(goodsDataDetail.marketValue).decimals }}起</p>
+                        <p class="price_start">￥{{ priceFormat(currentGoods.marketValue).int }}{{ priceFormat(currentGoods.marketValue).decimals }}起</p>
                         <p class="price_down_text">每分钟直降</p>
-                        <p class="price">￥{{ priceFormat(goodsDataDetail.priceDeclineRate).int }}{{ priceFormat(goodsDataDetail.priceDeclineRate).decimals }}</p>
+                        <p class="price">￥{{ priceFormat(currentGoods.priceDeclineRate).int }}{{ priceFormat(currentGoods.priceDeclineRate).decimals }}</p>
                     </div>
 
                     <!-- 抢购中 实时价格 -->
                     <div class="goods_detail_bottom real_time_price" v-if="gameState == 3">
-                        <p class="real_time_text">实时价格</p>
+                        <p class="price_down_text">实时价格</p>
                         <p class="price" v-if="realTimePrice">￥{{ priceFormat(realTimePrice).int }}{{ priceFormat(realTimePrice).decimals }}</p>
                     </div>
 
@@ -33,7 +34,7 @@
                     <div class="goods_detail_bottom end" v-if="gameState == 4">
                         <p class="goods_count">宝贝库存: 23</p>
                         <p class="price_text">极限秒杀价</p>
-                        <p class="del_price">￥{{ priceFormat(goodsDataDetail.marketValue).int }}{{ priceFormat(goodsDataDetail.marketValue).decimals }}</p>
+                        <p class="del_price">￥{{ priceFormat(currentGoods.marketValue).int }}{{ priceFormat(currentGoods.marketValue).decimals }}</p>
                         <p class="price">￥{{ priceFormat(buyKing.price).int }}{{ priceFormat(buyKing.price).decimals }}</p>
                     </div>
 
@@ -45,7 +46,8 @@
         <!-- 即将开始  class  put_away  收起-->
         <div 
             class="goods_list"
-            :class="{ put_away: showAdvVideo }"
+            :class="{ put_away: showAdvVideo || showRankList || showCountDown }"
+            v-if="goodsList.length && !showTomorrowGoods"
         >
             <div class="title_card">即将开始</div>
             <div class="goods_item" 
@@ -68,6 +70,62 @@
 
             </div>
         </div>
+
+        <!-- 明日宝贝 -->
+        <div 
+            class="goods_list tomorrow_list"
+            v-if="showTomorrowGoods && goodsList.length"
+        >
+            <div class="title_card">明日宝贝</div>
+            <div class="goods_item" 
+                v-for="(item, index) in goodsList" 
+                :key="index"
+            >
+                <div class="goods_info">
+                    <img :src="item.goodsCover" class="goods_img">
+                    <div class="info text_overflow">
+                        <p class="time">明日 {{ formatTime(item.beginTime) }}</p>
+                        <p class="goods_name">{{ item.goodsName }}</p>
+                    </div>
+                </div>
+                
+                <div class="goods_bottom">
+                    <p class="price">￥{{ priceFormat(item.marketValue).int }}{{ priceFormat(item.marketValue).decimals }}起</p>
+                    <p class="down_text">每分钟直降</p>
+                    <p class="down_price">￥{{ priceFormat(item.priceDeclineRate).int }}{{ priceFormat(item.priceDeclineRate).decimals }}</p>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- 竞拍历史 -->
+        <div 
+            class="goods_list tomorrow_list"
+            v-if="showTomorrowGoods && !goodsList.length"
+        >
+            <div class="title_card">竞拍历史</div>
+            <div class="goods_item" 
+                v-for="(item, index) in goodsList" 
+                :key="index"
+            >
+                <div class="goods_info">
+                    <img :src="item.goodsCover" class="goods_img">
+                    <div class="info text_overflow">
+                        <p class="time">{{ formatTime(item.beginTime, true) }}</p>
+                        <p class="goods_name">{{ item.goodsName }}</p>
+                    </div>
+                </div>
+                
+                <div class="goods_bottom">
+                    <p class="price">极限秒杀价</p>
+                    <p class="del_price">￥{{ priceFormat(item.marketValue).int }}{{ priceFormat(item.marketValue).decimals }}</p>
+                    <p class="down_price">￥{{ priceFormat(item.marketValue).int }}{{ priceFormat(item.marketValue).decimals }}</p>
+                </div>
+
+            </div>
+        </div>
+
+
     </div>
 </template>
 
@@ -84,10 +142,25 @@ export default {
             return store.state.gameState
         })
 
+        //倒计时
+        const showCountDown = computed(() => {
+            return store.state.showCountDown
+        })
+
         //是否显示视频
         const showAdvVideo = computed(() => {
             return store.state.showAdvVideo
         })
+
+        //是否显示抢购结束
+        const showRankList = computed(() => {
+            return store.state.showRankList
+        })
+
+        //当前宝贝
+        const currentGoods = computed(() => {
+            return store.state.goodsListData[store.state.currentGoodsIndex]
+        }) 
 
         //抢购详情
         const goodsDataDetail = computed(() => {
@@ -109,15 +182,24 @@ export default {
             return store.state.goodsListData
         })
 
+        //抢购结束  显示明日宝贝
+        const showTomorrowGoods = computed(() => {
+            return store.state.showTomorrowGoods
+        })
+
         const state = reactive({
             goodsList,
+            currentGoods,
             formatTime,
             priceFormat,
+            showCountDown,
             gameState,
+            showRankList,
             showAdvVideo,
             realTimePrice,
             goodsDataDetail,
-            buyKing
+            buyKing,
+            showTomorrowGoods
         })
 
         return toRefs(state)
@@ -149,10 +231,16 @@ export default {
             overflow: hidden;
             transition: all .2s;
 
-            &.current_goods_card_anim{
+            &.current_goods_card_anim_hide{
                 display: block;
                 height: 643px;
-                animation: currentGoodsCardAnim .5s linear both;
+                animation: currentGoodsCardAnimHide .5s linear both;
+            }
+
+            &.current_goods_card_anim_show{
+                display: block;
+                height: 643px;
+                animation: currentGoodsCardAnimShow .5s linear both;
             }
         }
 
@@ -273,6 +361,7 @@ export default {
             height: 296px;
             min-height: 296px;
             background: url('../images/goods_card_01.png') no-repeat center;
+            background-size: 100% 100%;
             border-radius: 10px;
             overflow: hidden;
             transition: all .3s ease-in-out;
@@ -394,9 +483,38 @@ export default {
             }
         }
 
-        @keyframes currentGoodsCardAnim {
+        @keyframes currentGoodsCardAnimHide {
+            0% {transform: translate(0)}
+            90% {transform: translate(calc(100% + 45px)); height: 643px;}
+            100% {height: 0;}
+        }
+
+        @keyframes currentGoodsCardAnimShow {
             0% {transform: translate(calc(100% + 45px))}
             100% {transform: translate(0)}
+        }
+        
+
+        &.tomorrow_list{
+            .goods_item{
+                background: url('../images/goods_card_02.png') no-repeat center;
+                background-size: 100% 100%;
+            }
+        }
+
+        &.history{
+            .goods_bottom  .price{
+                font-size: 35px;
+                color: #4a2453;
+                padding: 15px 0 15px 0;
+            }
+            .del_price{
+                font-size: 35px;
+                color: #4a2453;
+                text-decoration:line-through;
+                line-height: 40px;
+                font-weight: normal;
+            }
         }
     }
 </style>

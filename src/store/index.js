@@ -16,6 +16,7 @@ const state = {
 	showRankList: false,       //抢购结束  显示排行榜
 	showAdvVideo: false,          //显示视频广告
 	showWarning: false,         //库存不足 警告
+	showTomorrowGoods: false,   //显示明日预告
 }
 
 

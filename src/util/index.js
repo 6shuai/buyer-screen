@@ -40,7 +40,7 @@ export const priceFormat = (x, hide) => {
     }
     return {
         int: hide ? hidePrice(result.split('.')[0]) : result.split('.')[0],
-        decimals: hide ? hidePrice(result.split('.')[1]) : '.' + result.split('.')[1],
+        decimals: hide ? '.??' : '.' + result.split('.')[1],
         full: Number(result.replace(',', ''))
     };
 }
@@ -51,6 +51,8 @@ function hidePrice(str){
         let wen = '?'
         let str1 = str.substr(0, parseInt(str.length / 2))
         return str1 + wen.repeat(str.length - parseInt(str.length / 2))
+    }else{
+        return str
     }
 }
 
@@ -78,10 +80,9 @@ export const formatTime = (timestamp, type) => {
     var h = addPreZero(date.getHours()) + ':';
     var m = addPreZero(date.getMinutes());
     var s = ':' + addPreZero(date.getSeconds());
-    // if (type == 'time') {
-    //     return h + m + s;
-    // } else {
-    //     return Y + M + D + h + m + s
-    // }
-    return h + m;
+    if (!type) {
+        return h + m;
+    } else {
+        return Y + M + D
+    }
 }

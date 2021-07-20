@@ -11,7 +11,9 @@
                         class="item"
                         v-for="(item, index) in rankList"
                         :key="index"
-                        :style="{ animation: `listAnmi_${index} 1s linear ${index * 0.2}s both` }"
+                        :style="{ animation: 
+                            hideRank ? `listAnmiHide_${index} 1s linear ${index * 0.2}s both` : `listAnmi_${index} 1s linear ${index * 0.2}s both`
+                        }"
                     >
                         <div class="index">{{ item.index + 1 }}</div>
                         <div class="head_img">
@@ -60,15 +62,19 @@ export default {
         //抢购排行榜
         const showRankData = () => {
             state.rankList = state.resData[state.pageIndex] 
-            console.log(state.rankList)
+            clearTimeout(state.timer)
+            state.hideRank = false
             setTimeout(() => {
+                state.hideRank = true
+            }, 6000);
+            state.timer = setTimeout(() => {
                 if(state.pageIndex + 1 > state.totalPage - 1){
                     state.pageIndex = 0
                 }else{
                     state.pageIndex += 1
                 }
                 showRankData()
-            }, 5000);
+            }, 6500);
         }
 
 
@@ -77,6 +83,7 @@ export default {
             pageIndex: 0,
             resData: [],
             rankList: [],
+            hideRank: false,
             priceFormat,
             timer: undefined,
             buyMemberList: []
@@ -140,6 +147,7 @@ export default {
                 img{
                     width: 70px;
                     height: 70px;
+                    border-radius: 50%;
                 }
             }
 
@@ -164,7 +172,6 @@ export default {
             }
             100% {
                 transform: translate(0);
-                // opacity: 0;
             }
         }
         @keyframes listAnmi_1 {
@@ -173,7 +180,6 @@ export default {
             }
             100% {
                 transform: translate(0);
-                // opacity: 0;
             }
         }
         @keyframes listAnmi_2 {
@@ -182,7 +188,6 @@ export default {
             }
             100% {
                 transform: translate(0);
-                // opacity: 0;
             }
         }
         @keyframes listAnmi_3 {
@@ -191,7 +196,6 @@ export default {
             }
             100% {
                 transform: translate(0);
-                // opacity: 0;
             }
         }
         @keyframes listAnmi_4 {
@@ -200,7 +204,47 @@ export default {
             }
             100% {
                 transform: translate(0);
-                // opacity: 0;
+            }
+        }
+
+        @keyframes listAnmiHide_0 {
+            0% {
+                transform: translate(0);
+            }
+            100% {
+                transform: translate(-100vw);
+            }
+        }
+        @keyframes listAnmiHide_1 {
+            0% {
+                transform: translate(0);
+            }
+            100% {
+                transform: translate(-100vw);
+            }
+        }
+        @keyframes listAnmiHide_2 {
+            0% {
+                transform: translate(0);
+            }
+            100% {
+                transform: translate(-100vw);
+            }
+        }
+        @keyframes listAnmiHide_3 {
+            0% {
+                transform: translate(0);
+            }
+            100% {
+                transform: translate(-100vw);
+            }
+        }
+        @keyframes listAnmiHide_4 {
+            0% {
+                transform: translate(0);
+            }
+            100% {
+                transform: translate(-100vw);
             }
         }
     }

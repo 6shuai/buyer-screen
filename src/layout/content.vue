@@ -2,13 +2,13 @@
     <!-- 当前宝贝 -->
     <div 
         class="current_goods_content"
-        :class="{ hide: showAdvVideo }"
-        :style="{ transition: `all .5s ease-in-out ${showAdvVideo ? '0s' : '.3s'}` }"
+        :class="{ hide: showAdvVideo || (showCountDown && !gameState) || (gameState && gameState!=1 && gameState != 2)}"
+        :style="{ transition: `all .5s ease-in-out ${showAdvVideo || (showCountDown && !gameState) ? '0s' : '.3s'}` }"
     >
         <!-- 未开始 -->
         <div 
             class="content_box clear"
-            v-if="(!gameState || gameState==1) && currentGoods"
+            v-if="(!gameState || gameState==1 || gameState == 2) && currentGoods"
         >
             <div class="tip">当前宝贝</div>
             <div class="goods_detail">
@@ -31,15 +31,34 @@
             </div>
         </div>
 
-        <!-- 抢购中 -->
+        
+
+
+        <!-- 抢购结束 -->
+        <buy-end :data="currentGoods" v-if="gameState == 4"></buy-end>
+
+    </div>
+
+    <!-- 抢购中 -->
+    <div 
+        class="current_goods_content"
+        :class="{ hide: showAdvVideo || (gameState!=3) }"
+        :style="{ transition: `all .5s ease-in-out ${showAdvVideo || gameState!= 3 ? '0s' : '.3s'}` }"
+    >
         <div 
             class="content_box buy_in clear"
             v-if="gameState == 3"
         >
             <panic-buy :data="currentGoods"></panic-buy>
         </div>
+    </div>
 
-
+    <!-- 抢购结束 -->
+    <div 
+        class="current_goods_content"
+        :class="{ hide: showAdvVideo || gameState != 4 }"
+        :style="{ transition: `all .5s ease-in-out ${showAdvVideo || gameState != 4 ? '0s' : '.3s'}` }"
+    >
         <!-- 抢购结束 -->
         <buy-end :data="currentGoods" v-if="gameState == 4"></buy-end>
 
@@ -48,11 +67,8 @@
     <!-- 视频广告 -->
     <video-adv></video-adv>
 
-    <!-- 倒计时 -->
-    <count-down v-if="showCountDown && !gameState"></count-down>
-
     <!-- 底部 -->
-    <bottom-info></bottom-info>
+    <bottom-info v-show="!showCountDown"></bottom-info>
 
     <!-- 抢购成功  弹幕 -->
     <buy-success-member v-if="gameState == 3 || gameState == 4"></buy-success-member>
@@ -63,7 +79,6 @@
 import { reactive, toRefs, computed, onMounted } from 'vue'
 import VideoAdv from '../components/VideoAdv.vue'
 import BottomInfo from '../components/Bottom.vue'
-import CountDown from '../components/CountDown.vue'
 import BuySuccessMember from '../components/BuySuccessMember.vue'
 
 import PanicBuy from '../components/PanicBuy.vue'
@@ -97,10 +112,13 @@ export default {
 
         onMounted(() => {
             let { bottom , height } = document.getElementsByClassName('current_goods_content')[0].getBoundingClientRect()
-            console.log(bottom , height)
             if((bottom - height) < 200){
-                console.log('??')
-                document.getElementsByClassName('current_goods_content')[0].style.top = `calc(50% - 100px)`
+                let content = document.getElementsByClassName('current_goods_content')
+                
+                for(let i = 0; i < content.length; i++){
+                    document.getElementsByClassName('current_goods_content')[i].style.top = `calc(50% - 100px)`
+                }
+                
             }
         })
 
@@ -117,7 +135,6 @@ export default {
     components: {
         VideoAdv,
         BottomInfo,
-        CountDown,
         BuySuccessMember,
         PanicBuy,
         BuyEnd
@@ -132,9 +149,9 @@ export default {
         background: url('../images/content_card.png') center no-repeat;
         background-size: 100% 100%;
         position: absolute;
+        width: 100%;
         top: 50%;
         margin-top: -352px;
-        position: relative;
         z-index: 99;
         transition: all .5s ease-in-out;
 

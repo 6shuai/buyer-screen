@@ -49,6 +49,7 @@ export default {
                 height: 88px;
                 vertical-align: middle;
                 margin-top: -25px;
+                display: inline-block;
             }
         }
 
@@ -64,6 +65,14 @@ export default {
                 justify-content: center;
                 align-items: center;
                 display: inline-block;
+                overflow: hidden;
+                vertical-align: top;
+
+                img{
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 50%;
+                }
             }
 
             .name{

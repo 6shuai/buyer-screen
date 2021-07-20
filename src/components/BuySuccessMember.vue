@@ -4,8 +4,7 @@
             class="item" 
             v-for="(item, index) in danmakulist" 
             :key="index"
-            :class="`danmaku_${index}`"
-            :style="{ marginLeft: index * 50 + 'px' }"
+            :class="`danmaku_${item.danmakuId}`"
         >
             <div class="content">
                 <div class="member_img">
@@ -20,10 +19,14 @@
             </div>
         </div>
     </div>
+
+    <!-- 音效 -->
+    <audio :src="audioUrl" autoplay></audio>
+
 </template>
 
 <script>
-import { reactive, toRefs, onMounted, computed, watch  } from 'vue'
+import { reactive, toRefs, onMounted, computed, watch, nextTick } from 'vue'
 import { useStore } from 'vuex'
 import { priceFormat } from '../util/index'
 export default {
@@ -54,8 +57,14 @@ export default {
                     if(!res) return
                     let item = state.list.shift()
                     if(item){
+                        item.danmakuId = state.danmakuId
                         state.danmakulist.push(item)
-                        deleteDanmaku()
+                        state.audioUrl = ''
+                        state.danmakuId = state.danmakuId + 1
+                        nextTick(() => {
+                            state.audioUrl = './sounds/buy_success.mp3'
+                        })
+                        // deleteDanmaku()
                     }
                 })
             }, 500)
@@ -66,7 +75,7 @@ export default {
             return new Promise((resolve) => {
                 if(!state.danmakulist.length) resolve(true)
                 let right = 0
-                let query = document.getElementsByClassName(`danmaku_${state.danmakulist.length-1}`)[0]
+                let query = document.getElementsByClassName(`danmaku_${state.danmakuId - 1}`)[0]
                 if(query){
                     right = query.getBoundingClientRect().right
                     if(windowWidth - right > 20){
@@ -96,6 +105,8 @@ export default {
         })
 
         const state = reactive({
+            danmakuId: 0,
+            audioUrl: '',
             timer: undefined,
             list: [],   // 普通的弹幕队列
             danmakulist: [], // 当前正在执行的
@@ -124,7 +135,7 @@ export default {
             left: 0;
             background: url('../images/member_card.png') no-repeat center;
             background-size: 100% 100%;
-            animation: right2left 5s linear both;
+            animation: right2left 10s linear both;
             
             .content{
                 padding: 55px 84px 58px 55px;
@@ -145,6 +156,7 @@ export default {
                     img{
                         width: 137px;
                         height: 137px;
+                        border-radius: 50%;
                     }
                 }
 
@@ -175,7 +187,9 @@ export default {
 
             @keyframes right2left {
                 0% {transform: translate(100vw)}
-                100% {transform: translate(0)}
+                50% {transform: translate(0)}
+                90% {opacity: 1}
+                100% {opacity: 0}
             }
         }
 

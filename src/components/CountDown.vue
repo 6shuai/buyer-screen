@@ -10,7 +10,8 @@
 <script>
 import { reactive, toRefs, onMounted } from 'vue'
 export default {
-    setup(props) {
+    emits: ['countDown'],
+    setup(props, { emit }) {
         onMounted(() => {
             countdown()
         })
@@ -18,10 +19,11 @@ export default {
         const countdown = () => {
             if(state.countdownNum <= 1){
                 clearTimeout(state.timer)
+                emit('countDown', 'end')
                 return
             }
-            console.log(state.countdownNum)
             state.countdownNum = state.countdownNum - 1
+            emit('countDown')
             state.timer = setTimeout(() => {
                 countdown()
             }, 1000);
@@ -39,6 +41,9 @@ export default {
 
 <style lang="less" scope>
     .buy_count_down_wrap{
+        position: absolute;
+        left: 0;
+        top: 0;
         width: 100%;
         height: 100%;
         text-align: center;
