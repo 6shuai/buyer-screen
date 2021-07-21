@@ -29,7 +29,7 @@ export default {
         top: 0;
         left: 0;
         z-index: 99999;
-        animation: shadowAnim .5s linear both;
+        animation: shadowAnim .5s ease-in-out both;
         animation-iteration-count: infinite;
         // box-shadow:inset 0px 0px 100px 40px red;
 

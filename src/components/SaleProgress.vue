@@ -3,7 +3,7 @@
         <div class="progress">
             <div 
                 class="progress_bar"
-                :style="{ width: 100 - (100 - realTimePrice.full / marketValue * 100).toFixed(2) + '%' }"
+                :style="{ animation: `progressAnim ${progressWidth}s ease-in-out` }"
             >
                 <img src="../images/loading_bar.png">
             </div>
@@ -14,21 +14,38 @@
 </template>
 
 <script>
-import { reactive, toRefs, computed } from 'vue'
+import { reactive, toRefs, computed, onMounted, onUnmounted } from 'vue'
 import { useStore } from 'vuex'
 export default {
     setup(props) {
         const store = useStore()
-        let { marketValue } = store.state.goodsDataDetail
-        
+
+        //currentPrice              抢购价格
+        //priceDeclineRate          每分钟下降金额
+        //priceDecline              每次下降多少钱
+        //priceDeclineFrequency     多少时间下降一次
+        let { marketValue, priceDeclineRate, priceDecline, priceDeclineFrequency } = store.state.goodsDataDetail
+
         //实时价格
         const realTimePrice = computed(() => {
             return store.state.realTimePrice
         })
 
+        onMounted(() => {
+            //比真实价格  进度条快 10%
+            state.progressWidth = marketValue / priceDeclineRate * 60 * 0.9
+        })
+
+
         const state = reactive({
+            timer: undefined,
             realTimePrice,
-            marketValue
+            marketValue,
+            progressWidth: 100
+        })
+
+        onUnmounted(() => {
+            clearTimeout(state.timer)
         })
 
         return toRefs(state)
@@ -71,6 +88,11 @@ export default {
                 position: absolute;
                 top: 0;
             }
+        }
+
+        @keyframes progressAnim {
+            0%{ width: 100% }
+            100%{ width: 0%}
         }
 
     }

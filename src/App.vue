@@ -1,17 +1,24 @@
 <template>
-	<div class="main">
+	<div 
+		class="main"
+		:class="showHistryGoods ? 'miniview' : ''"
+	>
 		
 		<div class="left_goods_list">
 			<left-goods-list></left-goods-list>
 		</div>
 
 		<div class="goods_content">
-
 			<!-- 倒计时 -->
 			<count-down v-if="showCountDown" @countDown="countDown"></count-down>
+			
+			<!-- 竞拍历史 扫码查看更多宝贝 -->
+			<miniview v-if="showHistryGoods"></miniview>
 
 			<!-- 抢购 -->
-			<goods-content></goods-content>
+			<goods-content v-else></goods-content>
+
+
 		</div>
 
 		<div class="right_info">
@@ -19,7 +26,7 @@
 		</div>
 
 		<!-- 数量不多了 警告 -->
-		<warning v-if="showWarning"></warning>
+		<warning v-if="showWarning && !closeWarning"></warning>
 
 		<!-- 背景音乐 -->
 		<audio :src="bgmUrl" autoplay :loop="isLoop"></audio>
@@ -38,6 +45,7 @@ import GoodsContent from './layout/content.vue'
 import RightInfo from './layout/right.vue'
 import Warning from './components/Warning.vue'
 import CountDown from './components/CountDown.vue'
+import Miniview from './components/Miniview.vue'
 import mixin from './mixins/socket'
 
 export default {
@@ -76,20 +84,45 @@ export default {
 			return store.state.showWarning
 		})
 
+		const closeWarning = computed(() => {
+			return store.state.closeWarning
+		})
+
+
+        //是否显示竞拍历史
+        const showHistryGoods = computed(() => {
+            return store.state.showHistryGoods
+        })
+
+
+		//每个状态 搁二十秒播放一次视频
+		const videoPlay = (duration) => {
+			clearTimeout(state.playTimer)
+			// if(duration / 35 >= 1){
+				state.playTimer = setTimeout(() => {
+					store.state.showAdvVideo = true
+				}, 20  * 1000);
+			// }
+		}
+		
+
 		onMounted(() => {
 			initWebsocket.value()
 		})
 
 		watch(gameState, (newState, oldState) => {
+			let { guessTime, countdown } = store.state.goodsDataDetail
 			state.isLoop = false
 			store.state.showAdvVideo = false
 			switch (newState) {
                 case 0:
 					store.state.showAdvVideo = true
+					store.state.showCountDown = false
                     state.bgmUrl = ''
                     break;
                 case 1:
-
+					store.state.showCountDown = false
+					videoPlay(guessTime + countdown)
                     break; 
                 case 2:
 
@@ -97,6 +130,7 @@ export default {
                 case 3: 
 					state.isLoop = true
 					state.bgmUrl = './sounds/buy_ing.mp3'
+					videoPlay()
                     break;
 				case 4: 
 					state.bgmUrl = './sounds/buy_end.mp3'
@@ -116,10 +150,13 @@ export default {
 			gameState,
 			showCountDown,
 			showWarning,
+			closeWarning,
 			isLoop: false,
 			bgmUrl: '',
 			audioUrl: '',
-			countDown
+			playTimer: undefined,
+			countDown,
+			showHistryGoods
 		})
 
 		return toRefs(state)
@@ -129,7 +166,8 @@ export default {
 		GoodsContent,
 		RightInfo,
 		Warning,
-		CountDown
+		CountDown,
+		Miniview
 	}
 }
 </script>
@@ -140,6 +178,12 @@ export default {
 		height: 100%;
 		overflow: hidden;
 		display: flex;
+
+		&.miniview{
+			background: url('./images/miniview_bg.png') center no-repeat;
+			background-size: 100% 100%;
+			overflow: hidden;
+		}
 
 		.left_goods_list, .right_info{
 			width: 17.8%;

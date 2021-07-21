@@ -16,7 +16,88 @@ const state = {
 	showRankList: false,       //抢购结束  显示排行榜
 	showAdvVideo: false,          //显示视频广告
 	showWarning: false,         //库存不足 警告
+	closeWarning: true,
 	showTomorrowGoods: false,   //显示明日预告
+	showHistryGoods: false,      //显示竞拍历史
+
+	tomorrowData: [            //明日宝贝
+		{
+			beginTime: 1626863400000,
+			goodsCover: "https://ec.xfengjing.com/picture/2021/06/30/3da039a0-aa74-4c28-a713-753bdd7a3aaf.jpg",
+			goodsDescription: "小米手机Ultra",
+			goodsName: "小米手机",
+			marketValue: 10,
+			priceDeclineRate: 6,
+			totalGuessAward: 0
+		},
+		{
+			beginTime: 1626865200000,
+			goodsCover: "https://ec.xfengjing.com/picture/2021/06/30/3da039a0-aa74-4c28-a713-753bdd7a3aaf.jpg",
+			goodsDescription: "小米手机Ultra",
+			goodsName: "小米手机",
+			marketValue: 10,
+			priceDeclineRate: 6,
+			totalGuessAward: 0
+		},
+		{
+			beginTime: 1626867000000,
+			goodsCover: "https://ec.xfengjing.com/picture/2021/06/30/3da039a0-aa74-4c28-a713-753bdd7a3aaf.jpg",
+			goodsDescription: "小米手机Ultra",
+			goodsName: "小米手机",
+			marketValue: 10,
+			priceDeclineRate: 6,
+			totalGuessAward: 0
+		},
+		{
+			beginTime: 1626867000000,
+			goodsCover: "https://ec.xfengjing.com/picture/2021/06/30/3da039a0-aa74-4c28-a713-753bdd7a3aaf.jpg",
+			goodsDescription: "小米手机Ultra",
+			goodsName: "小米手机",
+			marketValue: 10,
+			priceDeclineRate: 6,
+			totalGuessAward: 0
+		}
+	],
+
+	historyGoodsData: [            //竞拍历史
+		{
+			beginTime: 1626350400000,
+			goodsCover: "https://ec.xfengjing.com/picture/2021/06/30/3da039a0-aa74-4c28-a713-753bdd7a3aaf.jpg",
+			goodsDescription: "小米手机Ultra",
+			goodsName: "小米手机",
+			marketValue: 3999,
+			priceDeclineRate: 2450,
+			totalGuessAward: 0
+		},
+		{
+			beginTime: 1626436800000,
+			goodsCover: "https://ec.xfengjing.com/picture/2021/06/30/3da039a0-aa74-4c28-a713-753bdd7a3aaf.jpg",
+			goodsDescription: "小米手机Ultra",
+			goodsName: "小米手机",
+			marketValue: 3999,
+			priceDeclineRate: 2605,
+			totalGuessAward: 0
+		},
+		{
+			beginTime: 1626523200000,
+			goodsCover: "https://ec.xfengjing.com/picture/2021/06/30/3da039a0-aa74-4c28-a713-753bdd7a3aaf.jpg",
+			goodsDescription: "小米手机Ultra",
+			goodsName: "小米手机",
+			marketValue: 3999,
+			priceDeclineRate: 2846,
+			totalGuessAward: 0
+		},
+		{
+			beginTime: 1626609600000,
+			goodsCover: "https://ec.xfengjing.com/picture/2021/06/30/3da039a0-aa74-4c28-a713-753bdd7a3aaf.jpg",
+			goodsDescription: "小米手机Ultra",
+			goodsName: "小米手机",
+			marketValue: 3999,
+			priceDeclineRate: 2556,
+			totalGuessAward: 0
+		}
+	],
+
 }
 
 
@@ -65,6 +146,7 @@ const mutations = {
 	//库存不足 警告
 	SET_SHOW_WRRNING(state, data){
 		state.showWarning = data
+		state.closeWarning = false
 	}
 
 }

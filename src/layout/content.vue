@@ -31,12 +31,6 @@
             </div>
         </div>
 
-        
-
-
-        <!-- 抢购结束 -->
-        <buy-end :data="currentGoods" v-if="gameState == 4"></buy-end>
-
     </div>
 
     <!-- 抢购中 -->
@@ -56,11 +50,22 @@
     <!-- 抢购结束 -->
     <div 
         class="current_goods_content"
-        :class="{ hide: showAdvVideo || gameState != 4 }"
+        :class="{ hide: showAdvVideo || gameState != 4 || showRankList || showTomorrowGoods }"
         :style="{ transition: `all .5s ease-in-out ${showAdvVideo || gameState != 4 ? '0s' : '.3s'}` }"
     >
         <!-- 抢购结束 -->
         <buy-end :data="currentGoods" v-if="gameState == 4"></buy-end>
+
+    </div>
+
+    <!-- 抢购排行榜 -->
+    <div 
+        class="current_goods_content"
+        :class="{ hide: showAdvVideo || !showRankList || showTomorrowGoods }"
+        :style="{ transition: `all .5s ease-in-out ${showAdvVideo || gameState != 4 ? '0s' : '.3s'}` }"
+    >
+
+        <rank :data="currentGoods" v-if="gameState == 4 && !showTomorrowGoods"></rank>
 
     </div>
 
@@ -83,6 +88,8 @@ import BuySuccessMember from '../components/BuySuccessMember.vue'
 
 import PanicBuy from '../components/PanicBuy.vue'
 import BuyEnd from '../components/BuyEnd.vue'
+import Rank from '../components/Rank.vue'
+
 import { useStore } from 'vuex'
 import { priceFormat } from '../util/index'
 
@@ -110,6 +117,11 @@ export default {
             return store.state.goodsListData[store.state.currentGoodsIndex]
         }) 
 
+        //抢购结束  显示抢购排行榜
+        const showRankList = computed(() => {
+            return store.state.showRankList
+        })
+
         onMounted(() => {
             let { bottom , height } = document.getElementsByClassName('current_goods_content')[0].getBoundingClientRect()
             if((bottom - height) < 200){
@@ -127,7 +139,8 @@ export default {
             gameState,
             showCountDown,
             currentGoods,
-            priceFormat
+            priceFormat,
+            showRankList
         })
 
         return toRefs(state)
@@ -137,9 +150,12 @@ export default {
         BottomInfo,
         BuySuccessMember,
         PanicBuy,
-        BuyEnd
+        BuyEnd,
+        Rank
     }
 }
+
+
 </script>
 
 <style lang="less" scope>
@@ -149,14 +165,14 @@ export default {
         background: url('../images/content_card.png') center no-repeat;
         background-size: 100% 100%;
         position: absolute;
-        width: 100%;
+        width: calc(100% - 38px);
         top: 50%;
         margin-top: -352px;
         z-index: 99;
         transition: all .5s ease-in-out;
 
         &.hide{
-            transform: translate(-100%);
+            transform: translate(-120%);
         }
 
         .content_box{

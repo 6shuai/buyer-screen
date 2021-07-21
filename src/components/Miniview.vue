@@ -1,7 +1,6 @@
 <template>
     <div class="miniview_wrap">
-        <img src="../images/logo.png">
-        <div class="text">关注小风景  参与更多精彩活动!</div>
+        扫码查看更多宝贝, 不要错过优惠哦!
     </div>
 </template>
 
@@ -9,24 +8,12 @@
     .miniview_wrap{
         position: absolute;
         left: 0;
-        top: 0;
+        top: 8%;
         width: 100%;
         height: 100%;
         text-align: center;
         font-weight: bold;
-        display:flex;
-        flex-flow: column;
-        justify-content: space-around;
-        
-        img{
-            width: 100%;
-            height: 100%;
-        }
-
-        .text{
-            font-size: 100px;
-            color: #e9b085;
-            text-align: center;
-        }
+        font-size: 60px;
+        color: #4a2453;
     }
 </style>

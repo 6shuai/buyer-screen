@@ -15,7 +15,7 @@
             <p class="title">抢宝贝赢红包</p>
             <div class="qrcode_box">
                 <p class="sao_text">微信扫一扫</p>
-                <img src="">
+                <img src="../images/qrcode.png">
             </div>
         </div>
 

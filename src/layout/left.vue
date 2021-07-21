@@ -74,11 +74,11 @@
         <!-- 明日宝贝 -->
         <div 
             class="goods_list tomorrow_list"
-            v-if="showTomorrowGoods && goodsList.length"
+            v-if="showTomorrowGoods && tomorrowData.length && !showHistryGoods"
         >
             <div class="title_card">明日宝贝</div>
             <div class="goods_item" 
-                v-for="(item, index) in goodsList" 
+                v-for="(item, index) in tomorrowData" 
                 :key="index"
             >
                 <div class="goods_info">
@@ -100,12 +100,12 @@
 
         <!-- 竞拍历史 -->
         <div 
-            class="goods_list tomorrow_list"
-            v-if="showTomorrowGoods && !goodsList.length"
+            class="goods_list tomorrow_list history"
+            v-if="showHistryGoods"
         >
             <div class="title_card">竞拍历史</div>
             <div class="goods_item" 
-                v-for="(item, index) in goodsList" 
+                v-for="(item, index) in historyGoodsData" 
                 :key="index"
             >
                 <div class="goods_info">
@@ -119,7 +119,7 @@
                 <div class="goods_bottom">
                     <p class="price">极限秒杀价</p>
                     <p class="del_price">￥{{ priceFormat(item.marketValue).int }}{{ priceFormat(item.marketValue).decimals }}</p>
-                    <p class="down_price">￥{{ priceFormat(item.marketValue).int }}{{ priceFormat(item.marketValue).decimals }}</p>
+                    <p class="down_price">￥{{ priceFormat(item.priceDeclineRate).int }}{{ priceFormat(item.priceDeclineRate).decimals }}</p>
                 </div>
 
             </div>
@@ -131,7 +131,7 @@
 
 <script>
 import { reactive, toRefs, computed } from 'vue'
-import { formatTime, priceFormat } from '../util/index'
+import { formatTime, priceFormat, screenSize } from '../util/index'
 import { useStore } from 'vuex'
 export default {
     setup(props){
@@ -186,6 +186,30 @@ export default {
         const showTomorrowGoods = computed(() => {
             return store.state.showTomorrowGoods
         })
+    
+        //明日宝贝
+        const tomorrowData = computed(() => {
+            let data = JSON.parse(JSON.stringify(store.state.tomorrowData))
+            if(screenSize()){
+                data.splice(3, 1)
+            }
+            return data
+        })
+
+        //竞拍历史
+        const historyGoodsData = computed(() => {
+            let data = JSON.parse(JSON.stringify(store.state.historyGoodsData))
+            if(screenSize()){
+                data.splice(3, 1)
+            }
+            return data
+        })
+
+         //是否显示竞拍历史
+        const showHistryGoods = computed(() => {
+            return store.state.showHistryGoods
+        })
+
 
         const state = reactive({
             goodsList,
@@ -199,7 +223,10 @@ export default {
             realTimePrice,
             goodsDataDetail,
             buyKing,
-            showTomorrowGoods
+            showTomorrowGoods,
+            tomorrowData,
+            historyGoodsData,
+            showHistryGoods
         })
 
         return toRefs(state)
@@ -234,13 +261,13 @@ export default {
             &.current_goods_card_anim_hide{
                 display: block;
                 height: 643px;
-                animation: currentGoodsCardAnimHide .5s linear both;
+                animation: currentGoodsCardAnimHide .5s ease-in-out both;
             }
 
             &.current_goods_card_anim_show{
                 display: block;
                 height: 643px;
-                animation: currentGoodsCardAnimShow .5s linear both;
+                animation: currentGoodsCardAnimShow .5s ease-in-out both;
             }
         }
 
@@ -350,9 +377,6 @@ export default {
     }
     .goods_list{
         height: 100%;
-        // display:flex;
-        // flex-flow: column;
-        // justify-content: space-around;
         transition: all .3s ease-in-out;
 
         .goods_item{
@@ -367,7 +391,7 @@ export default {
             transition: all .3s ease-in-out;
             
             &.mini{
-                animation: goodsItemAnim 1s linear both;
+                animation: goodsItemAnim 1s ease-in-out both;
             }
 
             &:last-child{
@@ -496,6 +520,8 @@ export default {
         
 
         &.tomorrow_list{
+            display:flex;
+            flex-flow: column;
             .goods_item{
                 background: url('../images/goods_card_02.png') no-repeat center;
                 background-size: 100% 100%;

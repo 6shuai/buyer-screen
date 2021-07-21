@@ -12,7 +12,7 @@
                         v-for="(item, index) in rankList"
                         :key="index"
                         :style="{ animation: 
-                            hideRank ? `listAnmiHide_${index} 1s linear ${index * 0.2}s both` : `listAnmi_${index} 1s linear ${index * 0.2}s both`
+                            hideRank ? `listAnmiHide_${index} 1s ease-in-out ${index * 0.2}s both` : `listAnmi_${index} 1s ease-in-out ${index * 0.2}s both`
                         }"
                     >
                         <div class="index">{{ item.index + 1 }}</div>
@@ -40,7 +40,6 @@ export default {
         onMounted(() => {
             state.buyMemberList = store.state.buyMemberList
             state.totalPage = Math.ceil(state.buyMemberList.length / 5)
-            console.log('totalPage------->', state.totalPage)
 
             state.buyMemberList.forEach((item, index) => {
                 item.index = index

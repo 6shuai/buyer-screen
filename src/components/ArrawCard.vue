@@ -57,11 +57,12 @@ export default {
             let now = new Date().getTime() / 1000
             let startTime = new Date(beginTime).getTime() / 1000
             let num = parseInt(startTime - now)
-            
-            if(num > 0){
-                // countDownFun(num)
-            }
-            countDownFun(15)
+        
+            countDownFun(50)
+
+            setTimeout(() => {
+                store.state.showAdvVideo = true
+            }, 20 * 1000);
         }
 
         const countDownFun = (num) => {
@@ -110,13 +111,13 @@ export default {
             width: 254px;
             height: 179px;
             position: absolute;
-            animation: arrawHightAnim 1.5s linear infinite;
+            animation: arrawHightAnim 1.5s ease-in-out infinite;
 
             @keyframes arrawHightAnim {
                 0% { opacity: 0; }
                 69% { opacity: 0.1; }
                 70% {opacity: 1; transform: translate(0)}
-                100% {transform: translate(1200px)}
+                100% {transform: translate(480%)}
             }
         }
 

@@ -1,10 +1,13 @@
 <template>
-    <div class="buy_success_member_warp">
+    <div 
+        class="buy_success_member_warp"
+    >
         <div 
             class="item" 
             v-for="(item, index) in danmakulist" 
             :key="index"
             :class="`danmaku_${item.danmakuId}`"
+            :style="{ marginLeft: index * 50 - hideCount * 50 + 'px' }"
         >
             <div class="content">
                 <div class="member_img">
@@ -64,7 +67,7 @@ export default {
                         nextTick(() => {
                             state.audioUrl = './sounds/buy_success.mp3'
                         })
-                        // deleteDanmaku()
+                        deleteDanmaku()
                     }
                 })
             }, 500)
@@ -92,7 +95,8 @@ export default {
         //10秒后删除弹幕
         const deleteDanmaku = () => {
             setTimeout(() => {
-                state.danmakulist.splice(0, 1)
+                // state.danmakulist.splice(0, 1)
+                state.hideCount += 1
             }, 10 * 1000);
         }
 
@@ -110,6 +114,7 @@ export default {
             timer: undefined,
             list: [],   // 普通的弹幕队列
             danmakulist: [], // 当前正在执行的
+            hideCount: 0
         })
 
         return toRefs(state)
@@ -135,7 +140,7 @@ export default {
             left: 0;
             background: url('../images/member_card.png') no-repeat center;
             background-size: 100% 100%;
-            animation: right2left 10s linear both;
+            animation: right2left 6s ease-in-out both;
             
             .content{
                 padding: 55px 84px 58px 55px;

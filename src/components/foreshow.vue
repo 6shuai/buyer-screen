@@ -42,7 +42,13 @@ export default {
                 setTimeout(() => {
                     store.state.showTomorrowGoods = true
                     store.state.showAdvVideo = true
-                }, 5 * 60000);
+
+                    setTimeout(() => {
+                        store.state.showAdvVideo = false
+                        store.state.showHistryGoods = true
+                    }, 1 * 60000);
+
+                }, 1 * 60000);
             }
         })
         

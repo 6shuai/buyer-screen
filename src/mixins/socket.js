@@ -65,7 +65,7 @@ export default function () {
                 // store.commit('SET_GOODS_LIST', data.auctionList)
                 store.commit('SET_GOODS_LIST', [{
                     beginTime: 1624944864000,
-                    goodsCover: "https://quiz.xfengjing.com/picture/2021/06/09/7881b66d-d556-4f21-8dd1-a3124e56be0a.jpeg",
+                    goodsCover: "https://ec.xfengjing.com/picture/2021/06/30/3da039a0-aa74-4c28-a713-753bdd7a3aaf.jpg",
                     goodsDescription: "小米电视大师",
                     goodsName: "小米电视",
                     marketValue: 10,
@@ -80,7 +80,6 @@ export default function () {
                 break;
             // 抢购状态
             case socketId.GameStateChangeNotice:
-                store.state.showCountDown = false
                 store.commit('SET_GAME_STATE', data.gameState)
                 break;
             //猜价通知  某个已猜价的用户
@@ -90,6 +89,7 @@ export default function () {
             // 弹幕显示  抢购成功的用户 
             case socketId.BoughtSuccessfulNotice:
                 store.commit('SET_BUY_SUCCESS_MEMBER', data.info)
+                if(!store.state.closeWarning) store.commit('SET_SHOW_WRRNING', true)
                 break;
             //已购买的用户列表  抢购结束后 结算页展示
             case socketId.BidResultNotice:         
@@ -110,7 +110,6 @@ export default function () {
             //库存 预警
             case socketId.InventoryForewarnNotice:
                 store.commit('SET_SHOW_WRRNING', true)
-        
             default:
                 break;
         }
@@ -204,17 +203,17 @@ export default function () {
     const test = () => {
 
         //预览
-        // setTimeout(() => {
-        //     let data = {
-        //         id: socketId.Preview,
-        //         auctionId: 20
-        //     }
-        //     websocketSendData(data);
-        // }, 15000);
+        setTimeout(() => {
+            let data = {
+                id: socketId.Preview,
+                auctionId: 20
+            }
+            websocketSendData(data);
+        }, 50000);
 
 
 
-        // return
+        return
 
 
         setTimeout(() => {
@@ -268,17 +267,13 @@ export default function () {
                 store.commit('SET_GAME_STATE', 0)
 
                 setTimeout(() => {
-                    store.state.showAdvVideo = true
-                    setTimeout(() => {
-                        store.state.showAdvVideo = false
-                    }, 5000);
                     store.commit('SET_GAME_STATE', 1)
 
 
                     setTimeout(() => {
                         store.commit('SET_GAME_STATE', 3)
 
-                        store.state.showWarning = true
+                        store.commit('SET_SHOW_WRRNING', true)
 
                         setTimeout(() => {
                             store.commit('SET_GAME_STATE', 4)
@@ -353,7 +348,7 @@ export default function () {
                             setTimeout(() => {
                                 store.state.showTomorrowGoods = true
                                 store.state.showAdvVideo = true
-                            }, 30000);
+                            }, 40000);
 
                         }, 2000);
 
@@ -361,7 +356,7 @@ export default function () {
 
                 }, 3000);
 
-            }, 15000)
+            }, 50000)
 
 
         }, 1000);

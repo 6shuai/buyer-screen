@@ -175,7 +175,7 @@ export default {
                 line-height: 80px;
                 font-size: 35px;
                 padding: 10px 0;
-                animation: danmakuAnim 10s linear both;
+                animation: danmakuAnim 10s ease-in-out both;
 
                 .head_img{
                     width: 80px;

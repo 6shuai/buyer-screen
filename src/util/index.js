@@ -86,3 +86,13 @@ export const formatTime = (timestamp, type) => {
         return Y + M + D
     }
 }
+
+
+export const screenSize = () => {
+    let windowWidth = window.innerWidth
+    let handle = true
+    if(windowWidth == 1920){
+        handle = false
+    }
+    return handle
+}

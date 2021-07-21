@@ -4,26 +4,50 @@
         :style="{ transition: `all .5s ease-in-out ${showAdvVideo ? '.3s' : '0s'}` }"
         :class="{ show: showAdvVideo }"
     >
-        <video id="video" :autoplay="showAdvVideo" :src="videoUrl"></video>
+        <video id="video" :autoplay="showAdvVideo" :loop="isLoop" :src="videoUrl"></video>
     </div>
 </template>
 
 <script>
-import { reactive, toRefs, onMounted, computed, watch } from 'vue'
+import { reactive, toRefs, onMounted, computed, watch, nextTick } from 'vue'
 import { useStore } from 'vuex'
 export default {
     setup(props) {
         const store = useStore()
 
+        //抢购状态
+        const gameState = computed(() => {
+            return store.state.gameState
+        })
+
         //是否显示视频
         const showAdvVideo = computed(() => {
             return store.state.showAdvVideo
         })
+        
+        //显示明日宝贝
+        const showTomorrowGoods = computed(() => {
+            return store.state.showTomorrowGoods
+        })
 
         //播放视频
         const videoPlay = () => {
-            console.log(state.resData.goods.video)
-            state.videoUrl = state.resData.goods.video[state.currentVideoIndex].url
+            // state.videoUrl = state.resData.goods.video[state.currentVideoIndex].url
+            state.videoUrl = 'https://static.xfengjing.com/video/2021/07/18/b90a8065-143f-4ed8-837b-28b35aa2462f.mp4'
+            var elevideo = document.getElementById("video");
+
+            nextTick(() => {
+                elevideo.play()
+            })
+
+            if(state.showTomorrowGoods || state.gameState == 0){
+                state.isLoop = true
+                return
+            }
+            // state.isLoop = false
+            setTimeout(() => {
+                store.state.showAdvVideo = false
+            }, 15 * 1000);
         } 
 
          //猜价通知
@@ -34,13 +58,12 @@ export default {
 
                 let num = state.resData.preheatTime
                 videoPlay()
-                if(state.videoUrl) elevideo.play()
-                elevideo.addEventListener('ended', () => { //结束.
-                    let videoTotal = state.resData.goods.video.length
-                    console.log('视频播放结束')
-                    state.currentVideoIndex = state.currentVideoIndex + 1 >= videoTotal ? 0 : state.currentVideoIndex + 1
-                    videoPlay()
-                }, false);
+                // elevideo.addEventListener('ended', () => { //结束.
+                //     let videoTotal = state.resData.goods.video.length
+                //     console.log('视频播放结束')
+                //     state.currentVideoIndex = state.currentVideoIndex + 1 >= videoTotal ? 0 : state.currentVideoIndex + 1
+                //     videoPlay()
+                // }, false);
             }else{
                 elevideo.pause()
             }
@@ -48,8 +71,11 @@ export default {
 
 
         const state = reactive({
+            gameState,
             showAdvVideo,
+            showTomorrowGoods,
             videoUrl: '',
+            isLoop: true,
             currentVideoIndex: 0,
             resData: {},
         })
