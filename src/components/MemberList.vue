@@ -12,7 +12,7 @@
                         v-for="(item, index) in rankList"
                         :key="index"
                         :style="{ animation: 
-                            hideRank ? `listAnmiHide_${index} 1s ease-in-out ${index * 0.2}s both` : `listAnmi_${index} 1s ease-in-out ${index * 0.2}s both`
+                            hideRank ? `listAnmiHide_${index} 1s ease-in ${index * 0.2}s both` : `listAnmi_${index} 1s ease-in ${index * 0.2}s both`
                         }"
                     >
                         <div class="index">{{ item.index + 1 }}</div>

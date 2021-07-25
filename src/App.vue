@@ -220,7 +220,7 @@ export default {
 				
 
 				&1{
-					animation: cardHide 1s ease-in-out;
+					animation: cardHide 1s ease-in;
 				}
 				&2{
 					animation: cardShow 1s ease-out;

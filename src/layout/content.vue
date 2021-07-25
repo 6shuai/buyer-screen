@@ -3,7 +3,7 @@
     <div 
         class="current_goods_content"
         :class="{ hide: showAdvVideo || (showCountDown && !gameState) || (gameState && gameState!=1 && gameState != 2)}"
-        :style="{ transition: `all .5s ease-in-out ${showAdvVideo || (showCountDown && !gameState) ? '0s' : '.3s'}` }"
+        :style="{ transition: `all .5s ease-in ${showAdvVideo || (showCountDown && !gameState) ? '0s' : '.3s'}` }"
     >
         <!-- 未开始 -->
         <div 
@@ -37,7 +37,7 @@
     <div 
         class="current_goods_content"
         :class="{ hide: showAdvVideo || (gameState!=3) }"
-        :style="{ transition: `all .5s ease-in-out ${showAdvVideo || gameState!= 3 ? '0s' : '.3s'}` }"
+        :style="{ transition: `all .5s ease-in ${showAdvVideo || gameState!= 3 ? '0s' : '.3s'}` }"
     >
         <div 
             class="content_box buy_in clear"
@@ -51,7 +51,7 @@
     <div 
         class="current_goods_content"
         :class="{ hide: showAdvVideo || gameState != 4 || showRankList || showTomorrowGoods }"
-        :style="{ transition: `all .5s ease-in-out ${showAdvVideo || gameState != 4 ? '0s' : '.3s'}` }"
+        :style="{ transition: `all .5s ease-in ${showAdvVideo || gameState != 4 ? '0s' : '.3s'}` }"
     >
         <!-- 抢购结束 -->
         <buy-end :data="currentGoods" v-if="gameState == 4"></buy-end>
@@ -62,7 +62,7 @@
     <div 
         class="current_goods_content"
         :class="{ hide: showAdvVideo || !showRankList || showTomorrowGoods }"
-        :style="{ transition: `all .5s ease-in-out ${showAdvVideo || gameState != 4 ? '0s' : '.3s'}` }"
+        :style="{ transition: `all .5s ease-in ${showAdvVideo || gameState != 4 ? '0s' : '.3s'}` }"
     >
 
         <rank :data="currentGoods" v-if="gameState == 4 && !showTomorrowGoods"></rank>
@@ -169,7 +169,7 @@ export default {
         top: 50%;
         margin-top: -352px;
         z-index: 99;
-        transition: all .5s ease-in-out;
+        transition: all .5s ease-in;
 
         &.hide{
             transform: translate(-120%);

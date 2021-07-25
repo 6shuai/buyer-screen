@@ -1,6 +1,10 @@
 <template>
     <div class="arraw_wrap">
-        <img src="../images/arraw_02.png" class="arraw_hight" />
+        <div class="arraw_hight">
+            <img src="../images/arraw_02.png" class="arraw_item arraw_hight_1" />
+            <img src="../images/arraw_02.png" class="arraw_item arraw_hight_2" />
+            <img src="../images/arraw_02.png" class="arraw_item arraw_hight_3" />
+        </div>
         <!-- 即将开始  倒计时 -->
         <div 
             class="about_begin" 
@@ -30,7 +34,7 @@
 </template>
 
 <script>
-import { reactive, toRefs, computed, watch } from 'vue'
+import { reactive, toRefs, computed, watch, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { translatesToHoursMinutesSeconds } from '../util/index'
 export default {
@@ -50,6 +54,38 @@ export default {
         const showTomorrowGoods = computed(() => {
             return store.state.showTomorrowGoods
         })
+
+        onMounted(() => {
+            arrawAnim()
+        })
+
+        //箭头动画
+        const arrawAnim = () => {
+            let arraw1 = document.getElementsByClassName('arraw_hight_1')[0]
+            let arraw2 = document.getElementsByClassName('arraw_hight_2')[0]
+            let arraw3 = document.getElementsByClassName('arraw_hight_3')[0]
+            let arraw = document.getElementsByClassName('arraw_hight')[0]
+            arraw.style.display = 'block'
+            setTimeout(() => {
+                console.log(arraw1.style)
+                arraw1.style.transform = 'translate(120px)'
+                setTimeout(() => {
+                    arraw2.style.transform = 'translate(170px)'
+                    setTimeout(() => {
+                        arraw3.style.transform =' translate(220px)'
+
+                        setTimeout(() => {
+                            arraw.style.transform =' translate(60%)'
+                            setTimeout(() => {
+                                arraw.style.display = 'none'
+                                arrawAnim()
+                            }, 1000);
+                        }, 500);
+
+                    }, 500);
+                }, 500);
+            }, 1000);
+        }
 
 
         //开始倒计时
@@ -106,19 +142,61 @@ export default {
         margin: 0 23px 30px 23px;
         background: url('../images/arraw.png') center no-repeat;
         background-size: 100% 100%;
-
+        
         .arraw_hight{
+            height: 179px;
+            transition: all 1s ease-in;
+            // animation: arrawHightAnim 1.5s ease-in 1.5s infinite;
+
+            // @keyframes arrawHightAnim {
+            //     0% {transform: translate(-100vw)}
+            //     100% {transform: translate(0)}
+            // }
+        }
+
+        .arraw_item{
             width: 254px;
             height: 179px;
             position: absolute;
-            animation: arrawHightAnim 1.5s ease-in-out infinite;
+            left: -254px;
+            transition: all .3s ease-in;
+        }
 
-            @keyframes arrawHightAnim {
-                0% { opacity: 0; }
-                69% { opacity: 0.1; }
-                70% {opacity: 1; transform: translate(0)}
-                100% {transform: translate(480%)}
-            }
+        .arraw_hight_1{
+            width: 254px;
+            height: 179px;
+            position: absolute;
+            left: -254px;
+            animation: arrawHightAnim1 3s ease-in 2s;
+
+            // @keyframes arrawHightAnim1 {
+            //     0% {transform: translate(-100vw)}
+            //     100% {transform: translate(0)}
+            // }
+        }
+        .arraw_hight_2{
+            width: 254px;
+            height: 179px;
+            position: absolute;
+            left: -254px;
+            animation: arrawHightAnim2 3s ease-in 1.5s;
+
+            // @keyframes arrawHightAnim2 {
+            //     0% {transform: translate(-100vw)}
+            //     100% {transform: translate(95px)}
+            // }
+        }
+        .arraw_hight_3{
+            width: 254px;
+            height: 179px;
+            position: absolute;
+            left: -254px;
+            // animation: arrawHightAnim3 3s ease-in 1s;
+
+            // @keyframes arrawHightAnim3 {
+            //     0% {transform: translate(-100vw)}
+            //     100% {transform: translate(190px)}
+            // }
         }
 
         .about_begin{

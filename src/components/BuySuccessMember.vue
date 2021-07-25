@@ -97,7 +97,7 @@ export default {
             setTimeout(() => {
                 // state.danmakulist.splice(0, 1)
                 state.hideCount += 1
-            }, 10 * 1000);
+            }, 6 * 1000);
         }
 
         //监听抢购成功 通知
@@ -140,7 +140,7 @@ export default {
             left: 0;
             background: url('../images/member_card.png') no-repeat center;
             background-size: 100% 100%;
-            animation: right2left 6s ease-in-out both;
+            animation: right2left 6s ease-in both;
             
             .content{
                 padding: 55px 84px 58px 55px;

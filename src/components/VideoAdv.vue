@@ -1,7 +1,7 @@
 <template>
     <div 
         class="video_adv_wrap"
-        :style="{ transition: `all .5s ease-in-out ${showAdvVideo ? '.3s' : '0s'}` }"
+        :style="{ transition: `all .5s ease-in ${showAdvVideo ? '.3s' : '0s'}` }"
         :class="{ show: showAdvVideo }"
     >
         <video id="video" :autoplay="showAdvVideo" :loop="isLoop" :src="videoUrl"></video>

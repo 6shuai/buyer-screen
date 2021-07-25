@@ -261,13 +261,13 @@ export default {
             &.current_goods_card_anim_hide{
                 display: block;
                 height: 643px;
-                animation: currentGoodsCardAnimHide .5s ease-in-out both;
+                animation: currentGoodsCardAnimHide .5s ease-in both;
             }
 
             &.current_goods_card_anim_show{
                 display: block;
                 height: 643px;
-                animation: currentGoodsCardAnimShow .5s ease-in-out both;
+                animation: currentGoodsCardAnimShow .5s ease-in both;
             }
         }
 
@@ -377,7 +377,7 @@ export default {
     }
     .goods_list{
         height: 100%;
-        transition: all .3s ease-in-out;
+        transition: all .3s ease-in;
 
         .goods_item{
             margin: 15px 0;
@@ -388,10 +388,10 @@ export default {
             background-size: 100% 100%;
             border-radius: 10px;
             overflow: hidden;
-            transition: all .3s ease-in-out;
+            transition: all .3s ease-in;
             
             &.mini{
-                animation: goodsItemAnim 1s ease-in-out both;
+                animation: goodsItemAnim 1s ease-in both;
             }
 
             &:last-child{
@@ -432,7 +432,7 @@ export default {
             .goods_bottom{
                 text-align: center;
                 font-weight: bold;
-                transition: all .3s ease-in-out;
+                transition: all .3s ease-in;
 
                 .price{
                     font-size: 35px;

@@ -203,17 +203,17 @@ export default function () {
     const test = () => {
 
         //预览
-        setTimeout(() => {
-            let data = {
-                id: socketId.Preview,
-                auctionId: 20
-            }
-            websocketSendData(data);
-        }, 50000);
+        // setTimeout(() => {
+        //     let data = {
+        //         id: socketId.Preview,
+        //         auctionId: 20
+        //     }
+        //     websocketSendData(data);
+        // }, 50000);
 
 
 
-        return
+        // return
 
 
         setTimeout(() => {

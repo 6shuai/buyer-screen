@@ -16,7 +16,7 @@
         </div>
     </div>
     <div class="real_price_warp">
-        <div class="data">极限秒杀价: <span class="price_int">{{ priceFormat(buyKing.price).int }}</span><span class="price_decimals">{{ priceFormat(buyKing.price).int }}</span></div>
+        <div class="data">极限秒杀价: <span class="price_int">{{ priceFormat(buyKing.price).int }}</span><span class="price_decimals">{{ priceFormat(buyKing.price).decimals }}</span></div>
     </div>
 </div>
 
