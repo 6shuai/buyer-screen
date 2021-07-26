@@ -11,7 +11,10 @@
                 class="current_goods_wrap"
             >
                 <div class="title_card">{{ gameState == 4 ? '抢购结束' : '当前宝贝' }}</div>
-                <div class="goods_detail buy_end" v-if="currentGoods">
+                <div 
+                    class="goods_detail buy_end" 
+                    :class="gameState == 3 ? 'real_time' : ''"
+                    v-if="currentGoods">
                     <div class="goods_detail_top">
                         <img :src="currentGoods.goodsCover" class="goods_img">
                         <p class="goods_name">{{ currentGoods.goodsName }}</p>
@@ -26,7 +29,7 @@
 
                     <!-- 抢购中 实时价格 -->
                     <div class="goods_detail_bottom real_time_price" v-if="gameState == 3">
-                        <p class="price_down_text">实时价格</p>
+                        <p class="real_time_text">实时价格</p>
                         <p class="price" v-if="realTimePrice">￥{{ priceFormat(realTimePrice).int }}{{ priceFormat(realTimePrice).decimals }}</p>
                     </div>
 
@@ -77,9 +80,11 @@
             v-if="showTomorrowGoods && tomorrowData.length && !showHistryGoods"
         >
             <div class="title_card">明日宝贝</div>
-            <div class="goods_item" 
+            <div 
+                class="goods_item" 
                 v-for="(item, index) in tomorrowData" 
                 :key="index"
+                :style="{ animation: `tomorrow_item_anim_${index} .5s ease-in ${index * 0.3}s both` }"
             >
                 <div class="goods_info">
                     <img :src="item.goodsCover" class="goods_img">
@@ -104,9 +109,11 @@
             v-if="showHistryGoods"
         >
             <div class="title_card">竞拍历史</div>
-            <div class="goods_item" 
+            <div 
+                class="goods_item" 
                 v-for="(item, index) in historyGoodsData" 
                 :key="index"
+                :style="{ animation: `tomorrow_item_anim_${index} .5s ease-in ${index * 0.3}s both` }"
             >
                 <div class="goods_info">
                     <img :src="item.goodsCover" class="goods_img">
@@ -342,6 +349,10 @@ export default {
                         color: #fff;
                         line-height: 110px;
                     }
+
+                    .real_time_price .price{
+                        padding-top: 15px;
+                    }
                 }
 
                 //抢购结束
@@ -525,6 +536,40 @@ export default {
             .goods_item{
                 background: url('../images/goods_card_02.png') no-repeat center;
                 background-size: 100% 100%;
+            }
+
+
+            @keyframes tomorrow_item_anim_0 {
+                0% {
+                    transform: translate(100vw);
+                }
+                100% {
+                    transform: translate(0);
+                }
+            }
+            @keyframes tomorrow_item_anim_1 {
+                0% {
+                    transform: translate(100vw);
+                }
+                100% {
+                    transform: translate(0);
+                }
+            }
+            @keyframes tomorrow_item_anim_2 {
+                0% {
+                    transform: translate(100vw);
+                }
+                100% {
+                    transform: translate(0);
+                }
+            }
+            @keyframes tomorrow_item_anim_3 {
+                0% {
+                    transform: translate(100vw);
+                }
+                100% {
+                    transform: translate(0);
+                }
             }
         }
 

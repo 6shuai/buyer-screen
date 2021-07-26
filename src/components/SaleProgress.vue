@@ -32,7 +32,7 @@ export default {
         })
 
         onMounted(() => {
-            //比真实价格  进度条快 10%
+            //进度条比真实价格  进度条快 10%
             state.progressWidth = marketValue / priceDeclineRate * 60 * 0.9
         })
 

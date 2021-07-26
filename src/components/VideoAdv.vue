@@ -5,16 +5,20 @@
         :class="{ show: showAdvVideo }"
     >
         <video id="video" :autoplay="showAdvVideo" :loop="isLoop" :src="videoUrl"></video>
+        <div class="count_down_wrap" v-if="!showTomorrowGoods">
+            广告时间 {{ countDownTime }}
+        </div>
     </div>
 </template>
 
 <script>
 import { reactive, toRefs, onMounted, computed, watch, nextTick } from 'vue'
+import { translatesToHoursMinutesSeconds } from '../util/index'
 import { useStore } from 'vuex'
 export default {
     setup(props) {
         const store = useStore()
-
+        
         //抢购状态
         const gameState = computed(() => {
             return store.state.gameState
@@ -38,6 +42,7 @@ export default {
 
             nextTick(() => {
                 elevideo.play()
+                countDownFun(state.gameState == 0 ? 30 : 15)
             })
 
             if(state.showTomorrowGoods || state.gameState == 0){
@@ -50,6 +55,19 @@ export default {
             }, 15 * 1000);
         } 
 
+        //广告倒计时
+        const countDownFun = (num) => {
+            num -= 1
+            state.countDownTime = translatesToHoursMinutesSeconds(num)
+            if(num <= 0){
+                clearTimeout(state.timer)
+                return
+            }
+            state.timer = setTimeout(() => {
+                countDownFun(num)
+            }, 1000);
+        }
+
          //猜价通知
          watch(showAdvVideo, (newData, oldData) => {
             var elevideo = document.getElementById("video");
@@ -58,12 +76,12 @@ export default {
 
                 let num = state.resData.preheatTime
                 videoPlay()
-                // elevideo.addEventListener('ended', () => { //结束.
-                //     let videoTotal = state.resData.goods.video.length
-                //     console.log('视频播放结束')
-                //     state.currentVideoIndex = state.currentVideoIndex + 1 >= videoTotal ? 0 : state.currentVideoIndex + 1
-                //     videoPlay()
-                // }, false);
+                elevideo.addEventListener('ended', () => { //结束.
+                    // let videoTotal = state.resData.goods.video.length
+                    // console.log('视频播放结束')
+                    // state.currentVideoIndex = state.currentVideoIndex + 1 >= videoTotal ? 0 : state.currentVideoIndex + 1
+                    // videoPlay()
+                }, false);
             }else{
                 elevideo.pause()
             }
@@ -78,6 +96,8 @@ export default {
             isLoop: true,
             currentVideoIndex: 0,
             resData: {},
+            countDownTime: '00:00',
+            timer: undefined
         })
 
         return toRefs(state)
@@ -111,6 +131,20 @@ export default {
             height: 648px;
             object-fit: fill;
             margin-top: -34px;
+        }
+
+        .count_down_wrap{
+            width: 296px;
+            height: 57px;
+            background: url('../images/count_down_bg.png') center no-repeat;
+            background-size: 100% 100%;
+            line-height: 57px;
+            color: #fff;
+            font-size: 30px;
+            text-align: center;
+            position: absolute;
+            bottom: 70px;
+            right: 30px;
         }
     }
 </style>

@@ -255,7 +255,7 @@ export default {
                     right: -32px;
 
                     .data{
-                        padding-left: 86px;
+                        text-align: center;
                         font-size: 50px;
                         font-weight: bold;
                         color: #fff;
@@ -336,7 +336,7 @@ export default {
                     right: -32px;
 
                     .data{
-                        padding-left: 86px;
+                        text-align: center;
                         font-size: 50px;
                         font-weight: bold;
                         color: #fff;

@@ -1,7 +1,13 @@
 <template>
     <div class="buy_count_down_wrap">
         <div class="count_down_num">
-            <img :src="`/src/images/count_down_${countdownNum}.png`">
+            <img 
+                v-for="(item , index) in 9"
+                :key="index"
+                v-show="countdownNum == index+1"
+                :class="{ active: countdownNum == index+1 }"
+                :src="`./count_down/count_down_${index+1}.png`"
+            >
         </div>
         <div class="text">抢购马上开始!</div>
     </div>
@@ -54,16 +60,32 @@ export default {
 
         .count_down_num{
             font-size: 340px;
-            color: #fe0000;
 
             img{
                 height: 390px;
+                &.active{
+                    animation: twinkling .5s ease-in-out;
+                }
             }
+
         }
 
         .text{
             font-size: 100px;
             color: #ffcc01;
+        }
+
+        
+        @keyframes twinkling {
+            0% {
+                opacity: 0.5;
+                transform: scale(2.6);
+            }
+ 
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
     }
 </style>

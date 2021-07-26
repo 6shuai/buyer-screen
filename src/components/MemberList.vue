@@ -55,7 +55,6 @@ export default {
             }
             
             showRankData()
-            console.log(state.resData)
         })
 
         //抢购排行榜
@@ -65,7 +64,7 @@ export default {
             state.hideRank = false
             setTimeout(() => {
                 state.hideRank = true
-            }, 6000);
+            }, 5300);
             state.timer = setTimeout(() => {
                 if(state.pageIndex + 1 > state.totalPage - 1){
                     state.pageIndex = 0

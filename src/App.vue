@@ -2,6 +2,7 @@
 	<div 
 		class="main"
 		:class="showHistryGoods ? 'miniview' : ''"
+		@click="handleAudioPlay"
 	>
 		
 		<div class="left_goods_list">
@@ -29,7 +30,7 @@
 		<warning v-if="showWarning && !closeWarning"></warning>
 
 		<!-- 背景音乐 -->
-		<audio :src="bgmUrl" autoplay :loop="isLoop"></audio>
+		<audio :src="bgmUrl" autoplay :loop="isLoop" ref="audioRef"></audio>
 
 		<!-- 音效 -->
 		<audio :src="audioUrl" autoplay></audio>
@@ -38,7 +39,7 @@
 </template>
 
 <script>
-import { reactive, toRefs, computed, onMounted, nextTick, watch } from 'vue'
+import { reactive, toRefs, computed, onMounted, nextTick, watch, ref } from 'vue'
 import { useStore } from 'vuex'
 import LeftGoodsList from './layout/left.vue'
 import GoodsContent from './layout/content.vue'
@@ -50,6 +51,7 @@ import mixin from './mixins/socket'
 
 export default {
 	setup(props) {
+		const audioRef = ref(null)
 		const store = useStore()
 		const { initWebsocket } = mixin()
 
@@ -94,34 +96,43 @@ export default {
             return store.state.showHistryGoods
         })
 
+		const showAdvVideo = computed(() => {
+			return store.state.showAdvVideo 
+		})
+
 
 		//每个状态 搁二十秒播放一次视频
 		const videoPlay = (duration) => {
 			clearTimeout(state.playTimer)
 			// if(duration / 35 >= 1){
+			if(duration > 35){
 				state.playTimer = setTimeout(() => {
 					store.state.showAdvVideo = true
 				}, 20  * 1000);
-			// }
+			}
 		}
 		
 
 		onMounted(() => {
 			initWebsocket.value()
+			state.isLoop = true
+			state.bgmUrl = './sounds/before.mp3'
 		})
 
 		watch(gameState, (newState, oldState) => {
-			let { guessTime, countdown } = store.state.goodsDataDetail
+			let { guessTime, countdown, preheatTime } = store.state.goodsDataDetail
 			state.isLoop = false
 			store.state.showAdvVideo = false
 			switch (newState) {
                 case 0:
-					store.state.showAdvVideo = true
 					store.state.showCountDown = false
-                    state.bgmUrl = ''
+                    state.bgmUrl = './sounds/before.mp3'
+					videoPlay(preheatTime)
                     break;
                 case 1:
 					store.state.showCountDown = false
+					state.isLoop = true
+					state.bgmUrl = './sounds/guess.mp3'
 					videoPlay(guessTime + countdown)
                     break; 
                 case 2:
@@ -130,19 +141,49 @@ export default {
                 case 3: 
 					state.isLoop = true
 					state.bgmUrl = './sounds/buy_ing.mp3'
-					videoPlay()
+					videoPlay(40)
                     break;
 				case 4: 
 					state.bgmUrl = './sounds/buy_end.mp3'
+					videoPlay(40)
                     break;
                 default:
                     break;
             }
 		})
 
+
+		//减小音量
+		const subtractVolume = () => {
+			if(state.audioRef.volume <= 0.1){
+				state.audioRef.pause()
+				return
+			}
+			state.audioRef.volume -= 0.1
+			setTimeout(() => {
+				subtractVolume()
+			}, 100);
+		}
+
+		//点击屏幕  播放音效
+		const handleAudioPlay = () => {
+			state.audioRef.play()
+		}
+
+
 		watch(showWarning, (newState, oldState) => {
 			if(newState){
 				state.audioUrl = './sounds/warning.mp3'
+			}
+		})
+
+		watch(showAdvVideo, (newState, oldState) => {
+			if(newState){
+				// state.audioRef.pause()
+				subtractVolume()
+			}else{
+				state.audioRef.volume = 1
+				state.audioRef.play()
 			}
 		})
 
@@ -156,7 +197,9 @@ export default {
 			audioUrl: '',
 			playTimer: undefined,
 			countDown,
-			showHistryGoods
+			showHistryGoods,
+			audioRef,
+			handleAudioPlay
 		})
 
 		return toRefs(state)

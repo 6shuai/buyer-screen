@@ -5,7 +5,10 @@
         </div>
 
         <div class="guess_count_down">
-            <div class="state_info" v-if="gameState == 1 || gameState == 2">
+            <div 
+                class="state_info" 
+                :class="gameState == 1 || gameState == 2 ? 'show_guess' : 'hide_guess'"
+            >
                 <p class="text">竞猜进行中</p>
                 <p class="count_down">{{ countDownNum }}</p>
             </div>
@@ -97,6 +100,15 @@ export default {
             background-size: 100% 100%;
             text-align: center;
             margin-top: 40px;
+            transition: all .5s ease-in;
+
+            &.show_guess{
+                transform: translate(0);
+            }
+
+            &.hide_guess{
+                transform: translate(100vw);
+            }
 
             .text{
                 font-size: 50px;

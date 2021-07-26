@@ -203,18 +203,14 @@ export default function () {
     const test = () => {
 
         //预览
-        // setTimeout(() => {
-        //     let data = {
-        //         id: socketId.Preview,
-        //         auctionId: 20
-        //     }
-        //     websocketSendData(data);
-        // }, 50000);
-
-
-
-        // return
-
+        setTimeout(() => {
+            let data = {
+                id: socketId.Preview,
+                auctionId: 20
+            }
+            websocketSendData(data);
+        }, 50000);
+        return
 
         setTimeout(() => {
             store.commit('SET_GOODS_LIST', [{
