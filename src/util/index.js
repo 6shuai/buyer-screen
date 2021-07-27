@@ -16,26 +16,26 @@ export const priceFormat = (x, hide) => {
     }
     //每三位用一个逗号隔开
     var leftNum = s.split(".")[0];
-    var rightNum = "."+s.split(".")[1];
+    var rightNum = "." + s.split(".")[1];
     var result;
     //定义数组记录截取后的价格
     var resultArray = new Array();
-    if(leftNum.length > 3){
+    if (leftNum.length > 3) {
         var i = true;
-        while (i){
+        while (i) {
             resultArray.push(leftNum.slice(-3));
             leftNum = leftNum.slice(0, leftNum.length - 3);
-            if(leftNum.length < 4){
+            if (leftNum.length < 4) {
                 i = false;
             }
         }
         //由于从后向前截取，所以从最后一个开始遍历并存到一个新的数组，顺序调换
         var sortArray = new Array();
-        for(var i = resultArray.length-1; i >= 0; i--){
+        for (var i = resultArray.length - 1; i >= 0; i--) {
             sortArray.push(resultArray[i]);
         }
         result = leftNum + "," + sortArray.join(",") + rightNum;
-    }else {
+    } else {
         result = s;
     }
     return {
@@ -46,12 +46,12 @@ export const priceFormat = (x, hide) => {
 }
 
 //隐藏猜价 价格
-function hidePrice(str){
-    if(str.length > 1){
+function hidePrice(str) {
+    if (str.length > 1) {
         let wen = '?'
         let str1 = str.substr(0, parseInt(str.length / 2))
         return str1 + wen.repeat(str.length - parseInt(str.length / 2))
-    }else{
+    } else {
         return str
     }
 }
@@ -61,7 +61,7 @@ export const translatesToHoursMinutesSeconds = (duration) => {
     let s = duration % 60,
         m = ((duration - s) / 60) % 60,
         h = ((duration - s) / 60 - m) / 60
-    let time =  h ? `${addPreZero(h)}:${addPreZero(m)}:${addPreZero(s)}` : `${addPreZero(m)}:${addPreZero(s)}`;
+    let time = h ? `${addPreZero(h)}:${addPreZero(m)}:${addPreZero(s)}` : `${addPreZero(m)}:${addPreZero(s)}`;
     return time;
 }
 
@@ -72,8 +72,8 @@ function addPreZero(number) {
 
 //时间戳 转成  时间格式
 export const formatTime = (timestamp, type) => {
-    if(!timestamp) return
-    var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+    if (!timestamp) return
+    var date = new Date(timestamp); //时间戳为10位需*1000，时间戳为13位的话不需乘1000
     var Y = date.getFullYear() + '-';
     var M = addPreZero(date.getMonth() + 1) + '-';
     var D = addPreZero(date.getDate()) + ' ';
@@ -91,7 +91,7 @@ export const formatTime = (timestamp, type) => {
 export const screenSize = () => {
     let windowWidth = window.innerWidth
     let handle = true
-    if(windowWidth == 1920){
+    if (windowWidth == 1920) {
         handle = false
     }
     return handle

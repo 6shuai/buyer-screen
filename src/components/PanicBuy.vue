@@ -37,14 +37,14 @@ export default {
         //priceDeclineRate          每分钟下降金额
         //priceDecline              每次下降多少钱
         //priceDeclineFrequency     多少时间下降一次
-        let { marketValue, priceDeclineRate, priceDecline, priceDeclineFrequency } = store.state.goodsDataDetail
+        let { currentPrice, priceDeclineRate, priceDecline, priceDeclineFrequency } = store.state.goodsDataDetail
         // let currentPrice = 5000
         // let priceDeclineRate = 1000
         // let priceDecline = 666
         // let priceDeclineFrequency = 2   
         onMounted(() => {
-            state.marketValue = marketValue
-            setRealTimePrice(marketValue, priceDeclineFrequency)
+            state.marketValue = currentPrice
+            setRealTimePrice(currentPrice, priceDeclineFrequency)
         })
 
         //实时价格
@@ -72,7 +72,7 @@ export default {
             gameState,
             priceFormat,
             timer: undefined,
-            realTimePrice: priceFormat(marketValue)
+            realTimePrice: priceFormat(currentPrice)
 
         })
 

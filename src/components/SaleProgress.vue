@@ -19,12 +19,12 @@ import { useStore } from 'vuex'
 export default {
     setup(props) {
         const store = useStore()
-
-        //currentPrice              抢购价格
+        //marketValue               原价
+        //currentPrice              当前抢购价格
         //priceDeclineRate          每分钟下降金额
         //priceDecline              每次下降多少钱
         //priceDeclineFrequency     多少时间下降一次
-        let { marketValue, priceDeclineRate, priceDecline, priceDeclineFrequency } = store.state.goodsDataDetail
+        let { marketValue, currentPrice, priceDeclineRate, priceDecline, priceDeclineFrequency } = store.state.goodsDataDetail
 
         //实时价格
         const realTimePrice = computed(() => {
@@ -34,7 +34,32 @@ export default {
         onMounted(() => {
             //进度条比真实价格  进度条快 10%
             state.progressWidth = marketValue / priceDeclineRate * 60 * 0.9
+
+            const kfs = findKeyframesRule("progressAnim")
+
+            kfs.deleteRule(6)
+
+            kfs.insertRule(`@keyframes progressAnim {
+                    0%{ width: ${(currentPrice / marketValue) * 100}% }
+                    100%{ width: 0%}
+                }`
+            )
         })
+
+
+        const findKeyframesRule = (rule) => {
+            //此处过滤非同源的styleSheet，因为非同源的无法访问cssRules，会报错
+            var ss = Array.from(document.styleSheets).filter((styleSheet) => !styleSheet.href || styleSheet.href.startsWith(window.location.origin))
+            for (var i = 0; i < ss.length; ++i) {
+                for (var j = 0; j < ss[i].cssRules.length; ++j) {
+                if (ss[i].cssRules[j].type === window.CSSRule.KEYFRAMES_RULE && ss[i].cssRules[j].name === rule) {
+                    return ss[i]
+                }
+                }
+            }
+            return null
+        }
+        
 
 
         const state = reactive({
@@ -94,6 +119,5 @@ export default {
             0%{ width: 100% }
             100%{ width: 0%}
         }
-
     }
 </style>

@@ -108,14 +108,20 @@ export default {
 			if(duration > 35){
 				state.playTimer = setTimeout(() => {
 					store.state.showAdvVideo = true
+					// setTimeout(() => {
+					// 	videoPlay(duration - 35)
+					// }, 15000);
 				}, 20  * 1000);
 			}
 		}
 		
 
 		onMounted(() => {
+			//socket 初始化 连接
 			initWebsocket.value()
 			state.isLoop = true
+
+			//开始之前 背景音乐
 			state.bgmUrl = './sounds/before.mp3'
 		})
 
@@ -125,27 +131,32 @@ export default {
 			store.state.showAdvVideo = false
 			switch (newState) {
                 case 0:
+					//预热阶段
 					store.state.showCountDown = false
                     state.bgmUrl = './sounds/before.mp3'
 					videoPlay(preheatTime)
                     break;
                 case 1:
+					// 竞猜阶段
 					store.state.showCountDown = false
 					state.isLoop = true
 					state.bgmUrl = './sounds/guess.mp3'
 					videoPlay(guessTime + countdown)
                     break; 
                 case 2:
+					// 倒计时
 
                     break;
                 case 3: 
+					//抢购中
 					state.isLoop = true
 					state.bgmUrl = './sounds/buy_ing.mp3'
 					videoPlay(40)
                     break;
 				case 4: 
+					//抢购结束
 					state.bgmUrl = './sounds/buy_end.mp3'
-					videoPlay(40)
+					videoPlay(60)
                     break;
                 default:
                     break;
@@ -227,6 +238,7 @@ export default {
 			background-size: 100% 100%;
 			overflow: hidden;
 		}
+
 
 		.left_goods_list, .right_info{
 			width: 17.8%;

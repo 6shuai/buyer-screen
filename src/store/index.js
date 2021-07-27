@@ -110,6 +110,7 @@ const mutations = {
 	//设置抢购详情
 	SET_GOODS_DETAIL(state, data){
 		state.goodsDataDetail = data
+		state.gameState = data.gameStateId
 	},
 
 	//设置抢购状态
