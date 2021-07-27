@@ -41,6 +41,7 @@ export default {
             var elevideo = document.getElementById("video");
 
             nextTick(() => {
+                elevideo.currentTime = 0
                 elevideo.play()
                 countDownFun(state.gameState == 0 ? 30 : 15)
             })
