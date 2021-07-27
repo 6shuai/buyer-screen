@@ -16,7 +16,14 @@
                     :class="gameState == 3 ? 'real_time' : ''"
                     v-if="currentGoods">
                     <div class="goods_detail_top">
-                        <img :src="currentGoods.goodsCover" class="goods_img">
+                        <div class="goods_img">
+                            <img :src="currentGoods.goodsCover">
+                            <img 
+                                v-show="gameState == 4 && showAdvVideo"
+                                src="../images/sell_out.png" 
+                                class="sell_out_img"
+                            >
+                        </div>
                         <p class="goods_name">{{ currentGoods.goodsName }}</p>
                         <p class="goods_desc">{{ currentGoods.goodsDescription }}</p>
                     </div>
@@ -304,6 +311,20 @@ export default {
                         width: 228px;
                         height: 228px;
                         margin: 20px 0 15px 0;
+                        position: relative;
+
+                        img{
+                            width: 100%;
+                            height: 100%;
+                        }
+
+                        .sell_out_img{
+                            width: 80px;
+                            height: 80px;
+                            position: absolute;
+                            right: -20px;
+                            bottom: 20px;
+                        }
                     }
 
                     .goods_name{
