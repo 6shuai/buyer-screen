@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { reactive, toRefs, onMounted, computed, watch, nextTick } from 'vue'
+import { reactive, toRefs, onMounted, computed, watch, nextTick, onUnmounted } from 'vue'
 import { useStore } from 'vuex'
 import { priceFormat } from '../util/index'
 export default {
@@ -92,7 +92,7 @@ export default {
             })
         }
 
-        //10秒后删除弹幕
+        //6秒后删除弹幕
         const deleteDanmaku = () => {
             setTimeout(() => {
                 // state.danmakulist.splice(0, 1)
@@ -106,6 +106,10 @@ export default {
                 ...newData,
                 price: priceFormat(newData.price)
             })
+        })
+
+        onUnmounted(() => {
+            clearInterval(state.timer)
         })
 
         const state = reactive({
@@ -192,7 +196,7 @@ export default {
 
             @keyframes right2left {
                 0% {transform: translate(100vw)}
-                50% {transform: translate(0)}
+                10% {transform: translate(0)}
                 90% {opacity: 1}
                 100% {opacity: 0}
             }

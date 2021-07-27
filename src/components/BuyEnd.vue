@@ -38,7 +38,7 @@ export default {
         onMounted(() => {
             setTimeout(() => {
                 store.state.showRankList = true
-            }, 10000);
+            }, 15000);
         })
 
         const state = reactive({

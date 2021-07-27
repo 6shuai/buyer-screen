@@ -1,6 +1,6 @@
 <template>
     <div class="danmaku_wrap">
-        <div class="text" v-if="!gameState">
+        <div class="text" v-if="gameState == null">
             对宝贝不感兴趣?没关系,参与宝贝猜价可能赢得现金奖励哦!
         </div>
         <div class="danmaku_list" v-show="showDanmaku">
@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { reactive, toRefs, computed, onMounted, watch } from 'vue'
+import { reactive, toRefs, computed, onMounted, watch, onUnmounted } from 'vue'
 import { useStore } from 'vuex'
 import { priceFormat } from '../util/index'
 export default {
@@ -105,11 +105,12 @@ export default {
 
         //游戏状态
         watch(gameState, (newState, oldState) => {
-            if(newState && !state.showDanmaku){
+            console.log('newState---------------->', newState)
+            if(newState != null && !state.showDanmaku){
                 state.showDanmaku = true
                 danmaku() 
             }
-            if(!newState){
+            if(newState == null){
                 state.showDanmaku = false
             }
         })
@@ -132,6 +133,10 @@ export default {
                     price: priceFormat(item.award, true)
                 })
             })
+        })
+
+        onUnmounted(() => {
+            clearInterval(state.timer)  
         })
 
 

@@ -63,6 +63,7 @@ export default function () {
             // 抢购列表
             case socketId.ScreenAuctionListNotice:
                 // store.commit('SET_GOODS_LIST', data.auctionList)
+
                 store.commit('SET_GOODS_LIST', [{
                     beginTime: 1624944864000,
                     goodsCover: "https://ec.xfengjing.com/picture/2021/06/30/3da039a0-aa74-4c28-a713-753bdd7a3aaf.jpg",
@@ -89,13 +90,14 @@ export default function () {
             // 弹幕显示  抢购成功的用户 
             case socketId.BoughtSuccessfulNotice:
                 store.commit('SET_BUY_SUCCESS_MEMBER', data.info)
+                //显示库存预警
                 if(!store.state.closeWarning) store.commit('SET_SHOW_WRRNING', true)
                 break;
             //已购买的用户列表  抢购结束后 结算页展示
             case socketId.BidResultNotice:         
                 store.commit('SET_GAME_STATE', 4)
-                store.commit('SET_SHOW_WRRNING', false)
                 store.commit('SET_BUY_MEMBER_LIST', data.result)
+                store.state.showWarning = false
                 break;
             //已猜价的用户列表  抢购结束后 结算页展示
             case socketId.GuessResultNotice:   
@@ -107,7 +109,7 @@ export default function () {
                 // store.commit('SET_PREVIEW_ID', data.auctionId)
                 break;
 
-            //库存 预警
+            //库存预警, 显示3秒后消失,然后直到下一个用户抢购成功再次触发
             case socketId.InventoryForewarnNotice:
                 store.commit('SET_SHOW_WRRNING', true)
             default:
@@ -222,7 +224,6 @@ export default function () {
                 priceDeclineRate: 6,
                 totalGuessAward: 0
             }])
-
             // return
 
 

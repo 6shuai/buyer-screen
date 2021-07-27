@@ -43,10 +43,10 @@ export default {
             nextTick(() => {
                 elevideo.currentTime = 0
                 elevideo.play()
-                countDownFun(state.gameState == 0 ? 30 : 15)
+                countDownFun(15)
             })
 
-            if(state.showTomorrowGoods || state.gameState == 0){
+            if(state.showTomorrowGoods){
                 state.isLoop = true
                 return
             }

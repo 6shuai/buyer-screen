@@ -56,13 +56,19 @@ export default {
         font-weight: bold;
         display:flex;
         flex-flow: column;
-        justify-content: space-around;
+        justify-content: flex-end;
 
         .count_down_num{
             font-size: 340px;
+            position: absolute;
+            width: 100%;
+            top: 50%;
+            margin-top: -300px;
+            text-align: center;
 
             img{
                 height: 390px;
+                display: inline-block;
                 &.active{
                     animation: twinkling .5s ease-in-out;
                 }
@@ -73,6 +79,7 @@ export default {
         .text{
             font-size: 100px;
             color: #ffcc01;
+            padding-bottom: 100px;
         }
 
         

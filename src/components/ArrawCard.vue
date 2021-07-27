@@ -95,11 +95,13 @@ export default {
         }
 
 
-        //开始倒计时
+        //计算当前时间距离游戏开始还有多少秒
         const countDownStart = (beginTime) => {
             let now = new Date().getTime() / 1000
             let startTime = new Date(beginTime).getTime() / 1000
             let num = parseInt(startTime - now)
+
+            console.log('距离游戏开始还有---->(', num , ')秒')
         
             countDownFun(50)
 
@@ -108,6 +110,7 @@ export default {
             }, 20 * 1000);
         }
 
+        //游戏开始前 倒计时
         const countDownFun = (num) => {
             num -= 1
             state.countDownTime = translatesToHoursMinutesSeconds(num)
@@ -125,12 +128,14 @@ export default {
             }, 1000);
         }
 
+        //抢购开始时间
         watch(beginTime, (newData, oldData) => {
             if(newData){
                 countDownStart(beginTime.value)
             }
         })
 
+        //组件卸载时
         onUnmounted(() => {
             clearTimeout(state.timer)
             clearTimeout(state.timer1)

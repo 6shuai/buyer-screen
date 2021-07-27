@@ -48,7 +48,7 @@ export default {
                         store.state.showHistryGoods = true
                     }, 1 * 60000);
 
-                }, 1 * 60000);
+                }, 1 * 75000);
             }
         })
         
