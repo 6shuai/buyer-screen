@@ -1,7 +1,6 @@
 <template>
 	<div
 		class="main"
-		:class="showHistryGoods ? 'miniview' : ''"
 		@click="handleAudioPlay"
 	>
 		<div class="left_goods_list">
@@ -16,7 +15,7 @@
 			></count-down>
 
 			<!-- 竞拍历史 扫码查看更多宝贝 -->
-			<miniview v-if="showHistryGoods"></miniview>
+			<miniview v-else-if="showHistryGoods"></miniview>
 
 			<!-- 抢购 -->
 			<goods-content v-else></goods-content>
@@ -30,10 +29,10 @@
 		<warning v-if="showWarning && !closeWarning"></warning>
 
 		<!-- 背景音乐 -->
-		<audio :src="bgmUrl" autoplay :loop="isLoop" ref="audioRef"></audio>
+		<audio :src="bgmUrl" autoplay :loop="isLoop" ref="bgmRef"></audio>
 
 		<!-- 音效 -->
-		<audio :src="audioUrl" autoplay></audio>
+		<audio :src="audioUrl" autoplay ref="audioRef"></audio>
 	</div>
 </template>
 
@@ -46,157 +45,160 @@ import {
 	nextTick,
 	watch,
 	ref,
-} from "vue";
-import { useStore } from "vuex";
-import LeftGoodsList from "./layout/left.vue";
-import GoodsContent from "./layout/content.vue";
-import RightInfo from "./layout/right.vue";
-import Warning from "./components/Warning.vue";
-import CountDown from "./components/CountDown.vue";
-import Miniview from "./components/Miniview.vue";
-import mixin from "./mixins/socket";
+} from "vue"
+import { useStore } from "vuex"
+import LeftGoodsList from "./layout/left.vue"
+import GoodsContent from "./layout/content.vue"
+import RightInfo from "./layout/right.vue"
+import Warning from "./components/Warning.vue"
+import CountDown from "./components/CountDown.vue"
+import Miniview from "./components/Miniview.vue"
+import socketMixin from "./mixins/socket"
+import mixin from "./mixins/index"
 
 export default {
 	setup(props) {
-		const audioRef = ref(null);
-		const store = useStore();
-		const { initWebsocket } = mixin();
+		const bgmRef = ref(null)
+		const audioRef = ref(null)
+		const store = useStore()
+		const { initWebsocket } = socketMixin()
+		const { videoPlay, clearTimer } = mixin()
 
 		//是否显示倒计时
 		const showCountDown = computed(() => {
-			return store.state.showCountDown;
-		});
+			return store.state.showCountDown
+		})
 
 		//游戏状态
 		const gameState = computed(() => {
-			return store.state.gameState;
-		});
+			return store.state.gameState
+		})
 
 		//倒计时
 		const countDown = (e) => {
-			if (store.state.gameState == null) {
-				state.bgmUrl = "";
-				nextTick(() => {
-					if (e == "end") {
-						state.bgmUrl = "./sounds/count_down_end.mp3";
-					} else {
-						state.bgmUrl = "./sounds/count_down.mp3";
-					}
-					state.isLoop = false;
-				});
-			}
-		};
+			state.audioUrl = ""
+			if(state.gameState != 3) state.bgmUrl = ""
+			nextTick(() => {
+				if (e == "end") {
+					state.audioUrl = "./sounds/count_down_end.wav"
+				} else {
+					state.audioUrl = "./sounds/count_down_num.wav"
+				}
+			})
+		}
 
 		//是否显示  库存不足警告
 		const showWarning = computed(() => {
-			return store.state.showWarning;
-		});
+			return store.state.showWarning
+		})
 
 		const closeWarning = computed(() => {
-			return store.state.closeWarning;
-		});
+			return store.state.closeWarning
+		})
 
 		//是否显示竞拍历史
 		const showHistryGoods = computed(() => {
-			return store.state.showHistryGoods;
-		});
+			return store.state.showHistryGoods
+		})
 
 		const showAdvVideo = computed(() => {
-			return store.state.showAdvVideo;
-		});
-
-		//每个状态 搁二十秒播放一次视频
-		const videoPlay = (duration) => {
-			clearTimeout(state.playTimer);
-			// if(duration / 35 >= 1){
-			if (duration > 35) {
-				state.playTimer = setTimeout(() => {
-					store.state.showAdvVideo = true;
-					// setTimeout(() => {
-					// 	videoPlay(duration - 35)
-					// }, 15000);
-				}, 20 * 1000);
-			}
-		};
+			return store.state.showAdvVideo
+		})
 
 		onMounted(() => {
 			//socket 初始化 连接
 			initWebsocket.value();
-			state.isLoop = true;
 
 			//开始之前 背景音乐
-			state.bgmUrl = "./sounds/before.mp3";
-		});
+			gameBgm()
+		})
 
 		watch(gameState, (newState, oldState) => {
 			let { guessTime, countdown, preheatTime } =
-				store.state.goodsDataDetail;
-			state.isLoop = false;
+				store.state.goodsDataDetail
+			state.isLoop = false
 			store.state.showAdvVideo = false;
 			switch (newState) {
 				case 0:
 					//预热阶段
-					store.state.showCountDown = false;
-					state.bgmUrl = "./sounds/before.mp3";
-					videoPlay(preheatTime);
-					break;
+					gameBgm()
+					videoPlay.value(preheatTime)
+					break
 				case 1:
 					// 竞猜阶段
-					store.state.showCountDown = false;
-					state.isLoop = true;
-					state.bgmUrl = "./sounds/guess.mp3";
-					videoPlay(guessTime + countdown);
-					break;
+					state.isLoop = true
+					state.bgmUrl = "./sounds/guess.mp3"
+					videoPlay.value(guessTime + countdown - 9)
+					break
 				case 2:
 					// 倒计时
 
-					break;
+					break
 				case 3:
 					//抢购中
-					state.isLoop = true;
-					state.bgmUrl = "./sounds/buy_ing.mp3";
-					videoPlay(40);
-					break;
+					store.state.showCountDown = false
+					state.isLoop = true
+					state.bgmUrl = "./sounds/buy_ing.mp3"
+					videoPlay.value(-1)
+					break
 				case 4:
 					//抢购结束
-					state.bgmUrl = "./sounds/buy_end.mp3";
-					videoPlay(60);
-					break;
+					gameEnd()
+					videoPlay.value(60)
+					
+					break
 				default:
-					break;
+					break
 			}
 		});
 
+		//开始之前 和 结束后的 背景音乐
+		const gameBgm = () => {
+			state.isLoop = true
+			state.bgmUrl = "./sounds/before.mp3"
+		}
+
+		//抢购结束
+		const gameEnd = () => {
+			state.bgmUrl = "./sounds/buy_end.mp3"
+			clearTimer.value()
+			setTimeout(() => {
+				gameBgm()
+			}, 2000)
+		}
+
 		//减小音量
 		const subtractVolume = () => {
-			if (state.audioRef.volume <= 0.1) {
-				state.audioRef.pause();
-				return;
+			if (state.bgmRef.volume <= 0.1) {
+				state.bgmRef.pause()
+				return
 			}
-			state.audioRef.volume -= 0.1;
+			state.bgmRef.volume -= 0.1
 			setTimeout(() => {
-				subtractVolume();
-			}, 100);
+				subtractVolume()
+			}, 100)
 		};
 
 		//点击屏幕  播放音效
 		const handleAudioPlay = () => {
-			state.audioRef.play();
+			state.bgmRef.play()
 		};
 
 		watch(showWarning, (newState, oldState) => {
 			if (newState) {
-				state.audioUrl = "./sounds/warning.mp3";
+				state.audioUrl = "./sounds/warning.mp3"
+				state.audioRef.currentTime = 0
+				state.audioRef.play()
 			}
 		});
 
 		watch(showAdvVideo, (newState, oldState) => {
 			if (newState) {
-				// state.audioRef.pause()
-				subtractVolume();
+				// state.bgmRef.pause()
+				if(state.gameState != 3) subtractVolume()
 			} else {
-				state.audioRef.volume = 1;
-				state.audioRef.play();
+				state.bgmRef.volume = 1;
+				state.bgmRef.play()
 			}
 		});
 
@@ -211,11 +213,12 @@ export default {
 			playTimer: undefined,
 			countDown,
 			showHistryGoods,
+			bgmRef,
 			audioRef,
 			handleAudioPlay,
-		});
+		})
 
-		return toRefs(state);
+		return toRefs(state)
 	},
 	components: {
 		LeftGoodsList,
@@ -224,8 +227,8 @@ export default {
 		Warning,
 		CountDown,
 		Miniview,
-	},
-};
+	}
+}
 </script>
 
 <style lang="less" scope>
@@ -237,7 +240,7 @@ export default {
 
 	&.miniview {
 		background: url("./images/miniview_bg.png") center no-repeat;
-		background-size: 100% 100%;
+		// background-size: 100% 100%;
 		overflow: hidden;
 	}
 

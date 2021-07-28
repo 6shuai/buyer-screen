@@ -101,13 +101,26 @@ section {
 	display: block;
 }
 
+@font-face{
+    font-family: 'AlibabaHeavy';
+    src: url('./fonts/Alibaba-PuHuiTi-Heavy.ttf');
+}
+@font-face{
+    font-family: 'AlibabaMedium';
+    src: url('./fonts/Alibaba-PuHuiTi-Medium.ttf');
+}
+
 html, body {
 	line-height: 1;
 	width: 100%;
 	height: 100%;
 	background: #4A2453;
-	font-family: "Microsoft YaHei",Arial,Helvetica,sans-serif,"SimSun";
 	transition: all .3s ease-in;
+	font-family: AlibabaMedium;
+}
+
+.text_medium{
+	font-family: AlibabaHeavy;
 }
 
 ol,

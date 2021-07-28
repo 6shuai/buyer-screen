@@ -211,7 +211,7 @@ export default function () {
                 auctionId: 20
             }
             websocketSendData(data);
-        }, 50000);
+        }, 80000);
         return
 
         setTimeout(() => {
@@ -228,7 +228,6 @@ export default function () {
 
 
             setTimeout(() => {
-                store.state.showCountDown = false
                 
                 store.commit('SET_GOODS_DETAIL', {
                     "auctionId":675026,
@@ -256,7 +255,7 @@ export default function () {
                     "paymentMethod":1,
                     "pickUpAddresses":[{"address":"酷乐潮玩  上海市宝山区  宝山龙湖天街B1-104号","deliverType":1,"id":35,"placeId":15}],
                     "preheatTime":10,
-                    "priceDecline":0.1,
+                    "priceDecline":0.3,
                     "priceDeclineFrequency":3,
                     "priceDeclineRate":6.0
                 })
@@ -269,8 +268,19 @@ export default function () {
 
                     setTimeout(() => {
                         store.commit('SET_GAME_STATE', 3)
+                        store.state.showCountDown = false
 
                         store.commit('SET_SHOW_WRRNING', true)
+
+                        setTimeout(() => {
+                            store.commit('SET_SHOW_WRRNING', true)
+
+                            setTimeout(() => {
+                                store.commit('SET_SHOW_WRRNING', true)
+                            }, 5000);
+                        }, 5000);
+
+                        // return
 
                         setTimeout(() => {
                             store.commit('SET_GAME_STATE', 4)
@@ -349,11 +359,11 @@ export default function () {
 
                         }, 2000);
 
-                    }, 10000);
+                    }, 20000);
 
-                }, 3000);
+                }, 1000);
 
-            }, 50000)
+            }, 80000)
 
 
         }, 1000);

@@ -15,12 +15,15 @@
                             hideRank ? `listAnmiHide_${index} 1s ease-in ${index * 0.2}s both` : `listAnmi_${index} 1s ease-in ${index * 0.2}s both`
                         }"
                     >
-                        <div class="index">{{ item.index + 1 }}</div>
+                        <div class="index text_medium">{{ item.index + 1 }}</div>
                         <div class="head_img">
                             <img :src="item.avatar">
                         </div>
-                        <div class="name text_overflow">{{ item.nickName }}</div>
-                        <div class="price">￥{{ priceFormat(item.price).int }}{{ priceFormat(item.price).decimals }}</div>
+                        <div class="name text_overflow text_medium">{{ item.nickName }}</div>
+                        <div class="price text_medium">
+                            <span class="int">￥{{ priceFormat(item.price).int }}</span>
+                            <span class="decimals">{{ priceFormat(item.price).decimals }}</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -161,6 +164,10 @@ export default {
                 color: #4a2453;
                 flex: 1;
                 text-align: right;
+
+                .decimals{
+                    font-size: 30px;
+                }
             }
         }
 

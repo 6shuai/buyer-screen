@@ -1,6 +1,6 @@
 <template>
     <div class="buy_king_wrap">
-        <div class="text">
+        <div class="text text_medium">
             <img src="../images/king.png">
             本场极限秒杀王:
         </div>
@@ -8,7 +8,7 @@
             <div class="img_wrap">
                 <img :src="buyKing.avatar">
             </div>
-            <div class="name text_overflow">{{ buyKing.nickName }}</div>
+            <div class="name text_overflow text_medium">{{ buyKing.nickName }}</div>
         </div>
     </div>
 </template>

@@ -11,7 +11,7 @@
             class="about_begin" 
             v-if="gameState == null"
         >
-            <div class="text">即将开始</div>
+            <div class="text text_medium">即将开始</div>
             <div class="count_down">{{ countDownTime }}</div>
         </div>
 
@@ -37,9 +37,11 @@
 import { reactive, toRefs, computed, watch, onMounted, onUnmounted } from 'vue'
 import { useStore } from 'vuex'
 import { translatesToHoursMinutesSeconds } from '../util/index'
+import mixin from "../mixins/index"
 export default {
     setup(props) {
         const store = useStore()
+        const { videoPlay } = mixin()
 
         //游戏状态
         const gameState = computed(() => {
@@ -103,11 +105,8 @@ export default {
 
             console.log('距离游戏开始还有---->(', num , ')秒')
         
-            countDownFun(50)
-
-            setTimeout(() => {
-                store.state.showAdvVideo = true
-            }, 20 * 1000);
+            countDownFun(80)
+            videoPlay.value(80)
         }
 
         //游戏开始前 倒计时
@@ -115,11 +114,6 @@ export default {
             num -= 1
             state.countDownTime = translatesToHoursMinutesSeconds(num)
             if(num <= 0){
-                clearTimeout(state.timer)
-                return
-            }else if(num < 10){
-                //还剩最后十秒
-                store.state.showCountDown = true
                 clearTimeout(state.timer)
                 return
             }

@@ -8,13 +8,18 @@
                 :class="{ active: countdownNum == index+1 }"
                 :src="`./count_down/count_down_${index+1}.png`"
             >
+            <img 
+                v-if="showImgShaow"
+                class="img_shadow"
+                :src="`./count_down/count_down_${countdownNumShaow}.png`"
+            >
         </div>
         <div class="text">抢购马上开始!</div>
     </div>
 </template>
 
 <script>
-import { reactive, toRefs, onMounted } from 'vue'
+import { reactive, toRefs, onMounted, nextTick } from 'vue'
 export default {
     emits: ['countDown'],
     setup(props, { emit }) {
@@ -28,16 +33,27 @@ export default {
                 emit('countDown', 'end')
                 return
             }
-            state.countdownNum = state.countdownNum - 1
+
+            nextTick(() => {
+                state.countdownNum = state.countdownNum - 1
+                state.showImgShaow = true
+                setTimeout(() => {
+                    state.countdownNumShaow = state.countdownNum
+                }, 100);
+            })
+
             emit('countDown')
             state.timer = setTimeout(() => {
+                state.showImgShaow = false
                 countdown()
             }, 1000);
         }
 
         const state = reactive({
             timer: undefined,
-            countdownNum: 10
+            countdownNum: 10,
+            countdownNumShaow: 10,
+            showImgShaow: false
         })
 
         return toRefs(state)
@@ -70,8 +86,18 @@ export default {
                 height: 390px;
                 display: inline-block;
                 &.active{
-                    animation: twinkling .5s ease-in-out;
+                    animation: twinkling .3s ease-in;
+                    position: absolute;
+                    margin-left: -100px;
+                    z-index: 10;
                 }
+            }
+
+            .img_shadow{
+                position: absolute;
+                animation: countdownShadowAnim .8s ease-out .15s;
+                margin-left: -100px;
+                z-index: 12;
             }
 
         }
@@ -85,13 +111,45 @@ export default {
         
         @keyframes twinkling {
             0% {
-                opacity: 0.5;
-                transform: scale(2.6);
+                opacity: 0;
+                transform: scale(4);
+            }
+
+            30% {
+                filter: brightness(100%);
             }
  
-            100% {
-                opacity: 1;
+            35% {
+                opacity: 0.5;
                 transform: scale(1);
+                filter: brightness(9000%);
+            }
+
+            90%{
+                filter: brightness(9000%);
+                opacity: 1;
+            }
+            100%{
+                filter: brightness(9000%);
+                opacity: 0;
+            }
+        }
+
+        @keyframes countdownShadowAnim {
+            0% {
+                opacity: 0;
+                filter: blur(0px);
+                transform: scale(1);
+            }
+            20% {
+                opacity: 0.2;
+                filter: blur(1px);
+                transform: scale(1.2);
+            }
+            100% {
+                filter: blur(3px);
+                opacity: 0;
+                transform: scale(3);
             }
         }
     }

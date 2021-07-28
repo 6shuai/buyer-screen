@@ -5,15 +5,16 @@
 			<img :src="data.goodsCover" class="img" />
 		</div>
 		<div class="goods_detail_right">
-			<p class="goods_name text_overflow">
+			<p class="goods_name text_overflow text_medium">
 				{{ data.goodsName
 				}}<span class="goods_desc">{{ data.goodsDescription }}</span>
 			</p>
-			<p class="buy_in_price">
-				￥{{ priceFormat(data.marketValue).int
-				}}{{ priceFormat(data.marketValue).decimals }}起
-			</p>
-			<p class="buy_in_price_down">
+			<div class="buy_in_price">
+				<span class="int">￥{{ priceFormat(data.marketValue).int }}</span>
+				<span class="decimals">{{ priceFormat(data.marketValue).decimals }}</span>
+				<span class="price_text_qi">起</span>
+			</div>
+			<p class="buy_in_price_down text_medium">
 				每分钟直降<span
 					>￥{{ priceFormat(data.priceDeclineRate).int
 					}}{{ priceFormat(data.priceDeclineRate).decimals }}</span
@@ -23,7 +24,7 @@
 	</div>
 	<div class="real_price_warp" :class="{ sell_out_crad: gameState == 4 }">
 		<div class="data" v-if="gameState == 4">已售罄</div>
-		<div class="data" v-else>
+		<div class="data text_medium" v-else>
 			实时价格: <span class="price_int">￥{{ realTimePrice.int }}</span
 			><span class="price_decimals">{{ realTimePrice.decimals }}</span>
 		</div>

@@ -15,16 +15,16 @@
                 <div class="goods_image">
                     <img :src="currentGoods.goodsCover" class="img">
                 </div>
-                <p class="goods_name text_overflow">{{ currentGoods.goodsName }}</p>
+                <p class="goods_name text_overflow text_medium">{{ currentGoods.goodsName }}</p>
                 <p class="goods_desc text_overflow">{{ currentGoods.goodsDescription }}</p>
             </div>
             <div class="goods_price_wrap">
-                <div class="real_price">
+                <div class="real_price text_medium">
                     <span class="int">￥{{ priceFormat(currentGoods.marketValue).int }}</span>
                     <span class="decimals">{{ priceFormat(currentGoods.marketValue).decimals }}</span>
                     <span class="price_text_qi">起</span>
                 </div>
-                <div class="price_down_wrap">   
+                <div class="price_down_wrap text_medium">   
                     <p class="down_text">每分钟<span>直降</span></p>
                     <p class="down_price">￥{{ priceFormat(currentGoods.priceDeclineRate).int }}<span class="decimals">{{ priceFormat(currentGoods.priceDeclineRate).decimals }}</span></p>
                 </div>
@@ -223,6 +223,10 @@ export default {
                             font-size: 40px;
                             color: #4A2453;
                             padding-top: 20px;
+
+                            .decimals{
+                                font-size: 35px;
+                            }
                         }
 
                         .buy_in_price_down{
@@ -322,6 +326,10 @@ export default {
                     font-size: 50px;
                     color: #4A2453;
                     text-decoration:line-through;
+
+                    .decimals{
+                        font-size: 45px;
+                    }
                 }
 
 
@@ -403,6 +411,7 @@ export default {
                 padding-bottom: 80px;
                 color: #4A2453;
                 font-weight: bold;
+                text-align: center;
 
                 .int{
                     font-size: 100px;

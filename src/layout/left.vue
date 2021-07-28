@@ -28,24 +28,40 @@
                         <p class="goods_desc">{{ currentGoods.goodsDescription }}</p>
                     </div>
 
-                    <div class="goods_detail_bottom" v-if="!gameState || gameState < 3">
-                        <p class="price_start">￥{{ priceFormat(currentGoods.marketValue).int }}{{ priceFormat(currentGoods.marketValue).decimals }}起</p>
+                    <div class="goods_detail_bottom text_medium" v-if="!gameState || gameState < 3">
+                        <div class="price_start">
+                            <span class="int">￥{{ priceFormat(currentGoods.marketValue).int }}</span>
+                            <span class="decimals">{{ priceFormat(currentGoods.marketValue).decimals }}</span>
+                            <span class="price_text_qi">起</span>
+                        </div>
                         <p class="price_down_text">每分钟直降</p>
-                        <p class="price">￥{{ priceFormat(currentGoods.priceDeclineRate).int }}{{ priceFormat(currentGoods.priceDeclineRate).decimals }}</p>
+                        <div class="price">
+                            <span class="int">￥{{ priceFormat(currentGoods.priceDeclineRate).int }}</span>
+                            <span class="decimals">{{ priceFormat(currentGoods.priceDeclineRate).decimals }}</span>
+                        </div>
                     </div>
 
                     <!-- 抢购中 实时价格 -->
-                    <div class="goods_detail_bottom real_time_price" v-if="gameState == 3">
+                    <div class="goods_detail_bottom real_time_price text_medium" v-if="gameState == 3">
                         <p class="real_time_text">实时价格</p>
-                        <p class="price" v-if="realTimePrice">￥{{ priceFormat(realTimePrice).int }}{{ priceFormat(realTimePrice).decimals }}</p>
+                        <div class="price" v-if="realTimePrice">
+                            <span class="int">￥{{ priceFormat(realTimePrice).int }}</span>
+                            <span class="decimals">{{ priceFormat(realTimePrice).decimals }}</span>
+                        </div>
                     </div>
 
                     <!-- 抢购结束 -->
-                    <div class="goods_detail_bottom end" v-if="gameState == 4">
+                    <div class="goods_detail_bottom end text_medium" v-if="gameState == 4">
                         <p class="goods_count">宝贝库存: 23</p>
                         <p class="price_text">极限秒杀价</p>
-                        <p class="del_price">￥{{ priceFormat(currentGoods.marketValue).int }}{{ priceFormat(currentGoods.marketValue).decimals }}</p>
-                        <p class="price">￥{{ priceFormat(buyKing.price).int }}{{ priceFormat(buyKing.price).decimals }}</p>
+                        <div class="del_price">
+                            <span class="int">￥{{ priceFormat(currentGoods.marketValue).int }}</span>
+                            <span class="decimals">{{ priceFormat(currentGoods.marketValue).decimals }}</span>
+                        </div>
+                        <div class="price">
+                            <span class="int">￥{{ priceFormat(buyKing.price).int }}</span>
+                            <span class="decimals">{{ priceFormat(buyKing.price).decimals }}</span>
+                        </div>
                     </div>
 
                 </div>
@@ -59,7 +75,7 @@
             :class="{ put_away: showAdvVideo || showRankList || showCountDown }"
             v-if="goodsList.length && !showTomorrowGoods"
         >
-            <div class="title_card">即将开始</div>
+            <div class="title_card text_medium">即将开始</div>
             <div class="goods_item" 
                 v-for="(item, index) in goodsList" 
                 :key="index"
@@ -72,10 +88,17 @@
                     </div>
                 </div>
                 
-                <div class="goods_bottom">
-                    <p class="price">￥{{ priceFormat(item.marketValue).int }}{{ priceFormat(item.marketValue).decimals }}起</p>
+                <div class="goods_bottom text_medium">
+                    <div class="price">
+                        <span class="int">￥{{ priceFormat(item.marketValue).int }}</span>
+                        <span class="decimals">{{ priceFormat(item.marketValue).decimals }}</span>
+                        <span class="price_text_qi">起</span>
+                    </div>
                     <p class="down_text">每分钟直降</p>
-                    <p class="down_price">￥{{ priceFormat(item.priceDeclineRate).int }}{{ priceFormat(item.priceDeclineRate).decimals }}</p>
+                    <div class="down_price">
+                        <span class="int">￥{{ priceFormat(item.priceDeclineRate).int }}</span>
+                        <span class="decimals">{{ priceFormat(item.priceDeclineRate).decimals }}</span>
+                    </div>
                 </div>
 
             </div>
@@ -86,7 +109,7 @@
             class="goods_list tomorrow_list"
             v-if="showTomorrowGoods && tomorrowData.length && !showHistryGoods"
         >
-            <div class="title_card">明日宝贝</div>
+            <div class="title_card text_medium">明日宝贝</div>
             <div 
                 class="goods_item" 
                 v-for="(item, index) in tomorrowData" 
@@ -101,10 +124,17 @@
                     </div>
                 </div>
                 
-                <div class="goods_bottom">
-                    <p class="price">￥{{ priceFormat(item.marketValue).int }}{{ priceFormat(item.marketValue).decimals }}起</p>
+                <div class="goods_bottom text_medium">
+                    <div class="price">
+                        <span class="int">￥{{ priceFormat(item.marketValue).int }}</span>
+                        <span class="decimals">{{ priceFormat(item.marketValue).decimals }}</span>
+                        <span class="price_text_qi">起</span>
+                    </div>
                     <p class="down_text">每分钟直降</p>
-                    <p class="down_price">￥{{ priceFormat(item.priceDeclineRate).int }}{{ priceFormat(item.priceDeclineRate).decimals }}</p>
+                    <div class="down_price">
+                        <span class="int">￥{{ priceFormat(item.priceDeclineRate).int }}</span>
+                        <span class="decimals">{{ priceFormat(item.priceDeclineRate).decimals }}</span>
+                    </div>
                 </div>
 
             </div>
@@ -115,7 +145,7 @@
             class="goods_list tomorrow_list history"
             v-if="showHistryGoods"
         >
-            <div class="title_card">竞拍历史</div>
+            <div class="title_card text_medium">竞拍历史</div>
             <div 
                 class="goods_item" 
                 v-for="(item, index) in historyGoodsData" 
@@ -130,10 +160,16 @@
                     </div>
                 </div>
                 
-                <div class="goods_bottom">
+                <div class="goods_bottom text_medium">
                     <p class="price">极限秒杀价</p>
-                    <p class="del_price">￥{{ priceFormat(item.marketValue).int }}{{ priceFormat(item.marketValue).decimals }}</p>
-                    <p class="down_price">￥{{ priceFormat(item.priceDeclineRate).int }}{{ priceFormat(item.priceDeclineRate).decimals }}</p>
+                    <div class="del_price">
+                        <span class="int">￥{{ priceFormat(item.marketValue).int }}</span>
+                        <span class="decimals">{{ priceFormat(item.marketValue).decimals }}</span>
+                    </div>
+                    <div class="down_price">
+                        <span class="int">￥{{ priceFormat(item.priceDeclineRate).int }}</span>
+                        <span class="decimals">{{ priceFormat(item.priceDeclineRate).decimals }}</span>
+                    </div>
                 </div>
 
             </div>
@@ -258,6 +294,10 @@ export default {
             margin-top: 66px;
             position: relative;
         }
+
+        .price_text_qi{
+            padding-left: 5px;
+        }
         
         .title_card{
             font-size: 40px;
@@ -342,6 +382,10 @@ export default {
                         font-size: 35px;
                         color: #4a2453;
                         padding: 15px 0 25px 0;
+
+                        .decimals, .price_text_qi{
+                            font-size: 30px;
+                        }
                     }
     
                     .down_text{
@@ -353,6 +397,10 @@ export default {
                         font-size: 50px;
                         color: #fff;
                         padding-top: 8px;
+
+                        .decimals{
+                            font-size: 40px;
+                        }
                     }
                 }
             }
@@ -467,7 +515,7 @@ export default {
             }
     
             &.history{
-                .goods_bottom  .price{
+                .goods_bottom .price{
                     font-size: 35px;
                     color: #4a2453;
                     padding: 15px 0 15px 0;
@@ -478,6 +526,10 @@ export default {
                     text-decoration:line-through;
                     line-height: 40px;
                     font-weight: normal;
+
+                    .decimals{
+                        font-size: 30px;
+                    }
                 }
             }
         }
@@ -545,12 +597,15 @@ export default {
     
             .goods_detail_bottom{
                 text-align: center;
-                font-weight: bold;
     
                 .price_start{
                     font-size: 35px;
                     color: #4a2453;
                     line-height: 68px;
+
+                    .decimals, .price_text_qi{
+                        font-size: 30px;
+                    }
                 }
     
                 .price_down_text{
@@ -562,6 +617,10 @@ export default {
                 .price{
                     font-size: 60px;
                     color: #fff;
+
+                    .decimals{
+                        font-size: 50px;
+                    }
                 }
             }
     
@@ -604,6 +663,10 @@ export default {
                         font-weight: normal;
                         text-decoration:line-through;
                         line-height: 50px;
+
+                        .decimals{
+                            font-size: 30px;
+                        }
                     }
                 }
             }

@@ -70,7 +70,7 @@ export default {
                         deleteDanmaku()
                     }
                 })
-            }, 500)
+            }, 100)
         }
 
         //获取最后一个弹幕 right的距离

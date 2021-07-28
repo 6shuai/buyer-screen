@@ -2,7 +2,7 @@
     <!-- 预告  下个宝贝 -->
     <div class="next_goods_wrap" v-if="nextGoods">
         <div class="goods_card">
-            <div class="next_text">
+            <div class="next_text text_medium">
                 <p class="text">下个宝贝</p>
                 <p class="time">{{ formatTime(nextGoods.beginTime) }}</p>
             </div>
@@ -12,16 +12,23 @@
         </div>
 
         <div class="goods_info">
-            <div class="goods_name text_overflow">
+            <div class="goods_name text_overflow text_medium">
                 {{ nextGoods.goodsName }}
                 <span>{{ nextGoods.goodsDescription }}</span>
             </div>
-            <div class="price_s">￥{{ priceFormat(nextGoods.marketValue).int }}{{ priceFormat(nextGoods.marketValue).decimals }}起</div>
-            <div class="price_d">每分钟直降 ￥{{ priceFormat(nextGoods.priceDeclineRate).int }}{{ priceFormat(nextGoods.priceDeclineRate).decimals }}</div>
+            <div class="price_s text_medium">
+                <span class="int">￥{{ priceFormat(nextGoods.marketValue).int }}</span>
+                <span class="decimals">{{ priceFormat(nextGoods.marketValue).decimals }}</span>
+                <span class="price_text_qi">起</span>
+            </div>
+            <div class="price_d text_medium">每分钟直降 
+                ￥{{ priceFormat(nextGoods.priceDeclineRate).int }}
+                <span class="decimals">{{ priceFormat(nextGoods.priceDeclineRate).decimals }}</span>
+            </div>
         </div>
     </div>
 
-    <div class="next_goods_wrap" v-else>
+    <div class="next_goods_wrap text_medium" v-else>
         <p class="end_text">本场抢购已结束</p>
     </div>
 </template>
@@ -134,6 +141,10 @@ export default {
                 font-size: 40px;
                 color: #ffcc00;
                 line-height: 60px;
+
+                .decimals{
+                    font-size: 35px;
+                }
             }
 
             .price_d{
@@ -145,6 +156,10 @@ export default {
                 background-size: 100% 100%;
                 font-size: 50px;
                 color: #fff;
+
+                &.decimals{
+                    font-size: 45px;
+                }
             }
         }
 

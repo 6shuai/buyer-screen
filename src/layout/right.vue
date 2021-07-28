@@ -8,7 +8,7 @@
 			<div
 				class="state_info"
 				:class="
-					gameState == 1 || gameState == 2
+					(gameState == 1 || gameState == 2) && !store.state.showCountDown
 						? 'show_guess'
 						: 'hide_guess'
 				"
@@ -19,7 +19,7 @@
 		</div>
 
 		<div class="qrcode_wrap">
-			<p class="title">抢宝贝赢红包</p>
+			<p class="title text_medium">抢宝贝赢红包</p>
 			<div class="qrcode_box">
 				<p class="sao_text">微信扫一扫</p>
 				<img src="../images/qrcode.png" />
@@ -55,7 +55,12 @@ export default {
 			if (num < 0) {
 				clearTimeout(state.timer);
 				return;
-			}
+			}else if(num < 10){
+                //还剩最后十秒
+                store.state.showCountDown = true
+                clearTimeout(state.timer)
+                return
+            }
 			state.countDownNum = translatesToHoursMinutesSeconds(num);
 			num -= 1;
 			state.timer = setTimeout(() => {
@@ -67,6 +72,7 @@ export default {
 			timer: undefined,
 			countDownNum: 0, //倒计时
 			gameState,
+			store
 		});
 
 		return toRefs(state);

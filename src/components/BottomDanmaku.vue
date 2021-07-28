@@ -13,9 +13,11 @@
                 <div class="head_img"><img :src="item.avatar"></div>
                 <div class="name">{{ item.nickName }}</div>
                 <div class="price">
-                    <span v-if="item.type == 1">已报价:<span class="num">{{ item.price.int }}{{ item.price.decimals }}</span></span>
+                    <span v-if="item.type == 1">已报价:
+                        <span class="num">{{ item.price.int }}<span class="decimals">{{ item.price.decimals }}</span></span>
+                    </span>
                     <span v-if="item.type == 2">猜对{{ item.correctDigit }}位:
-                        <span class="num cash">赢得现金￥{{ item.price.int }}{{ item.price.decimals }}</span>
+                        <span class="num cash">赢得现金￥{{ item.price.int }}<span class="decimals">{{ item.price.decimals }}</span></span>
                     </span>
                 </div>
             </div>
@@ -80,7 +82,7 @@ export default {
                         state.danmakulist.push(item)
                     }
                 })
-            }, 500)
+            }, 200)
         }
 
         //获取最后一个弹幕 right的距离
@@ -172,6 +174,7 @@ export default {
             background: #4a2453;
             overflow: hidden;
             position: relative;
+            z-index: 99;
 
             .item{
                 position: absolute;
@@ -180,7 +183,7 @@ export default {
                 line-height: 80px;
                 font-size: 35px;
                 padding: 10px 0;
-                animation: danmakuAnim 10s ease-in both;
+                animation: danmakuAnim 50s ease-in both;
 
                 .head_img{
                     width: 80px;
@@ -217,6 +220,10 @@ export default {
 
                     .cash{
                         color: #ffcc00;
+                    }
+
+                    .decimals{
+                        font-size: 30px;
                     }
                 }
             }
