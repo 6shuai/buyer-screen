@@ -3,7 +3,7 @@
         class="content_box buy_end clear" 
         v-if="!showRankList"
     >
-        <div class="tip">抢购结束</div>
+        <div class="tip text_medium">抢购结束</div>
         <div class="goods_detail">
             <div class="goods_image">
                 <img :src="data.goodsCover" class="img">
@@ -43,7 +43,7 @@ export default {
         onMounted(() => {
             setTimeout(() => {
                 store.state.showRankList = true
-            }, 15000);
+            }, 20000);
 
             setTimeout(() => {
                 state.showSellOut = true

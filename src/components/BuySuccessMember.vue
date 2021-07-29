@@ -23,19 +23,19 @@
         </div>
     </div>
 
-    <!-- 音效 -->
-    <audio :src="audioUrl" autoplay></audio>
-
 </template>
 
 <script>
 import { reactive, toRefs, onMounted, computed, watch, nextTick, onUnmounted } from 'vue'
 import { useStore } from 'vuex'
 import { priceFormat } from '../util/index'
+import mixin from '../mixins/index'
+
 export default {
     setup(props) {
         const windowWidth = window.innerWidth
         const store = useStore()
+        const { playJxmsSounds } = mixin()
 
         onMounted(() => {
             danmaku()
@@ -62,10 +62,9 @@ export default {
                     if(item){
                         item.danmakuId = state.danmakuId
                         state.danmakulist.push(item)
-                        state.audioUrl = ''
                         state.danmakuId = state.danmakuId + 1
                         nextTick(() => {
-                            state.audioUrl = './sounds/buy_success.mp3'
+                            playJxmsSounds.value('./sounds/buy_success.mp3')
                         })
                         deleteDanmaku()
                     }
@@ -114,7 +113,6 @@ export default {
 
         const state = reactive({
             danmakuId: 0,
-            audioUrl: '',
             timer: undefined,
             list: [],   // 普通的弹幕队列
             danmakulist: [], // 当前正在执行的

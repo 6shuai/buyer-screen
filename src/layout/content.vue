@@ -2,15 +2,15 @@
     <!-- 当前宝贝 -->
     <div 
         class="current_goods_content"
-        :class="{ hide: showAdvVideo || (showCountDown && !gameState) || (gameState && gameState!=1 && gameState != 2)}"
-        :style="{ transition: `all .5s ease-in ${showAdvVideo || (showCountDown && !gameState) ? '0s' : '.3s'}` }"
+        :class="{ hide: showAdvVideo || showCountDown || (gameState && gameState!=1 && gameState != 2)}"
+        :style="{ transition: `all .5s ease-in ${showAdvVideo || showCountDown ? '0s' : '.3s'}` }"
     >
         <!-- 未开始 -->
         <div 
             class="content_box clear"
             v-if="(!gameState || gameState==1 || gameState == 2) && currentGoods"
         >
-            <div class="tip">当前宝贝</div>
+            <div class="tip text_medium">当前宝贝</div>
             <div class="goods_detail">
                 <div class="goods_image">
                     <img :src="currentGoods.goodsCover" class="img">
@@ -36,8 +36,8 @@
     <!-- 抢购中 -->
     <div 
         class="current_goods_content"
-        :class="{ hide: showAdvVideo || (gameState!=3) }"
-        :style="{ transition: `all .5s ease-in ${showAdvVideo || gameState!= 3 ? '0s' : '.3s'}` }"
+        :class="{ hide: showAdvVideo || showCountDown || (gameState!=3) }"
+        :style="{ transition: `all .5s ease-in ${showAdvVideo || gameState== 3 ? '0s' : '.3s'}` }"
     >
         <div 
             class="content_box buy_in clear"
@@ -70,7 +70,7 @@
     </div>
 
     <!-- 视频广告 -->
-    <video-adv></video-adv>
+    <video-adv v-if="!showCountDown"></video-adv>
 
     <!-- 底部 -->
     <bottom-info v-show="!showCountDown"></bottom-info>
@@ -182,7 +182,6 @@ export default {
             
             .tip{
                 font-size: 40px;
-                font-weight: bold;
                 position: absolute;
                 top: 38px;
                 left: 108px;

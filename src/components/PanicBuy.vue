@@ -1,5 +1,5 @@
 <template>
-	<div class="tip">当前宝贝</div>
+	<div class="tip text_medium">当前宝贝</div>
 	<div class="goods_detail">
 		<div class="goods_image">
 			<img :src="data.goodsCover" class="img" />

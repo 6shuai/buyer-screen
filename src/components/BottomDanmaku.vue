@@ -55,6 +55,10 @@ export default {
             return store.state.guessPriceMemberList
         })
 
+        const showRankList = computed(() => {
+            return store.state.showRankList
+        })
+
         onMounted(() => {
 
             // setTimeout(() => {
@@ -79,14 +83,14 @@ export default {
             
             state.timer = setInterval(()=>{
                 if(!state.list.length) return
-                // findLstRightDistance().then(res => {
-                    // if(!res) return
+                findLstRightDistance().then(res => {
+                    if(!res) return
                     let item = state.list.shift()
                     if(item){
                         state.danmakulist.push(item)
                     }
-                // })
-            }, 500)
+                })
+            }, 200)
         }
 
         //获取最后一个弹幕 right的距离
@@ -97,7 +101,6 @@ export default {
                 let query = document.getElementsByClassName(`danmaku_${state.danmakulist.length-1}`)[0]
                 if(query){
                     right = query.getBoundingClientRect().right
-                    console.log(right, windowWidth - right)
                     if(windowWidth - right > 0){
                         resolve(true)
                     }else{
@@ -116,7 +119,7 @@ export default {
                 store.state.showDanmaku = true
                 danmaku() 
             }
-            if(newState == null || newState == 4){
+            if(newState == null || state.showRankList){
                 store.state.showDanmaku = false
             }
         })
@@ -152,6 +155,7 @@ export default {
             list: [],   // 普通的弹幕队列
             danmakulist: [], // 当前正在执行的
             showDanmaku,
+            showRankList,
         })
 
         return toRefs(state)
@@ -184,10 +188,10 @@ export default {
                 position: absolute;
                 left: 0;
                 height: 80px;
-                overflow: hidden;
                 line-height: 80px;
                 font-size: 35px;
                 padding: 10px 0;
+                transform: translateZ(0);
                 animation: danmakuAnim 5s ease-in both;
 
                 .head_img{

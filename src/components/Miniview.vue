@@ -1,5 +1,12 @@
 <template>
     <div class="mimiview_wrap">
+
+        <div class="hight_bottom"></div>
+
+        <div class="miniview_02"></div>
+
+        <!-- <div class="miniview_02"></div> -->
+
         <div class="miniview_text">
             扫码查看更多宝贝, 不要错过优惠哦!
         </div>
@@ -13,13 +20,32 @@
 
 <style lang="less" scope>
     .mimiview_wrap{
-        background: url('../images/miniview_bg.png') center no-repeat;
-        background-size: auto 100%;
-        position: absolute;
-        left: 0;
-        top: 0;
+        position: relative;;
         width: 100%;
         height: 100%;
+        overflow: hidden;
+
+        .hight_bottom{
+            position: absolute;
+            width: 3885px;
+            height: 3885px;
+            bottom: -160%;
+            left: -10%;
+            background: url('../images/miniview_01.png') center no-repeat;
+            background-size: 3885px 3885px;
+            z-index: 90;
+            // animation: hightAnim 3s linear infinite;
+        }
+
+        .miniview_02{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: url('../images/miniview_02.png') center no-repeat;
+            background: auto 100%;
+            z-index: 92;
+        }
+
 
         .miniview_text{
             position: absolute;

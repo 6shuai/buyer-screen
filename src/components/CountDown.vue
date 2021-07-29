@@ -9,7 +9,7 @@
                 :src="`./count_down/count_down_${index+1}.png`"
             >
             <img 
-                v-if="showImgShaow"
+                v-if="showImgShaow && countdownNumShaow"
                 class="img_shadow"
                 :src="`./count_down/count_down_${countdownNumShaow}.png`"
             >
@@ -52,7 +52,7 @@ export default {
         const state = reactive({
             timer: undefined,
             countdownNum: 10,
-            countdownNumShaow: 10,
+            countdownNumShaow: null,
             showImgShaow: false
         })
 

@@ -205,14 +205,14 @@ export default function () {
     const test = () => {
 
         //预览
-        setTimeout(() => {
-            let data = {
-                id: socketId.Preview,
-                auctionId: 20
-            }
-            websocketSendData(data);
-        }, 80000);
-        return
+        // setTimeout(() => {
+        //     let data = {
+        //         id: socketId.Preview,
+        //         auctionId: 20
+        //     }
+        //     websocketSendData(data);
+        // }, 80000);
+        // return
 
         setTimeout(() => {
             store.commit('SET_GOODS_LIST', [{
@@ -225,6 +225,12 @@ export default function () {
                 totalGuessAward: 0
             }])
             // return
+
+            store.commit('SET_GAME_STATE', 4)
+            store.state.showTomorrowGoods = true
+            store.state.showHistryGoods = true
+
+            return
 
 
             setTimeout(() => {
@@ -291,7 +297,7 @@ export default function () {
 
                         }, 10000);
 
-                        // return
+                        return
 
                         setTimeout(() => {
                             store.commit('SET_BUY_SUCCESS_MEMBER', {
@@ -353,7 +359,7 @@ export default function () {
 
                 }, 1000);
 
-            }, 8000)
+            }, 1000)
 
 
         }, 1000);

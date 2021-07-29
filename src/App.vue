@@ -17,7 +17,9 @@
 			<miniview v-else-if="showHistryGoods"></miniview>
 
 			<!-- 抢购 -->
-			<goods-content v-else></goods-content>
+			<div v-if="!showHistryGoods">
+				<goods-content></goods-content>
+			</div>
 		</div>
 
 		<div class="right_info">

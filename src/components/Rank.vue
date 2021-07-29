@@ -1,6 +1,6 @@
 <template>
     <div class="content_box clear">
-        <div class="tip">抢购结束</div>
+        <div class="tip text_medium">抢购结束</div>
         <div class="goods_detail">
 
             <div class="goods_image">
