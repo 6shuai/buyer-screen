@@ -10,7 +10,7 @@
             <div 
                 class="current_goods_wrap"
             >
-                <div class="title_card current_goods_title_card">{{ gameState == 4 ? '抢购结束' : '当前宝贝' }}</div>
+                <div class="title_card current_goods_title_card text_medium">{{ gameState == 4 ? '抢购结束' : '当前宝贝' }}</div>
                 <div 
                     class="goods_detail buy_end" 
                     :class="gameState == 3 ? 'real_time' : ''"

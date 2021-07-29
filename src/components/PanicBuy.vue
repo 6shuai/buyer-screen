@@ -5,9 +5,9 @@
 			<img :src="data.goodsCover" class="img" />
 		</div>
 		<div class="goods_detail_right">
-			<p class="goods_name text_overflow text_medium">
-				{{ data.goodsName
-				}}<span class="goods_desc">{{ data.goodsDescription }}</span>
+			<p class="goods_name text_overflow">
+				<span class="text_medium">{{ data.goodsName}}</span>
+				<span class="goods_desc">{{ data.goodsDescription }}</span>
 			</p>
 			<div class="buy_in_price">
 				<span class="int">￥{{ priceFormat(data.marketValue).int }}</span>

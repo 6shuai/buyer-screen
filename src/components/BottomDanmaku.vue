@@ -41,6 +41,10 @@ export default {
             return store.state.gameState
         })
 
+        const showDanmaku = computed(() => {
+            return store.state.showDanmaku
+        })
+
         //猜价通知
         const guessNotice = computed(() => {
             return store.state.guessNotice
@@ -75,14 +79,14 @@ export default {
             
             state.timer = setInterval(()=>{
                 if(!state.list.length) return
-                findLstRightDistance().then(res => {
-                    if(!res) return
+                // findLstRightDistance().then(res => {
+                    // if(!res) return
                     let item = state.list.shift()
                     if(item){
                         state.danmakulist.push(item)
                     }
-                })
-            }, 200)
+                // })
+            }, 500)
         }
 
         //获取最后一个弹幕 right的距离
@@ -93,6 +97,7 @@ export default {
                 let query = document.getElementsByClassName(`danmaku_${state.danmakulist.length-1}`)[0]
                 if(query){
                     right = query.getBoundingClientRect().right
+                    console.log(right, windowWidth - right)
                     if(windowWidth - right > 0){
                         resolve(true)
                     }else{
@@ -107,13 +112,12 @@ export default {
 
         //游戏状态
         watch(gameState, (newState, oldState) => {
-            console.log('newState---------------->', newState)
-            if(newState != null && !state.showDanmaku){
-                state.showDanmaku = true
+            if(newState != null && !store.state.showDanmaku){
+                store.state.showDanmaku = true
                 danmaku() 
             }
-            if(newState == null){
-                state.showDanmaku = false
+            if(newState == null || newState == 4){
+                store.state.showDanmaku = false
             }
         })
 
@@ -145,9 +149,9 @@ export default {
         const state = reactive({
             timer: undefined,
             gameState,
-            showDanmaku: false,
             list: [],   // 普通的弹幕队列
             danmakulist: [], // 当前正在执行的
+            showDanmaku,
         })
 
         return toRefs(state)
@@ -180,10 +184,11 @@ export default {
                 position: absolute;
                 left: 0;
                 height: 80px;
+                overflow: hidden;
                 line-height: 80px;
                 font-size: 35px;
                 padding: 10px 0;
-                animation: danmakuAnim 50s ease-in both;
+                animation: danmakuAnim 5s ease-in both;
 
                 .head_img{
                     width: 80px;

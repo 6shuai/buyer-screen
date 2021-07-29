@@ -385,6 +385,16 @@ export default {
                     bottom: 120px;
                     right: -20px;
                     z-index: 99;
+
+                    transform-origin: 50% 50%;
+                    transform: rotate(-2deg) scale(5);
+                    transition: all .3s cubic-bezier(0.6, 0.04, 0.98, 0.335);
+                    opacity: 0;
+
+                    &.active{
+                        opacity: 1;
+                        transform: rotate(-15deg) scale(1);
+                    }
                 }
             }
 

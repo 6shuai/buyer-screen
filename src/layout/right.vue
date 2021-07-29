@@ -29,9 +29,9 @@
 </template>
 
 <script>
-import { reactive, toRefs, computed } from "vue";
-import { useStore } from "vuex";
-import { translatesToHoursMinutesSeconds } from "../util/index";
+import { reactive, toRefs, computed } from "vue"
+import { useStore } from "vuex"
+import { translatesToHoursMinutesSeconds } from "../util/index"
 export default {
 	setup(props) {
 		const store = useStore();
@@ -53,7 +53,7 @@ export default {
 		//倒计时
 		const countDownFun = (num) => {
 			if (num < 0) {
-				clearTimeout(state.timer);
+				clearTimeout(state.timer)
 				return;
 			}else if(num < 10){
                 //还剩最后十秒
@@ -61,21 +61,21 @@ export default {
                 clearTimeout(state.timer)
                 return
             }
-			state.countDownNum = translatesToHoursMinutesSeconds(num);
-			num -= 1;
+			state.countDownNum = translatesToHoursMinutesSeconds(num)
+			num -= 1
 			state.timer = setTimeout(() => {
-				countDownFun(num);
-			}, 1000);
-		};
+				countDownFun(num)
+			}, 1000)
+		}
 
 		const state = reactive({
 			timer: undefined,
 			countDownNum: 0, //倒计时
 			gameState,
 			store
-		});
+		})
 
-		return toRefs(state);
+		return toRefs(state)
 	},
 };
 </script>

@@ -270,18 +270,6 @@ export default function () {
                         store.commit('SET_GAME_STATE', 3)
                         store.state.showCountDown = false
 
-                        store.commit('SET_SHOW_WRRNING', true)
-
-                        setTimeout(() => {
-                            store.commit('SET_SHOW_WRRNING', true)
-
-                            setTimeout(() => {
-                                store.commit('SET_SHOW_WRRNING', true)
-                            }, 5000);
-                        }, 5000);
-
-                        // return
-
                         setTimeout(() => {
                             store.commit('SET_GAME_STATE', 4)
                             store.commit('SET_BUY_MEMBER_LIST', [{"avatar":"999.jpg","nickName":"小钱","price":3.0},{"avatar":"555.jpg","nickName":"小王","price":3.1},{"avatar":"333.jpg","nickName":"小花","price":3.2},{"avatar":"888.jpg","nickName":"小赵","price":3.5},{"avatar":"111.jpg","nickName":"小红","price":3.6},{"avatar":"444.jpg","nickName":"小翠","price":3.7},{"avatar":"777.jpg","nickName":"小韩","price":3.8},{"avatar":"1100.jpg","nickName":"随便","price":3.9},{"avatar":"1000.jpg","nickName":"小王八","price":4.0},{"avatar":"222.jpg","nickName":"小吕","price":4.3}])
@@ -302,6 +290,8 @@ export default function () {
                             ])
 
                         }, 10000);
+
+                        // return
 
                         setTimeout(() => {
                             store.commit('SET_BUY_SUCCESS_MEMBER', {
@@ -363,7 +353,7 @@ export default function () {
 
                 }, 1000);
 
-            }, 80000)
+            }, 8000)
 
 
         }, 1000);

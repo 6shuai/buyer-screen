@@ -28,7 +28,7 @@
             class="guess_price tomorrow" 
             v-if="showTomorrowGoods"
         >
-            <div class="msg">明日精彩继续</div>
+            <div class="msg">明日精彩继续!</div>
         </div>
     </div>
 </template>

@@ -19,6 +19,7 @@ const state = {
 	closeWarning: true,
 	showTomorrowGoods: false,   //显示明日预告
 	showHistryGoods: false,      //显示竞拍历史
+	showDanmaku: false,         //显示猜价弹幕
 
 	tomorrowData: [            //明日宝贝
 		{

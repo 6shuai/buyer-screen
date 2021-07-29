@@ -4,9 +4,9 @@
             扫码查看更多宝贝, 不要错过优惠哦!
         </div>
 
-        <div class="hight_warp">
+        <!-- <div class="hight_warp">
             <img src="../images/sell_out.png" alt="" srcset="">
-        </div>
+        </div> -->
         
     </div>
 </template>
@@ -14,6 +14,7 @@
 <style lang="less" scope>
     .mimiview_wrap{
         background: url('../images/miniview_bg.png') center no-repeat;
+        background-size: auto 100%;
         position: absolute;
         left: 0;
         top: 0;

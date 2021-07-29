@@ -1,7 +1,6 @@
 <template>
 	<div
 		class="main"
-		@click="handleAudioPlay"
 	>
 		<div class="left_goods_list">
 			<left-goods-list></left-goods-list>
@@ -28,11 +27,6 @@
 		<!-- 数量不多了 警告 -->
 		<warning v-if="showWarning && !closeWarning"></warning>
 
-		<!-- 背景音乐 -->
-		<audio :src="bgmUrl" autoplay :loop="isLoop" ref="bgmRef"></audio>
-
-		<!-- 音效 -->
-		<audio :src="audioUrl" autoplay ref="audioRef"></audio>
 	</div>
 </template>
 
@@ -58,11 +52,9 @@ import mixin from "./mixins/index"
 
 export default {
 	setup(props) {
-		const bgmRef = ref(null)
-		const audioRef = ref(null)
 		const store = useStore()
 		const { initWebsocket } = socketMixin()
-		const { videoPlay, clearTimer } = mixin()
+		const { videoPlay, clearTimer, playJxmsBgm, pauseJxmsBgm, playJxmsSounds, jxmsAudio } = mixin()
 
 		//是否显示倒计时
 		const showCountDown = computed(() => {
@@ -73,16 +65,16 @@ export default {
 		const gameState = computed(() => {
 			return store.state.gameState
 		})
+		
 
 		//倒计时
 		const countDown = (e) => {
-			state.audioUrl = ""
-			if(state.gameState != 3) state.bgmUrl = ""
+			if(jxmsAudio.value.playing()) jxmsAudio.value.unload()
 			nextTick(() => {
 				if (e == "end") {
-					state.audioUrl = "./sounds/count_down_end.wav"
+					playJxmsSounds.value("./sounds/count_down_end.wav")
 				} else {
-					state.audioUrl = "./sounds/count_down_num.wav"
+					playJxmsSounds.value("./sounds/count_down_num.mp3")
 				}
 			})
 		}
@@ -111,6 +103,7 @@ export default {
 
 			//开始之前 背景音乐
 			gameBgm()
+			
 		})
 
 		watch(gameState, (newState, oldState) => {
@@ -126,8 +119,8 @@ export default {
 					break
 				case 1:
 					// 竞猜阶段
-					state.isLoop = true
-					state.bgmUrl = "./sounds/guess.mp3"
+					playJxmsBgm.value("./sounds/guess.mp3", true)
+					
 					videoPlay.value(guessTime + countdown - 9)
 					break
 				case 2:
@@ -137,14 +130,13 @@ export default {
 				case 3:
 					//抢购中
 					store.state.showCountDown = false
-					state.isLoop = true
-					state.bgmUrl = "./sounds/buy_ing.mp3"
+					playJxmsBgm.value("./sounds/buy_ing.mp3", true)
 					videoPlay.value(-1)
 					break
 				case 4:
 					//抢购结束
 					gameEnd()
-					videoPlay.value(60)
+					videoPlay.value(75)
 					
 					break
 				default:
@@ -154,51 +146,30 @@ export default {
 
 		//开始之前 和 结束后的 背景音乐
 		const gameBgm = () => {
-			state.isLoop = true
-			state.bgmUrl = "./sounds/before.mp3"
+			playJxmsBgm.value("./sounds/before.mp3", true)
 		}
 
 		//抢购结束
 		const gameEnd = () => {
-			state.bgmUrl = "./sounds/buy_end.mp3"
+			playJxmsSounds.value("./sounds/buy_end.mp3")
 			clearTimer.value()
 			setTimeout(() => {
 				gameBgm()
 			}, 2000)
 		}
 
-		//减小音量
-		const subtractVolume = () => {
-			if (state.bgmRef.volume <= 0.1) {
-				state.bgmRef.pause()
-				return
-			}
-			state.bgmRef.volume -= 0.1
-			setTimeout(() => {
-				subtractVolume()
-			}, 100)
-		};
-
-		//点击屏幕  播放音效
-		const handleAudioPlay = () => {
-			state.bgmRef.play()
-		};
-
 		watch(showWarning, (newState, oldState) => {
+			console.log('showWarning-------->', newState)
 			if (newState) {
-				state.audioUrl = "./sounds/warning.mp3"
-				state.audioRef.currentTime = 0
-				state.audioRef.play()
+				playJxmsSounds.value("./sounds/warning.mp3")
 			}
 		});
 
 		watch(showAdvVideo, (newState, oldState) => {
 			if (newState) {
-				// state.bgmRef.pause()
-				if(state.gameState != 3) subtractVolume()
+				if(state.gameState != 3) pauseJxmsBgm.value()
 			} else {
-				state.bgmRef.volume = 1;
-				state.bgmRef.play()
+				playJxmsBgm.value(null, true)
 			}
 		});
 
@@ -208,14 +179,10 @@ export default {
 			showWarning,
 			closeWarning,
 			isLoop: false,
-			bgmUrl: "",
 			audioUrl: "",
 			playTimer: undefined,
 			countDown,
-			showHistryGoods,
-			bgmRef,
-			audioRef,
-			handleAudioPlay,
+			showHistryGoods
 		})
 
 		return toRefs(state)
