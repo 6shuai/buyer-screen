@@ -68,8 +68,12 @@ export default {
 		//进度条
 		const progress = () => {
 				
-			let num = priceDeclineRate / 60
-			state.progressWidth -= num * marketValue * (state.progressWidth < 20 ? 0.8 : 1.2)
+			state.progressWidth = (realTimePrice.full / marketValue) * 100
+			if(state.progressWidth < 20){
+				state.progressWidth * 1.2
+			}else{
+				state.progressWidth * 0.8
+			}
 
 			if(state.progressWidth <= 0){
 				clearTimeout(state.progressTimer)
@@ -79,7 +83,7 @@ export default {
 			state.progressRef.style.width = `${(state.progressWidth)}%`
 			state.progressTimer = setTimeout(() => {
 				progress()
-			}, 1000)
+			}, 100)
 		}
 
 		//获取 css animation @keyframes属性值

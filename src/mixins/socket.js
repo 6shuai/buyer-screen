@@ -307,14 +307,14 @@ export default function () {
                     "guessRules":[{"award":30.0,"correctDigit":3,"id":13},{"award":20.0,"correctDigit":2,"id":12},{"award":10.0,"correctDigit":1,"id":11}],
                     "guessTime":90,
                     "id":7005,
-                    "marketValue":10.0,
+                    "marketValue":2099,
                     "orderExpiration":30,
                     "paymentMethod":1,
                     "pickUpAddresses":[{"address":"酷乐潮玩  上海市宝山区  宝山龙湖天街B1-104号","deliverType":1,"id":35,"placeId":15}],
                     "preheatTime":180,
                     "priceDecline":0.3,
-                    "priceDeclineFrequency":3,
-                    "priceDeclineRate":6.0
+                    "priceDeclineFrequency":0.1,
+                    "priceDeclineRate": 100
                 })
 
                 setTimeout(() => {
@@ -328,6 +328,8 @@ export default function () {
                     setTimeout(() => {
                         store.commit('SET_GAME_STATE', 3)
                         store.state.showCountDown = false
+
+                        return
 
                         setTimeout(() => {
                             store.commit('SET_GAME_STATE', 4)

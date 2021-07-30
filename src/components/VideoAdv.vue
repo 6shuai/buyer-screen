@@ -39,7 +39,7 @@ export default {
 
             if(!state.resData.goods || !state.resData.goods.video  || !state.resData.goods.video.length) return
 
-            let { url, duration } = state.resData.goods.video[state.currentVideoIndex]
+            let { url, duration } = state.resData.goods.video[state.currentVideoIndex || 0]
             
             state.videoUrl = url
             var elevideo = document.getElementById("video");
@@ -94,7 +94,6 @@ export default {
                 state.resData = store.state.goodsDataDetail
 
                 let num = state.resData.preheatTime
-                store.state.videoAdvDuration = state.video[state.currentVideoIndex].duration
                 videoPlay()
                 elevideo.addEventListener('ended', () => { //结束.
                     // let videoTotal = state.resData.goods.video.length
