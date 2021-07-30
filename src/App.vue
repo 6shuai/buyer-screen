@@ -56,7 +56,7 @@ export default {
 	setup(props) {
 		const store = useStore()
 		const { initWebsocket } = socketMixin()
-		const { videoPlay, clearTimer, playJxmsBgm, pauseJxmsBgm, playJxmsSounds, jxmsAudio } = mixin()
+		const { videoPlay, clearTimer, playJxmsBgm, pauseJxmsBgm, playJxmsSounds, jxmsAudio, guideStart } = mixin()
 
 		//是否显示倒计时
 		const showCountDown = computed(() => {
@@ -71,7 +71,11 @@ export default {
 
 		//倒计时
 		const countDown = (e) => {
-			if(jxmsAudio.value.playing()) jxmsAudio.value.unload()
+			try {
+				if(jxmsAudio.value.playing()) jxmsAudio.value.unload()
+			} catch (error) {
+				
+			}
 			nextTick(() => {
 				if (e == "end") {
 					playJxmsSounds.value("./sounds/count_down_end.wav")
@@ -105,7 +109,7 @@ export default {
 
 			//开始之前 背景音乐
 			gameBgm()
-			
+
 		})
 
 		watch(gameState, (newState, oldState) => {
@@ -117,13 +121,20 @@ export default {
 				case 0:
 					//预热阶段
 					gameBgm()
-					videoPlay.value(preheatTime)
+					videoPlay.value(preheatTime - 10, 0)
+					console.log('预热阶段-------->', preheatTime - 10)
+					gameGuessPriceStartVoice(preheatTime)
 					break
 				case 1:
 					// 竞猜阶段
-					playJxmsBgm.value("./sounds/guess.mp3", true)
+					playJxmsSounds.value("./voice/01_01.mp3", () => {
+						playJxmsBgm.value("./sounds/guess.mp3", true)
+
+						guideStart.value(guessTime + countdown - 9)
+					})
 					
-					videoPlay.value(guessTime + countdown - 9)
+					// 9 = 倒计时9秒
+					videoPlay.value(guessTime + countdown - 9, 1)
 					break
 				case 2:
 					// 倒计时
@@ -132,19 +143,28 @@ export default {
 				case 3:
 					//抢购中
 					store.state.showCountDown = false
-					playJxmsBgm.value("./sounds/buy_ing.mp3", true)
-					videoPlay.value(-1)
+					playJxmsSounds.value("./voice/02_03.mp3", () => {
+						playJxmsBgm.value("./sounds/buy_ing.mp3", true)
+					})
+					videoPlay.value(-1, 3)
 					break
 				case 4:
 					//抢购结束
 					gameEnd()
-					videoPlay.value(75)
+					videoPlay.value(30, 4)
 					
 					break
 				default:
 					break
 			}
-		});
+		})
+
+		//预热阶段后十秒   （猜价开始前10秒）
+		const gameGuessPriceStartVoice = (duration) =>{
+			setTimeout(() => {
+				playJxmsSounds.value("./voice/00_02.mp3")
+			}, (duration - 14)  * 1000);
+		}
 
 		//开始之前 和 结束后的 背景音乐
 		const gameBgm = () => {
@@ -153,11 +173,15 @@ export default {
 
 		//抢购结束
 		const gameEnd = () => {
-			playJxmsSounds.value("./sounds/buy_end.mp3")
 			clearTimer.value()
-			setTimeout(() => {
-				gameBgm()
-			}, 2000)
+			pauseJxmsBgm.value()
+			playJxmsSounds.value("./sounds/buy_end.mp3", () => {
+				playJxmsSounds.value("./voice/02_05.mp3", () => {
+					setTimeout(() => {
+						gameBgm()
+					}, 2000)
+				})
+			})
 		}
 
 		watch(showWarning, (newState, oldState) => {
@@ -169,9 +193,9 @@ export default {
 
 		watch(showAdvVideo, (newState, oldState) => {
 			if (newState) {
-				if(state.gameState != 3) pauseJxmsBgm.value()
+				pauseJxmsBgm.value()
 			} else {
-				playJxmsBgm.value(null, true)
+				if(state.gameState != 4) playJxmsBgm.value(null, true)
 			}
 		});
 

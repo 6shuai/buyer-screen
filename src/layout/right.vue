@@ -32,9 +32,12 @@
 import { reactive, toRefs, computed } from "vue"
 import { useStore } from "vuex"
 import { translatesToHoursMinutesSeconds } from "../util/index"
+import mixin from '../mixins/index'
+
 export default {
 	setup(props) {
 		const store = useStore();
+		const { pauseJxmsBgm, playJxmsSounds } = mixin()
 
 		//游戏状态
 		const gameState = computed(() => {
@@ -60,7 +63,9 @@ export default {
                 store.state.showCountDown = true
                 clearTimeout(state.timer)
                 return
-            }
+            }else if(num == 13){
+				playJxmsSounds.value('./voice/02_02.mp3')
+			}
 			state.countDownNum = translatesToHoursMinutesSeconds(num)
 			num -= 1
 			state.timer = setTimeout(() => {

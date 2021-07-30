@@ -2,7 +2,7 @@
     <!-- 当前宝贝 -->
     <div 
         class="current_goods_content"
-        :class="{ hide: showAdvVideo || showCountDown || (gameState && gameState!=1 && gameState != 2)}"
+        :class="{ hide: showAdvVideo || showGuide ||  showCountDown || (gameState && gameState!=1 && gameState != 2)}"
         :style="{ transition: `all .5s ease-in ${showAdvVideo || showCountDown ? '0s' : '.3s'}` }"
     >
         <!-- 未开始 -->
@@ -72,6 +72,9 @@
     <!-- 视频广告 -->
     <video-adv v-if="!showCountDown"></video-adv>
 
+    <!-- 游戏教学 -->
+    <guide></guide>
+
     <!-- 底部 -->
     <bottom-info v-show="!showCountDown"></bottom-info>
 
@@ -89,6 +92,7 @@ import BuySuccessMember from '../components/BuySuccessMember.vue'
 import PanicBuy from '../components/PanicBuy.vue'
 import BuyEnd from '../components/BuyEnd.vue'
 import Rank from '../components/Rank.vue'
+import Guide from '../components/Guide.vue'
 
 import { useStore } from 'vuex'
 import { priceFormat } from '../util/index'
@@ -100,6 +104,11 @@ export default {
         //是否显示视频
         const showAdvVideo = computed(() => {
             return store.state.showAdvVideo
+        })
+
+        //是否显示游戏教学
+        const showGuide = computed(() => {
+            return store.state.showGuide
         })
 
         //游戏状态
@@ -136,6 +145,7 @@ export default {
 
         const state = reactive({
             showAdvVideo,
+            showGuide,
             gameState,
             showCountDown,
             currentGoods,
@@ -151,7 +161,8 @@ export default {
         BuySuccessMember,
         PanicBuy,
         BuyEnd,
-        Rank
+        Rank,
+        Guide
     }
 }
 
@@ -373,7 +384,7 @@ export default {
                 position: relative;
 
                 .img{
-                    width: 500px;
+                    // width: 500px;
                     height: 500px;
                 }
 

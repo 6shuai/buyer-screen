@@ -20,11 +20,16 @@
 
 <script>
 import { reactive, toRefs, onMounted, nextTick } from 'vue'
+import mixin from '../mixins/index'
 export default {
     emits: ['countDown'],
     setup(props, { emit }) {
+        const { pauseJxmsBgm, playJxmsSounds } = mixin()
+
         onMounted(() => {
             countdown()
+            pauseJxmsBgm.value('================+++++++++++++++')
+            console.log('停!!!')
         })
 
         const countdown = () => {
@@ -39,10 +44,12 @@ export default {
                 state.showImgShaow = true
                 setTimeout(() => {
                     state.countdownNumShaow = state.countdownNum
+                    playJxmsSounds.value(`./voice/digi_${state.countdownNum}.mp3`)
                 }, 100);
             })
 
             emit('countDown')
+
             state.timer = setTimeout(() => {
                 state.showImgShaow = false
                 countdown()

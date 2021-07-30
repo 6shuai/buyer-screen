@@ -37,26 +37,39 @@
 import { reactive, toRefs, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { formatTime, priceFormat } from '../util/index'
+import mixin from '../mixins/index'
+import socketMixin from "../mixins/socket"
+
 export default {
     setup(props) {
         const store = useStore()
+        const { pauseJxmsBgm, playJxmsSounds } = mixin()
+        const { websocketSendData } = socketMixin()
 
         onMounted(() => {
             let { currentGoodsIndex, goodsListData } = store.state
-            if(currentGoodsIndex < goodsListData.length-1){
-                state.nextGoods = goodsListData[currentGoodsIndex]
-            }else{
+            // if(currentGoodsIndex < goodsListData.length-1){
+            //     state.nextGoods = goodsListData[1]
+            // }else{
+                
                 setTimeout(() => {
-                    store.state.showTomorrowGoods = true
-                    store.state.showAdvVideo = true
+                    //明天还有宝贝
+                    pauseJxmsBgm.value()
+                    playJxmsSounds.value('./voice/04_01.mp3', () => {
+                        store.state.showTomorrowGoods = true
+                        store.state.showAdvVideo = true
+                    })
 
-                    setTimeout(() => {
-                        store.state.showAdvVideo = false
-                        store.state.showHistryGoods = true
-                    }, 1 * 60000);
+                    //明天没有宝贝
+                    // setTimeout(() => {
+                    //     store.state.showAdvVideo = false
+                    //     store.state.showHistryGoods = true
+                    //     playJxmsSounds.value('./voice/04_02.mp3')
+                    // }, 60 * 1000);
 
-                }, 1 * 75000);
-            }
+                }, 120 * 1000);
+
+            // }
         })
         
         const state = reactive({
@@ -104,7 +117,6 @@ export default {
             }
 
             .goods_img{
-                width: 248px;
                 height: 100%;
                 display: inline-block;
                 text-align: center;

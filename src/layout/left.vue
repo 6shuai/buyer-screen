@@ -5,7 +5,7 @@
         <div 
             v-if="!showTomorrowGoods"
             class="current_goods_box"
-            :class="(showAdvVideo || showRankList || showCountDown) ? 'current_goods_card_anim_show' : 'current_goods_card_anim_hide' "
+            :class="(showAdvVideo || showGuide || showRankList || showCountDown) ? 'current_goods_card_anim_show' : 'current_goods_card_anim_hide' "
         >
             <div 
                 class="current_goods_wrap"
@@ -72,7 +72,7 @@
         <!-- 即将开始  class  put_away  收起-->
         <div 
             class="goods_list"
-            :class="{ put_away: showAdvVideo || showRankList || showCountDown }"
+            :class="{ put_away: showAdvVideo || showGuide || showRankList || showCountDown }"
             v-if="goodsList.length && !showTomorrowGoods"
         >
             <div class="title_card text_medium">即将开始</div>
@@ -202,6 +202,11 @@ export default {
             return store.state.showAdvVideo
         })
 
+        //是否显示教学
+        const showGuide = computed(() => {
+            return store.state.showGuide
+        })
+
         //是否显示抢购结束
         const showRankList = computed(() => {
             return store.state.showRankList
@@ -270,6 +275,7 @@ export default {
             gameState,
             showRankList,
             showAdvVideo,
+            showGuide,
             realTimePrice,
             goodsDataDetail,
             buyKing,
@@ -571,7 +577,7 @@ export default {
                     position: relative;
     
                     img{
-                        width: 100%;
+                        // width: 100%;
                         height: 100%;
                     }
     

@@ -105,8 +105,8 @@ export default {
 
             console.log('距离游戏开始还有---->(', num , ')秒')
         
-            countDownFun(80)
-            videoPlay.value(80)
+            countDownFun(20)
+            videoPlay.value(20, -1)
         }
 
         //游戏开始前 倒计时
@@ -125,6 +125,13 @@ export default {
         //抢购开始时间
         watch(beginTime, (newData, oldData) => {
             if(newData){
+                countDownStart(beginTime.value)
+            }
+        })
+
+        watch(gameState, (n, o) => {
+            if(n == null){
+                console.log('倒计时再来')
                 countDownStart(beginTime.value)
             }
         })

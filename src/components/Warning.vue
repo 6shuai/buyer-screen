@@ -9,12 +9,18 @@
 <script>
 import { onMounted } from 'vue'
 import { useStore } from 'vuex'
+import mixin from '../mixins/index'
+
 export default {
     setup(props) {
         const store = useStore()
+        const { playJxmsSounds } = mixin()
+
         onMounted(() => {
             setTimeout(() => {
-                store.state.showWarning = false
+                playJxmsSounds.value('./voice/02_04.mp3', () => {
+                    store.state.showWarning = false
+                })
             }, 4000);  
         })
     }

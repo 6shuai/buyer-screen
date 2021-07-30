@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import { reactive, toRefs, onMounted } from 'vue'
+import { reactive, toRefs, onMounted, onUnmounted } from 'vue'
 import { useStore } from 'vuex'
 import { priceFormat } from '../util/index'
 
@@ -64,8 +64,9 @@ export default {
         const showRankData = () => {
             state.rankList = state.resData[state.pageIndex] 
             clearTimeout(state.timer)
+            clearTimeout(state.rankTimer1)
             state.hideRank = false
-            setTimeout(() => {
+            state.rankTimer1 = setTimeout(() => {
                 state.hideRank = true
             }, 5300);
             state.timer = setTimeout(() => {
@@ -78,6 +79,11 @@ export default {
             }, 6500);
         }
 
+        onUnmounted(() => {
+            clearTimeout(state.rankTimer1)
+            clearTimeout(state.timer)
+        })
+
 
         const state = reactive({
             totalPage: 0,
@@ -87,6 +93,7 @@ export default {
             hideRank: false,
             priceFormat,
             timer: undefined,
+            rankTimer1: undefined,
             buyMemberList: []
         })
 

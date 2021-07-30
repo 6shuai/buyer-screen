@@ -16,7 +16,7 @@
             </div>
             <div class="goods_detail_right">
                 <p class="goods_name text_overflow"><span class="text_medium">{{ data.goodsName }}</span><span class="goods_desc">{{ data.goodsDescription }}</span></p>
-                <p class="goods_count text_medium">宝贝库存: 10</p>
+                <p class="goods_count text_medium">宝贝库存: 38</p>
                 <p class="goods_del_price">￥{{ priceFormat(data.marketValue).int }}<span class="decimals">{{ priceFormat(data.marketValue).decimals }}</span></p>
             </div>
         </div>
@@ -31,10 +31,13 @@
 import { reactive, toRefs, onMounted, computed } from 'vue'
 import { priceFormat } from '../util/index'
 import { useStore } from 'vuex'
+import mixin from '../mixins/index'
+
 export default {
     props: ['data'],
     setup(props) {
         const store = useStore()
+        const { playJxmsSounds } = mixin()
 
         const buyKing = computed(() => {
             return store.state.buyKing
@@ -43,6 +46,10 @@ export default {
         onMounted(() => {
             setTimeout(() => {
                 store.state.showRankList = true
+
+                playJxmsSounds.value('./voice/03_02.mp3')
+
+
             }, 20000);
 
             setTimeout(() => {

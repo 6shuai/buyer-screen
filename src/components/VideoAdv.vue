@@ -36,14 +36,26 @@ export default {
 
         //播放视频
         const videoPlay = () => {
-            // state.videoUrl = state.resData.goods.video[state.currentVideoIndex].url
-            state.videoUrl = 'https://static.xfengjing.com/video/2021/07/18/b90a8065-143f-4ed8-837b-28b35aa2462f.mp4'
+
+            if(!state.resData.goods || !state.resData.goods.video  || !state.resData.goods.video.length) return
+
+            let { url, duration } = state.resData.goods.video[state.currentVideoIndex]
+            
+            state.videoUrl = url
             var elevideo = document.getElementById("video");
 
             nextTick(() => {
                 elevideo.currentTime = 0
                 elevideo.play()
-                countDownFun(15)
+
+                // elevideo.addEventListener('ended', () => { //结束.
+                //     let videoTotal = 3
+                //     console.log('视频播放结束')
+                //     state.currentVideoIndex = state.currentVideoIndex + 1 >= videoTotal ? 0 : state.currentVideoIndex + 1
+                // //     videoPlay()
+                // }, false);
+
+                countDownFun(duration)
             })
 
             if(state.showTomorrowGoods){
@@ -53,7 +65,13 @@ export default {
             // state.isLoop = false
             setTimeout(() => {
                 store.state.showAdvVideo = false
-            }, 15 * 1000);
+                console.log('视频播放结束')
+
+                let videoTotal = state.resData.goods.video.length
+                // console.log('视频播放结束')
+                state.currentVideoIndex = state.currentVideoIndex + 1 >= videoTotal ? 0 : state.currentVideoIndex + 1
+
+            }, duration * 1000);
         } 
 
         //广告倒计时
@@ -76,6 +94,7 @@ export default {
                 state.resData = store.state.goodsDataDetail
 
                 let num = state.resData.preheatTime
+                store.state.videoAdvDuration = state.video[state.currentVideoIndex].duration
                 videoPlay()
                 elevideo.addEventListener('ended', () => { //结束.
                     // let videoTotal = state.resData.goods.video.length
@@ -98,7 +117,21 @@ export default {
             currentVideoIndex: 0,
             resData: {},
             countDownTime: '00:00',
-            timer: undefined
+            timer: undefined,
+            video: [
+                { 
+                    url: 'https://static.xfengjing.com/video/2021/07/30/5b5be1a9-8ee9-4a9b-975c-0780b4d38d01.mp4',
+                    duration: 33
+                },
+                { 
+                    url: 'https://static.xfengjing.com/video/2021/07/30/b78fdc33-1bd7-422f-852f-1c10973919e8.mp4',
+                    duration: 33
+                },
+                // { 
+                //     url: 'https://static.xfengjing.com/video/2021/07/30/64e1aa49-602d-467b-a9e2-66c7779e1824.mp4',
+                //     duration: 54
+                // }
+            ]
         })
 
         return toRefs(state)

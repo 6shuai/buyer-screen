@@ -21,41 +21,47 @@ const state = {
 	showHistryGoods: false,      //显示竞拍历史
 	showDanmaku: false,         //显示猜价弹幕
 
+	showGuide: false,
+	guideStep: 1,
+	videoAdvDuration: 0,
+	linshi: false,
+	currentVideoIndex: 0,            //当前视频
+
 	tomorrowData: [            //明日宝贝
 		{
-			beginTime: 1626863400000,
-			goodsCover: "https://ec.xfengjing.com/picture/2021/06/30/3da039a0-aa74-4c28-a713-753bdd7a3aaf.jpg",
-			goodsDescription: "小米手机Ultra",
-			goodsName: "小米手机",
-			marketValue: 10,
-			priceDeclineRate: 6,
+			beginTime: 1627641000000,
+			goodsCover: "./索尼85寸液晶电视.png",
+			goodsDescription: "索尼85⼨液晶电视",
+			goodsName: "索尼电视",
+			marketValue: 15999,
+			priceDeclineRate: 2000,
 			totalGuessAward: 0
 		},
 		{
-			beginTime: 1626865200000,
-			goodsCover: "https://ec.xfengjing.com/picture/2021/06/30/3da039a0-aa74-4c28-a713-753bdd7a3aaf.jpg",
-			goodsDescription: "小米手机Ultra",
-			goodsName: "小米手机",
-			marketValue: 10,
-			priceDeclineRate: 6,
+			beginTime: 1627642800000,
+			goodsCover: "./Dior口红套装.png",
+			goodsDescription: "Dior⼝红套装",
+			goodsName: "Dior⼝红",
+			marketValue: 1299,
+			priceDeclineRate: 200,
 			totalGuessAward: 0
 		},
 		{
-			beginTime: 1626867000000,
-			goodsCover: "https://ec.xfengjing.com/picture/2021/06/30/3da039a0-aa74-4c28-a713-753bdd7a3aaf.jpg",
-			goodsDescription: "小米手机Ultra",
-			goodsName: "小米手机",
-			marketValue: 10,
-			priceDeclineRate: 6,
+			beginTime: 1627644600000,
+			goodsCover: "./戴森无绳吸尘器V11.png",
+			goodsDescription: "戴森⽆绳吸尘器V11",
+			goodsName: "戴森⽆绳吸尘器",
+			marketValue: 5299,
+			priceDeclineRate: 500,
 			totalGuessAward: 0
 		},
 		{
-			beginTime: 1626867000000,
-			goodsCover: "https://ec.xfengjing.com/picture/2021/06/30/3da039a0-aa74-4c28-a713-753bdd7a3aaf.jpg",
-			goodsDescription: "小米手机Ultra",
-			goodsName: "小米手机",
-			marketValue: 10,
-			priceDeclineRate: 6,
+			beginTime: 1627646400000,
+			goodsCover: "./戴森无绳吸尘器V11.png",
+			goodsDescription: "戴森⽆绳吸尘器V11",
+			goodsName: "戴森⽆绳吸尘器",
+			marketValue: 5299,
+			priceDeclineRate: 500,
 			totalGuessAward: 0
 		}
 	],
@@ -63,38 +69,38 @@ const state = {
 	historyGoodsData: [            //竞拍历史
 		{
 			beginTime: 1626350400000,
-			goodsCover: "https://ec.xfengjing.com/picture/2021/06/30/3da039a0-aa74-4c28-a713-753bdd7a3aaf.jpg",
-			goodsDescription: "小米手机Ultra",
-			goodsName: "小米手机",
-			marketValue: 3999,
-			priceDeclineRate: 2450,
+			goodsCover: "./索尼85寸液晶电视.png",
+			goodsDescription: "索尼85⼨液晶电视",
+			goodsName: "索尼电视",
+			marketValue: 15999,
+			priceDeclineRate: 9800,
 			totalGuessAward: 0
 		},
 		{
 			beginTime: 1626436800000,
-			goodsCover: "https://ec.xfengjing.com/picture/2021/06/30/3da039a0-aa74-4c28-a713-753bdd7a3aaf.jpg",
-			goodsDescription: "小米手机Ultra",
-			goodsName: "小米手机",
-			marketValue: 3999,
-			priceDeclineRate: 2605,
+			goodsCover: "./Dior口红套装.png",
+			goodsDescription: "Dior⼝红套装",
+			goodsName: "Dior⼝红",
+			marketValue: 1299,
+			priceDeclineRate: 860,
 			totalGuessAward: 0
 		},
 		{
 			beginTime: 1626523200000,
-			goodsCover: "https://ec.xfengjing.com/picture/2021/06/30/3da039a0-aa74-4c28-a713-753bdd7a3aaf.jpg",
-			goodsDescription: "小米手机Ultra",
-			goodsName: "小米手机",
-			marketValue: 3999,
-			priceDeclineRate: 2846,
+			goodsCover: "./戴森无绳吸尘器V11.png",
+			goodsDescription: "戴森⽆绳吸尘器V11",
+			goodsName: "戴森⽆绳吸尘器",
+			marketValue: 5299,
+			priceDeclineRate: 4299,
 			totalGuessAward: 0
 		},
 		{
 			beginTime: 1626609600000,
-			goodsCover: "https://ec.xfengjing.com/picture/2021/06/30/3da039a0-aa74-4c28-a713-753bdd7a3aaf.jpg",
-			goodsDescription: "小米手机Ultra",
-			goodsName: "小米手机",
-			marketValue: 3999,
-			priceDeclineRate: 2556,
+			goodsCover: "./戴森无绳吸尘器V11.png",
+			goodsDescription: "戴森⽆绳吸尘器V11",
+			goodsName: "戴森⽆绳吸尘器",
+			marketValue: 5299,
+			priceDeclineRate: 4580,
 			totalGuessAward: 0
 		}
 	],
