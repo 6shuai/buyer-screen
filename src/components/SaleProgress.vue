@@ -68,11 +68,11 @@ export default {
 		//进度条
 		const progress = () => {
 				
-			state.progressWidth = (realTimePrice.full / marketValue) * 100
-			if(state.progressWidth < 20){
-				state.progressWidth * 1.2
+			state.progressWidth = (state.realTimePrice.full / marketValue) * 100
+			if(state.progressWidth < 10){
+				state.progressWidth * 1.05
 			}else{
-				state.progressWidth * 0.8
+				state.progressWidth * 0.95
 			}
 
 			if(state.progressWidth <= 0){

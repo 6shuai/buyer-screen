@@ -7,13 +7,13 @@
         
         <div v-else>
             <!-- 箭头 -->
-            <arraw-card v-if="!gameState || gameState==1 || gameState==2 || showTomorrowGoods"></arraw-card>
+            <arraw-card v-if="!gameState || gameState==gameStateId.guessPrice || gameState==gameStateId.countDown || showTomorrowGoods"></arraw-card>
 
             <!-- 优惠进度 -->
-            <sale-progress v-else-if="gameState==3"></sale-progress>
+            <sale-progress v-else-if="gameState == gameStateId.panicBuyIng"></sale-progress>
 
             <!-- 秒杀王 -->
-            <king v-else-if="gameState == 4"></king> 
+            <king v-else-if="gameState == gameStateId.panicBuyEnd"></king> 
 
             <!-- 最底部 -->
             <bottom-danmaku></bottom-danmaku>
@@ -30,6 +30,7 @@ import King from '../components/King.vue'
 import Foreshow from '../components/foreshow.vue'
 import { useStore } from 'vuex'
 import { reactive, toRefs, computed } from 'vue'
+import { gameStateId } from '../util/index'
 
 export default {
     setup(props) {
@@ -52,7 +53,8 @@ export default {
         const state = reactive({
             gameState,
             showRankList,
-            showTomorrowGoods
+            showTomorrowGoods,
+            gameStateId
         })
 
         return toRefs(state)

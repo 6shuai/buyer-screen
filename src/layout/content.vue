@@ -2,18 +2,18 @@
     <!-- 当前宝贝 -->
     <div 
         class="current_goods_content"
-        :class="{ hide: showAdvVideo || showGuide ||  showCountDown || (gameState && gameState!=1 && gameState != 2)}"
+        :class="{ hide: beforeContentIsShow() }"
         :style="{ transition: `all .5s ease-in ${showAdvVideo || showCountDown ? '0s' : '.3s'}` }"
     >
         <!-- 未开始 -->
         <div 
             class="content_box clear"
-            v-if="(!gameState || gameState==1 || gameState == 2) && currentGoods"
+            v-if="(!gameState || gameState==gameStateId.guessPrice || gameState == gameStateId.countDown) && currentGoods"
         >
             <div class="tip text_medium">当前宝贝</div>
             <div class="goods_detail">
                 <div class="goods_image">
-                    <img :src="currentGoods.goodsCover" class="img">
+                    <div class="img" :style="{ background: `url(${currentGoods.goodsCover}) center no-repeat`, backgroundSize: '100% 100%' }"></div>
                 </div>
                 <p class="goods_name text_overflow text_medium">{{ currentGoods.goodsName }}</p>
                 <p class="goods_desc text_overflow">{{ currentGoods.goodsDescription }}</p>
@@ -36,12 +36,12 @@
     <!-- 抢购中 -->
     <div 
         class="current_goods_content"
-        :class="{ hide: showAdvVideo || showCountDown || (gameState!=3) }"
-        :style="{ transition: `all .5s ease-in ${showAdvVideo || gameState== 3 ? '0s' : '.3s'}` }"
+        :class="{ hide: panicBuyContentIsShow() }"
+        :style="{ transition: `all .5s ease-in ${showAdvVideo || gameState== gameStateId.panicBuyIng ? '0s' : '.3s'}` }"
     >
         <div 
             class="content_box buy_in clear"
-            v-if="gameState == 3"
+            v-if="gameState == gameStateId.panicBuyIng"
         >
             <panic-buy :data="currentGoods"></panic-buy>
         </div>
@@ -50,22 +50,22 @@
     <!-- 抢购结束 -->
     <div 
         class="current_goods_content"
-        :class="{ hide: showAdvVideo || gameState != 4 || showRankList || showTomorrowGoods }"
-        :style="{ transition: `all .5s ease-in ${showAdvVideo || gameState != 4 ? '0s' : '.3s'}` }"
+        :class="{ hide: panicBuyEndContentIsShow() }"
+        :style="{ transition: `all .5s ease-in ${showAdvVideo || gameState != gameStateId.panicBuyEnd ? '0s' : '.3s'}` }"
     >
         <!-- 抢购结束 -->
-        <buy-end :data="currentGoods" v-if="gameState == 4"></buy-end>
+        <buy-end :data="currentGoods" v-if="gameState == gameStateId.panicBuyEnd"></buy-end>
 
     </div>
 
     <!-- 抢购排行榜 -->
     <div 
         class="current_goods_content"
-        :class="{ hide: showAdvVideo || !showRankList || showTomorrowGoods }"
-        :style="{ transition: `all .5s ease-in ${showAdvVideo || gameState != 4 ? '0s' : '.3s'}` }"
+        :class="{ hide: panicBuyRankContentIsShow() }"
+        :style="{ transition: `all .5s ease-in ${showAdvVideo || gameState != gameStateId.panicBuyEnd ? '0s' : '.3s'}` }"
     >
 
-        <rank :data="currentGoods" v-if="gameState == 4 && !showTomorrowGoods"></rank>
+        <rank :data="currentGoods" v-if="gameState == gameStateId.panicBuyEnd && !showTomorrowGoods"></rank>
 
     </div>
 
@@ -79,7 +79,7 @@
     <bottom-info v-show="!showCountDown"></bottom-info>
 
     <!-- 抢购成功  弹幕 -->
-    <buy-success-member v-if="gameState == 3 || gameState == 4"></buy-success-member>
+    <buy-success-member v-if="gameState == gameStateId.panicBuyIng || gameState == gameStateId.panicBuyEnd"></buy-success-member>
 
 </template>
 
@@ -95,7 +95,7 @@ import Rank from '../components/Rank.vue'
 import Guide from '../components/Guide.vue'
 
 import { useStore } from 'vuex'
-import { priceFormat } from '../util/index'
+import { priceFormat, gameStateId } from '../util/index'
 
 export default {
     setup(props) {
@@ -143,6 +143,26 @@ export default {
             }
         })
 
+        //未开始
+        const beforeContentIsShow = () => {
+            return state.showAdvVideo || state.showGuide ||  state.showCountDown || (state.gameState && state.gameState!=1 && state.gameState != gameStateId.countDown)
+        }
+        
+        //抢购中
+        const panicBuyContentIsShow = () => {
+            return state.showAdvVideo || state.showCountDown || (state.gameState != gameStateId.panicBuyIng)
+        }
+
+        //抢购结束
+        const panicBuyEndContentIsShow = () => {
+            return state.showAdvVideo || state.gameState != gameStateId.panicBuyEnd || state.showRankList || state.showTomorrowGoods
+        }
+
+        //抢购排行榜
+        const panicBuyRankContentIsShow = () => {
+            return state.showAdvVideo || !state.showRankList || state.showTomorrowGoods
+        }
+
         const state = reactive({
             showAdvVideo,
             showGuide,
@@ -150,7 +170,12 @@ export default {
             showCountDown,
             currentGoods,
             priceFormat,
-            showRankList
+            gameStateId,
+            showRankList,
+            beforeContentIsShow,
+            panicBuyContentIsShow,
+            panicBuyEndContentIsShow,
+            panicBuyRankContentIsShow
         })
 
         return toRefs(state)
@@ -384,7 +409,7 @@ export default {
                 position: relative;
 
                 .img{
-                    // width: 500px;
+                    width: 500px;
                     height: 500px;
                 }
 

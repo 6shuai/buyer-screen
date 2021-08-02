@@ -119,10 +119,12 @@ export default {
             transform: skew(-19deg);
             margin-left: 87px;
             overflow: hidden;
+            position: relative;
 
             .member_list{
                 width: 750px;
                 transform: skew(19deg);
+                position: absolute;
             }
         }
 

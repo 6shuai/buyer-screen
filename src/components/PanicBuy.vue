@@ -2,7 +2,7 @@
 	<div class="tip text_medium">当前宝贝</div>
 	<div class="goods_detail">
 		<div class="goods_image">
-			<img :src="data.goodsCover" class="img" />
+			<div class="img" :style="{ background: `url(${data.goodsCover}) center no-repeat`, backgroundSize: '100% 100%' }"></div>
 		</div>
 		<div class="goods_detail_right">
 			<p class="goods_name text_overflow">
@@ -22,8 +22,8 @@
 			</p>
 		</div>
 	</div>
-	<div class="real_price_warp" :class="{ sell_out_crad: gameState == 4 }">
-		<div class="data" v-if="gameState == 4">已售罄</div>
+	<div class="real_price_warp" :class="{ sell_out_crad: gameState == gameStateId.panicBuyEnd }">
+		<div class="data" v-if="gameState == gameStateId.panicBuyEnd">已售罄</div>
 		<div class="data text_medium" v-else>
 			实时价格: <span class="price_int">￥{{ realTimePrice.int }}</span
 			><span class="price_decimals">{{ realTimePrice.decimals }}</span>
@@ -33,7 +33,7 @@
 
 <script>
 import { reactive, toRefs, onMounted, computed, onUnmounted } from "vue";
-import { priceFormat } from "../util/index";
+import { priceFormat, gameStateId } from "../util/index";
 import { useStore } from "vuex";
 export default {
 	props: ["data"],
@@ -85,6 +85,7 @@ export default {
 		const state = reactive({
 			gameState,
 			priceFormat,
+			gameStateId,
 			timer: undefined,
 			realTimePrice: priceFormat(currentPrice),
 		});

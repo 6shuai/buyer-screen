@@ -7,7 +7,7 @@
                 <p class="time">{{ formatTime(nextGoods.beginTime) }}</p>
             </div>
             <div class="goods_img">
-                <img :src="nextGoods.goodsCover">
+                <div class="img" :style="{ background: `url(${nextGoods.goodsCover}) center no-repeat`, backgroundSize: '100% 100%' }"></div>
             </div>
         </div>
 
@@ -44,16 +44,23 @@ export default {
     setup(props) {
         const store = useStore()
         const { pauseJxmsBgm, playJxmsSounds } = mixin()
-        const { websocketSendData } = socketMixin()
 
         onMounted(() => {
             let { currentGoodsIndex, goodsListData } = store.state
-            // if(currentGoodsIndex < goodsListData.length-1){
-            //     state.nextGoods = goodsListData[1]
-            // }else{
+            if(currentGoodsIndex < goodsListData.length-1){
+                state.nextGoods = goodsListData[currentGoodsIndex]
+
+                setTimeout(() => {
+                    store.state.currentGoodsIndex += 1
+                    store.state.showRankList = false
+                    store.commit('SET_GAME_STATE', null)
+                }, 200000);
+
+            }else{
                 
                 setTimeout(() => {
                     //明天还有宝贝
+                    store.commit('SET_VOICE_CAPTION', 'gameOver01')
                     pauseJxmsBgm.value()
                     playJxmsSounds.value('./voice/04_01.mp3', () => {
                         store.state.showTomorrowGoods = true
@@ -62,6 +69,7 @@ export default {
 
                     //明天没有宝贝
                     // setTimeout(() => {
+                        // store.commit('SET_VOICE_CAPTION', 'gameOver02')
                     //     store.state.showAdvVideo = false
                     //     store.state.showHistryGoods = true
                     //     playJxmsSounds.value('./voice/04_02.mp3')
@@ -69,7 +77,7 @@ export default {
 
                 }, 120 * 1000);
 
-            // }
+            }
         })
         
         const state = reactive({
@@ -96,6 +104,7 @@ export default {
             height: 250px;
             background: url('../images/foreshow.png') center no-repeat;
             background-size: 100% 100%;
+            display: flex;
 
             .next_text{
                 width: 270px;
@@ -120,12 +129,16 @@ export default {
                 height: 100%;
                 display: inline-block;
                 text-align: center;
+                flex: 1;
+                display: flex;
+                justify-content: center;
+                align-items: center;
                 
-                img{
+                .img{
                     width: 228px;
                     height: 228px;
                     display: inline-block;
-                    margin: 11px 0;
+                    margin: 11px;
                 }
             }
 

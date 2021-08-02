@@ -4,7 +4,7 @@
         <div class="goods_detail">
 
             <div class="goods_image">
-                <img :src="data.goodsCover" class="img">
+                <div class="img" :style="{ background: `url(${data.goodsCover}) center no-repeat`, backgroundSize: '100% 100%' }"></div>
                 <img src="../images/sell_out.png" alt="已售罄" class="sell_out">
             </div>
             <p class="goods_name text_overflow">{{ data.goodsName }}</p>

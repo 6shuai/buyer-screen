@@ -7,10 +7,6 @@ export default function () {
     
     const store = useStore()
 
-    const videoAdvDuration = computed(() => {
-        return store.state.videoAdvDuration
-    })
-
     //开始前 语音时长
      let beforeStageVoiceDuration = 15      
 
@@ -25,14 +21,13 @@ export default function () {
     //广告间隔时长
     let advDiffDuration = 60
 
-    //教学阶段 时长  02_01 = 5s   02_02 = 3s      rule_01 = 21s  rule_02 = 33s       5 + 3 + 21 + 33 = 62
-    //猜价结束前30秒  猜价阶段即将结束，还没有参与朋友们请抓紧扫码参与。已经参与的朋友们千万不要⾛开，激动⼈⼼的抢购阶段将在30秒后开始！
-
-    let guideDuration = 97
-
-
+    //当前视频  索引
     let currentVideoIndex = 0
 
+
+    //教学阶段 时长  02_01 = 5s   02_02 = 3s      rule_01 = 21s  rule_02 = 33s       5 + 3 + 21 + 33 = 62
+    //猜价结束前30秒  猜价阶段即将结束，还没有参与朋友们请抓紧扫码参与。已经参与的朋友们千万不要⾛开，激动⼈⼼的抢购阶段将在30秒后开始！
+    let guideDuration = 55
 
 
     //每个状态 搁一分钟播放一次视频  duration = -1 无限次循环播放
@@ -50,33 +45,18 @@ export default function () {
         
                 clearTimeout(state.playTimer)
                 clearTimeout(state.videoTimer)
-        
-                switch (type) {
-                    case -1:
-                        // advDuration += beforeStageVoiceDuration
-                        break;
-                    case 0:
-                        duration -= guessBeforeVoiceDuration
-                        break;
-                    case 1: 
-                        duration -= guideDuration
-                        advDuration += guessPriceStageVoiceDuration01
-                        break;
-                
-                    default:
-                        break;
-                }
 
-                console.log(duration, advDiffDuration + advDuration )
         
                 if (duration > advDiffDuration + advDuration || type == 3) {
         
                     state.playTimer = setTimeout(() => {
         
                         if(type == 1){
+                            store.commit('SET_VOICE_CAPTION', 'advPlayBefore')
+                            duration -= guessPriceStageVoiceDuration01
                             playJxmsSounds('./voice/01_03.mp3', () => {
                                 store.state.showAdvVideo = true
-                                videoPlayEnd(type)
+                                videoPlayEnd(type, duration, advDuration)
                             })
                         }else{
                             console.log('广告----------->', type, duration)
@@ -104,14 +84,16 @@ export default function () {
 
             if(type == -1){
                 if(duration >= beforeStageVoiceDuration){
+                    store.commit('SET_VOICE_CAPTION', 'beforeText')
                     playJxmsSounds('./voice/00_01.mp3', () => {
                         videoPlay(duration, type)
                     })
                 }
             }else if(type == 1){
                 if(duration >= guessPriceStageVoiceDuration02){
+                    store.commit('SET_VOICE_CAPTION', 'advPlayEnd')
                     playJxmsSounds('./voice/01_02.mp3', () => {
-                        duration = duration - guessPriceStageVoiceDuration02
+                        duration -= guessPriceStageVoiceDuration02
                         videoPlay(duration, type)
                     })
                 }
@@ -130,27 +112,19 @@ export default function () {
 
         console.log('竞猜阶段--------->', d, duraton, guideDuration)
 
+        if(!d) return
+        
         state.guideTimer = setTimeout(() => {
             pauseJxmsBgm()
-            playJxmsSounds('./voice/02_01.mp3', () => {
+            
+            playJxmsSounds('./voice/02_06.mp3', () => {
                 store.state.showGuide = true
-                store.state.guideStep = 1
-                setTimeout(() => {
-                    store.state.guideStep = 2
-                }, 10000);
-                playJxmsSounds('./voice/rule_01.mp3', () => {
-
-                    store.state.guideStep = 3
-
-                    playJxmsSounds('./voice/rule_02.mp3', () => {
-                        store.state.showGuide = false
-
-                        playJxmsSounds('./voice/01_04.mp3', () => {
-                            playJxmsBgm('./sounds/guess.mp3', true)
-                        })
-                    })
+                store.commit('SET_VOICE_CAPTION', 3)
+                playJxmsSounds('./voice/rule_02.mp3', () => {
+                    playJxmsBgm('./sounds/guess.mp3', true)
                 })
             })
+
         }, d * 1000);
     }
 
@@ -185,11 +159,10 @@ export default function () {
 
     //关闭背景音乐
     const pauseJxmsBgm = (e) => {
-        console.log(e)
         try {
             state.jxmsAudio.fade(1, 0, 1500)
         } catch (error) {
-            console.log(error)
+            console.log('关闭背景音乐--->', error)
         }
     }
 

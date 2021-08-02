@@ -58,7 +58,9 @@ export default {
         })
 
         onMounted(() => {
+            //初始化
             arrawAnim()
+            countDownStart()
         })
 
         //箭头动画
@@ -121,20 +123,6 @@ export default {
                 countDownFun(num)
             }, 1000);
         }
-
-        //抢购开始时间
-        watch(beginTime, (newData, oldData) => {
-            if(newData){
-                countDownStart(beginTime.value)
-            }
-        })
-
-        watch(gameState, (n, o) => {
-            if(n == null){
-                console.log('倒计时再来')
-                countDownStart(beginTime.value)
-            }
-        })
 
         //组件卸载时
         onUnmounted(() => {

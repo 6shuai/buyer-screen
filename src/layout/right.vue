@@ -8,7 +8,7 @@
 			<div
 				class="state_info"
 				:class="
-					(gameState == 1 || gameState == 2) && !store.state.showCountDown
+					(gameState == gameStateId.guessPrice || gameState == gameStateId.countDown) && !store.state.showCountDown
 						? 'show_guess'
 						: 'hide_guess'
 				"
@@ -31,7 +31,7 @@
 <script>
 import { reactive, toRefs, computed } from "vue"
 import { useStore } from "vuex"
-import { translatesToHoursMinutesSeconds } from "../util/index"
+import { translatesToHoursMinutesSeconds, gameStateId } from "../util/index"
 import mixin from '../mixins/index'
 
 export default {
@@ -42,7 +42,7 @@ export default {
 		//游戏状态
 		const gameState = computed(() => {
 			//猜价阶段
-			if (store.state.gameState == 1) {
+			if (store.state.gameState == state.gameStateId.guessPrice) {
 				//抢购详情   拿到猜价时长 做倒计时
 				countDownFun(
 					store.state.goodsDataDetail.guessTime +
@@ -64,6 +64,7 @@ export default {
                 clearTimeout(state.timer)
                 return
             }else if(num == 13){
+				store.commit('SET_VOICE_CAPTION', 'countDownBefore')
 				playJxmsSounds.value('./voice/02_02.mp3')
 			}
 			state.countDownNum = translatesToHoursMinutesSeconds(num)
@@ -77,7 +78,8 @@ export default {
 			timer: undefined,
 			countDownNum: 0, //倒计时
 			gameState,
-			store
+			store,
+			gameStateId
 		})
 
 		return toRefs(state)

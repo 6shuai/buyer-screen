@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import { reactive, toRefs, onMounted, computed, watch, nextTick } from 'vue'
+import { reactive, toRefs, computed, watch, nextTick } from 'vue'
 import { translatesToHoursMinutesSeconds } from '../util/index'
 import { useStore } from 'vuex'
 export default {
@@ -40,6 +40,8 @@ export default {
             if(!state.resData.goods || !state.resData.goods.video  || !state.resData.goods.video.length) return
 
             let { url, duration } = state.resData.goods.video[state.currentVideoIndex || 0]
+
+            console.log('视频时长---------->', duration, state.resData.goods.video[state.currentVideoIndex || 0])
             
             state.videoUrl = url
             var elevideo = document.getElementById("video");
@@ -58,18 +60,23 @@ export default {
                 countDownFun(duration)
             })
 
-            if(state.showTomorrowGoods){
-                state.isLoop = true
-                return
-            }
+            
             // state.isLoop = false
             setTimeout(() => {
-                store.state.showAdvVideo = false
+                
                 console.log('视频播放结束')
 
                 let videoTotal = state.resData.goods.video.length
                 // console.log('视频播放结束')
                 state.currentVideoIndex = state.currentVideoIndex + 1 >= videoTotal ? 0 : state.currentVideoIndex + 1
+
+                //显示明日宝贝时  循环播放视频
+                if(state.showTomorrowGoods){
+                    videoPlay()
+                    return
+                }else{
+                    store.state.showAdvVideo = false
+                }
 
             }, duration * 1000);
         } 
@@ -112,7 +119,7 @@ export default {
             showAdvVideo,
             showTomorrowGoods,
             videoUrl: '',
-            isLoop: true,
+            isLoop: false,
             currentVideoIndex: 0,
             resData: {},
             countDownTime: '00:00',
@@ -152,7 +159,7 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
-        transform: translateY(-106%);
+        transform: translateY(-100vh);
 
         &.show{
             transform: translateY(0);

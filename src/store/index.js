@@ -22,10 +22,7 @@ const state = {
 	showDanmaku: false,         //显示猜价弹幕
 
 	showGuide: false,
-	guideStep: 1,
-	videoAdvDuration: 0,
-	linshi: false,
-	currentVideoIndex: 0,            //当前视频
+	guideStep: null,
 
 	tomorrowData: [            //明日宝贝
 		{
@@ -155,6 +152,11 @@ const mutations = {
 	SET_SHOW_WRRNING(state, data){
 		state.showWarning = data
 		state.closeWarning = false
+	},
+
+	//语音字幕
+	SET_VOICE_CAPTION(state, data){
+		state.guideStep = data
 	}
 
 }

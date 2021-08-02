@@ -106,6 +106,25 @@ export default function () {
                     }]
                 )
                 }
+
+                store.commit('SET_GOODS_LIST', [{
+                    beginTime: 1627642800000,
+                    goodsCover: "https://static.xfengjing.com/picture/2021/07/30/99312731-4922-49c5-903e-ef7062c48a89.png",
+                    goodsDescription: "红蓝续航增强版",
+                    goodsName: "任天堂Switch",
+                    marketValue: 2099,
+                    priceDeclineRate: 100,
+                    totalGuessAward: 0
+                },
+                {
+                    beginTime: 1627644600000,
+                    goodsCover: "https://static.xfengjing.com/picture/2021/07/30/79cbc343-6bee-4ea9-9e9a-4b4fb7796b63.png",
+                    goodsDescription: "HD08 中国红",
+                    goodsName: "戴森（Dyson）吹风机",
+                    marketValue: 3190,
+                    priceDeclineRate: 200,
+                    totalGuessAward: 0
+                }])
                 test()
                 break;
             // 抢购详情
@@ -247,41 +266,17 @@ export default function () {
     const test = () => {
         
         //预览
-        setTimeout(() => {
-            let data = {
-                id: socketId.Preview,
-                auctionId: getQueryString('id')
-            }
-            websocketSendData(data);
-        }, 22 * 1000);
-        return
+        // setTimeout(() => {
+        //     let data = {
+        //         id: socketId.Preview,
+        //         auctionId: getQueryString('id')
+        //     }
+        //     websocketSendData(data);
+        // }, 22 * 1000);
+        // return
 
         setTimeout(() => {
-            store.commit('SET_GOODS_LIST', [{
-                beginTime: 1627642800000,
-                goodsCover: "https://static.xfengjing.com/picture/2021/07/30/99312731-4922-49c5-903e-ef7062c48a89.png",
-                goodsDescription: "红蓝续航增强版",
-                goodsName: "任天堂Switch",
-                marketValue: 2099,
-                priceDeclineRate: 100,
-                totalGuessAward: 0
-            },
-            {
-                beginTime: 1627644600000,
-                goodsCover: "https://static.xfengjing.com/picture/2021/07/30/79cbc343-6bee-4ea9-9e9a-4b4fb7796b63.png",
-                goodsDescription: "HD08 中国红",
-                goodsName: "戴森（Dyson）吹风机",
-                marketValue: 3190,
-                priceDeclineRate: 200,
-                totalGuessAward: 0
-            }])
-            // return
-
-            // store.commit('SET_GAME_STATE', 4)
-            // store.state.showTomorrowGoods = true
-            // store.state.showHistryGoods = true
-
-            // return
+            
 
 
             setTimeout(() => {
@@ -301,17 +296,17 @@ export default function () {
                         "id":5,
                         "showPicture":"https://quiz.xfengjing.com/picture/2021/06/16/3012d5a2-f0d0-4fec-8ff4-2856541824d6.jpg",
                         "skuId":7,
-                        "video":[{"id":11,"url":"https://static.xfengjing.com/video/2021/07/30/5b5be1a9-8ee9-4a9b-975c-0780b4d38d01.mp4","usage":2},
-                        {"id":12,"url":"https://static.xfengjing.com/video/2021/07/30/b78fdc33-1bd7-422f-852f-1c10973919e8.mp4","usage":2}]
+                        "video":[{"id":11,"url":"https://static.xfengjing.com/video/2021/07/30/5b5be1a9-8ee9-4a9b-975c-0780b4d38d01.mp4","usage":2, duration: 15},
+                        {"id":12,"url":"https://static.xfengjing.com/video/2021/07/30/b78fdc33-1bd7-422f-852f-1c10973919e8.mp4","usage":2, duration: 15}]
                     },
                     "guessRules":[{"award":30.0,"correctDigit":3,"id":13},{"award":20.0,"correctDigit":2,"id":12},{"award":10.0,"correctDigit":1,"id":11}],
-                    "guessTime":90,
+                    "guessTime":17,
                     "id":7005,
                     "marketValue":2099,
                     "orderExpiration":30,
                     "paymentMethod":1,
                     "pickUpAddresses":[{"address":"酷乐潮玩  上海市宝山区  宝山龙湖天街B1-104号","deliverType":1,"id":35,"placeId":15}],
-                    "preheatTime":180,
+                    "preheatTime":18,
                     "priceDecline":0.3,
                     "priceDeclineFrequency":0.1,
                     "priceDeclineRate": 100
@@ -322,14 +317,13 @@ export default function () {
                 }, 200);
 
                 setTimeout(() => {
-                    store.commit('SET_GAME_STATE', 1)
+                    // store.commit('SET_GAME_STATE', 1)
 
 
                     setTimeout(() => {
                         store.commit('SET_GAME_STATE', 3)
                         store.state.showCountDown = false
 
-                        return
 
                         setTimeout(() => {
                             store.commit('SET_GAME_STATE', 4)
@@ -350,7 +344,8 @@ export default function () {
                                 }
                             ])
 
-                        }, 20000);
+
+                        }, 18 * 1000);
 
                         return
 
@@ -410,9 +405,9 @@ export default function () {
 
                         }, 2000);
 
-                    }, 10 * 1000);
+                    }, 5 * 1000);
 
-                }, 10 * 1000);
+                }, 18 * 1000);
 
             }, 2 * 1000)
 

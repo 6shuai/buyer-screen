@@ -27,7 +27,7 @@
 		</div>
 
 		<!-- 数量不多了 警告 -->
-		<warning v-if="showWarning && !closeWarning"></warning>
+		<warning v-if="showWarning && !closeWarning && gameState != gameStateId.panicBuyEnd "></warning>
 
 	</div>
 </template>
@@ -51,12 +51,17 @@ import CountDown from "./components/CountDown.vue"
 import Miniview from "./components/Miniview.vue"
 import socketMixin from "./mixins/socket"
 import mixin from "./mixins/index"
+import { gameStateId } from './util/index'
 
 export default {
 	setup(props) {
 		const store = useStore()
 		const { initWebsocket } = socketMixin()
 		const { videoPlay, clearTimer, playJxmsBgm, pauseJxmsBgm, playJxmsSounds, jxmsAudio, guideStart } = mixin()
+
+		//教学阶段 时长  02_01 = 5s   02_02 = 3s      rule_01 = 21s  rule_02 = 33s       5 + 3 + 21 + 33 = 62
+		//猜价结束前30秒  猜价阶段即将结束，还没有参与朋友们请抓紧扫码参与。已经参与的朋友们千万不要⾛开，激动⼈⼼的抢购阶段将在30秒后开始！
+		let guideDuration = 55
 
 		//是否显示倒计时
 		const showCountDown = computed(() => {
@@ -115,6 +120,7 @@ export default {
 		watch(gameState, (newState, oldState) => {
 			let { guessTime, countdown, preheatTime } =
 				store.state.goodsDataDetail
+			let { goodsListData, currentGoodsIndex } = store.state
 			state.isLoop = false
 			store.state.showAdvVideo = false;
 			switch (newState) {
@@ -122,19 +128,25 @@ export default {
 					//预热阶段
 					gameBgm()
 					videoPlay.value(preheatTime - 10, 0)
-					console.log('预热阶段-------->', preheatTime - 10)
 					gameGuessPriceStartVoice(preheatTime)
+					goodsListData[currentGoodsIndex].hide = true
 					break
 				case 1:
 					// 竞猜阶段
+					store.state.showGuide = true
+					store.commit('SET_VOICE_CAPTION', 1)
 					playJxmsSounds.value("./voice/01_01.mp3", () => {
-						playJxmsBgm.value("./sounds/guess.mp3", true)
-
-						guideStart.value(guessTime + countdown - 9)
+						setTimeout(() => {
+							store.commit('SET_VOICE_CAPTION', 2)
+						}, 10000);
+						playJxmsSounds.value('./voice/rule_01.mp3', () => {
+							playJxmsBgm.value("./sounds/guess.mp3", true)
+						})
 					})
 					
-					// 9 = 倒计时9秒
-					videoPlay.value(guessTime + countdown - 9, 1)
+					guideStart.value(guessTime + countdown - 9)
+					// 9 = 倒计时9秒   55 =抢购教学时长 
+					videoPlay.value(guessTime + countdown - 9 - guideDuration, 1)
 					break
 				case 2:
 					// 倒计时
@@ -143,6 +155,7 @@ export default {
 				case 3:
 					//抢购中
 					store.state.showCountDown = false
+					store.commit('SET_VOICE_CAPTION', 'panicBuyStart')
 					playJxmsSounds.value("./voice/02_03.mp3", () => {
 						playJxmsBgm.value("./sounds/buy_ing.mp3", true)
 					})
@@ -162,6 +175,7 @@ export default {
 		//预热阶段后十秒   （猜价开始前10秒）
 		const gameGuessPriceStartVoice = (duration) =>{
 			setTimeout(() => {
+				store.commit('SET_VOICE_CAPTION', 'guessBefore')
 				playJxmsSounds.value("./voice/00_02.mp3")
 			}, (duration - 14)  * 1000);
 		}
@@ -176,6 +190,7 @@ export default {
 			clearTimer.value()
 			pauseJxmsBgm.value()
 			playJxmsSounds.value("./sounds/buy_end.mp3", () => {
+				store.commit('SET_VOICE_CAPTION', 'panicBuyEnd')
 				playJxmsSounds.value("./voice/02_05.mp3", () => {
 					setTimeout(() => {
 						gameBgm()
@@ -183,13 +198,6 @@ export default {
 				})
 			})
 		}
-
-		watch(showWarning, (newState, oldState) => {
-			console.log('showWarning-------->', newState)
-			if (newState) {
-				playJxmsSounds.value("./sounds/warning.mp3")
-			}
-		});
 
 		watch(showAdvVideo, (newState, oldState) => {
 			if (newState) {
@@ -208,7 +216,8 @@ export default {
 			audioUrl: "",
 			playTimer: undefined,
 			countDown,
-			showHistryGoods
+			showHistryGoods,
+			gameStateId
 		})
 
 		return toRefs(state)

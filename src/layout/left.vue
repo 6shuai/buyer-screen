@@ -5,21 +5,20 @@
         <div 
             v-if="!showTomorrowGoods"
             class="current_goods_box"
-            :class="(showAdvVideo || showGuide || showRankList || showCountDown) ? 'current_goods_card_anim_show' : 'current_goods_card_anim_hide' "
+            :class="currentGoodsIsShow() ? 'current_goods_card_anim_show' : 'current_goods_card_anim_hide' "
         >
             <div 
                 class="current_goods_wrap"
             >
-                <div class="title_card current_goods_title_card text_medium">{{ gameState == 4 ? '抢购结束' : '当前宝贝' }}</div>
+                <div class="title_card current_goods_title_card text_medium">{{ gameState == gameStateId.panicBuyEnd ? '抢购结束' : '当前宝贝' }}</div>
                 <div 
                     class="goods_detail buy_end" 
-                    :class="gameState == 3 ? 'real_time' : ''"
+                    :class="gameState == gameStateId.panicBuyIng ? 'real_time' : ''"
                     v-if="currentGoods">
                     <div class="goods_detail_top">
-                        <div class="goods_img">
-                            <img :src="currentGoods.goodsCover">
+                        <div class="goods_img" :style="{ background: `url(${currentGoods.goodsCover}) center no-repeat`, backgroundSize: '100% 100%' }">
                             <img 
-                                v-show="gameState == 4 && showAdvVideo"
+                                v-show="gameState == gameStateId.panicBuyEnd && showAdvVideo"
                                 src="../images/sell_out.png" 
                                 class="sell_out_img"
                             >
@@ -28,7 +27,7 @@
                         <p class="goods_desc">{{ currentGoods.goodsDescription }}</p>
                     </div>
 
-                    <div class="goods_detail_bottom text_medium" v-if="!gameState || gameState < 3">
+                    <div class="goods_detail_bottom text_medium" v-if="!gameState || gameState < gameStateId.panicBuyIng">
                         <div class="price_start">
                             <span class="int">￥{{ priceFormat(currentGoods.marketValue).int }}</span>
                             <span class="decimals">{{ priceFormat(currentGoods.marketValue).decimals }}</span>
@@ -42,7 +41,7 @@
                     </div>
 
                     <!-- 抢购中 实时价格 -->
-                    <div class="goods_detail_bottom real_time_price text_medium" v-if="gameState == 3">
+                    <div class="goods_detail_bottom real_time_price text_medium" v-if="gameState == gameStateId.panicBuyIng">
                         <p class="real_time_text">实时价格</p>
                         <div class="price" v-if="realTimePrice">
                             <span class="int">￥{{ priceFormat(realTimePrice).int }}</span>
@@ -51,7 +50,7 @@
                     </div>
 
                     <!-- 抢购结束 -->
-                    <div class="goods_detail_bottom end text_medium" v-if="gameState == 4">
+                    <div class="goods_detail_bottom end text_medium" v-if="gameState == gameStateId.panicBuyEnd">
                         <p class="goods_count">宝贝库存: 23</p>
                         <p class="price_text">极限秒杀价</p>
                         <div class="del_price">
@@ -72,16 +71,17 @@
         <!-- 即将开始  class  put_away  收起-->
         <div 
             class="goods_list"
-            :class="{ put_away: showAdvVideo || showGuide || showRankList || showCountDown }"
+            :class="{ put_away: currentGoodsIsShow() }"
             v-if="goodsList.length && !showTomorrowGoods"
         >
             <div class="title_card text_medium">即将开始</div>
             <div class="goods_item" 
-                v-for="(item, index) in goodsList" 
+                v-for="(item, index) in goodsList"
+                v-show="!item.hide"
                 :key="index"
             >
                 <div class="goods_info">
-                    <img :src="item.goodsCover" class="goods_img">
+                    <div class="goods_img" :style="{ background: `url(${item.goodsCover}) center no-repeat`, backgroundSize: '100% 100%' }"></div>
                     <div class="info text_overflow">
                         <p class="time">{{ formatTime(item.beginTime) }}</p>
                         <p class="goods_name">{{ item.goodsName }}</p>
@@ -117,7 +117,7 @@
                 :style="{ animation: `tomorrow_item_anim_${index} .5s ease-in ${index * 0.3}s both` }"
             >
                 <div class="goods_info">
-                    <img :src="item.goodsCover" class="goods_img">
+                    <div class="goods_img" :style="{ background: `url(${item.goodsCover}) center no-repeat`, backgroundSize: '100% 100%' }"></div>
                     <div class="info text_overflow">
                         <p class="time">明日 {{ formatTime(item.beginTime) }}</p>
                         <p class="goods_name">{{ item.goodsName }}</p>
@@ -153,7 +153,7 @@
                 :style="{ animation: `tomorrow_item_anim_${index} .5s ease-in ${index * 0.3}s both` }"
             >
                 <div class="goods_info">
-                    <img :src="item.goodsCover" class="goods_img">
+                    <div class="goods_img" :style="{ background: `url(${item.goodsCover}) center no-repeat`, backgroundSize: '100% 100%' }"></div>
                     <div class="info text_overflow">
                         <p class="time">{{ formatTime(item.beginTime, true) }}</p>
                         <p class="goods_name">{{ item.goodsName }}</p>
@@ -181,7 +181,7 @@
 
 <script>
 import { reactive, toRefs, computed } from 'vue'
-import { formatTime, priceFormat, screenSize } from '../util/index'
+import { formatTime, priceFormat, screenSize, gameStateId } from '../util/index'
 import { useStore } from 'vuex'
 export default {
     setup(props){
@@ -260,17 +260,22 @@ export default {
             return data
         })
 
-         //是否显示竞拍历史
+        //是否显示竞拍历史
         const showHistryGoods = computed(() => {
             return store.state.showHistryGoods
         })
 
+        //当前宝贝 是否可显示   (显示当前宝贝  即将开始列表折叠)
+        const currentGoodsIsShow = () => {
+            return state.showAdvVideo || state.showGuide || state.showRankList || state.showCountDown
+        }
 
         const state = reactive({
             goodsList,
             currentGoods,
             formatTime,
             priceFormat,
+            gameStateId,
             showCountDown,
             gameState,
             showRankList,
@@ -282,7 +287,8 @@ export default {
             showTomorrowGoods,
             tomorrowData,
             historyGoodsData,
-            showHistryGoods
+            showHistryGoods,
+            currentGoodsIsShow
         })
 
         return toRefs(state)
@@ -575,11 +581,6 @@ export default {
                     height: 228px;
                     margin: 20px 0 15px 0;
                     position: relative;
-    
-                    img{
-                        // width: 100%;
-                        height: 100%;
-                    }
     
                     .sell_out_img{
                         width: 80px;

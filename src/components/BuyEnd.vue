@@ -6,7 +6,7 @@
         <div class="tip text_medium">抢购结束</div>
         <div class="goods_detail">
             <div class="goods_image">
-                <img :src="data.goodsCover" class="img">
+                <div class="img" :style="{ background: `url(${data.goodsCover}) center no-repeat`, backgroundSize: '100% 100%' }"></div>
                 <img 
                     src="../images/sell_out.png" 
                     alt="已售罄" 

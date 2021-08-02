@@ -96,3 +96,24 @@ export const screenSize = () => {
     }
     return handle
 }
+
+
+export const gameStateId = {
+    //开始之前
+    before: null, 
+
+    //预热
+    preheat: 0,
+
+    //竞猜
+    guessPrice: 1,
+
+    //倒计时
+    countDown: 2,
+
+    //抢购中
+    panicBuyIng: 3,
+
+    //抢购结束
+    panicBuyEnd: 4
+}
