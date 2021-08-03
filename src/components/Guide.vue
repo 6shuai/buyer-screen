@@ -108,10 +108,13 @@ export default {
                 { text: '祝你在极限买⼿以最⼼动的价格抢到最喜欢的宝⻉，各位购物愉快！', duration: 6 }
             ],
 
+            // 猜价阶段开始
+            guessStart: [
+                { text: '宝⻉猜价阶段，现在开始！', duration: 2.6 }
+            ],
 
             //猜价教学
             guideText1: [
-                { text: '宝⻉猜价阶段，现在开始！', duration: 3 },
                 { text: '在猜价阶段，扫描屏幕上的⼆维码', duration: 3 },
                 { text: '你可以在极限买⼿⼩程序内竞猜当前宝⻉的「极限秒杀价」',duration: 5 },
                 { text: '即当前宝⻉最后⼀个库存的抢购价格',duration: 4 },
@@ -120,11 +123,15 @@ export default {
                 { text: '别犹豫了，赶快扫码加⼊吧！',duration: 4 }
             ],
 
-            //抢购教学
-            guideText2: [
+            //抢购教学开始前
+            panicBuyBefore : [
                 { text: '猜价阶段即将结束，还没有参与朋友们请抓紧扫码参与',duration: 5 },
                 { text: '已经参与的朋友们千万不要⾛开，激动⼈⼼的抢购即将开始！',duration: 5 },
-                { text: '⾸先请由我介绍⼀下抢购的游戏规则',duration: 3 },
+                { text: '⾸先请由我介绍⼀下抢购的游戏规则',duration: 3 }
+            ],
+
+            //抢购教学
+            guideText2: [
                 { text: '抢购是极限买⼿的核⼼玩法',duration: 3 },
                 { text: '在这⾥你有可能在任意价格买到你梦寐以求的宝⻉！',duration: 4 },
                 { text: '抢购阶段开始后',duration: 2 },

@@ -16,7 +16,10 @@ export default function () {
     //猜价阶段 语音时长
     let guessPriceStageVoiceDuration01 = 8
     let guessPriceStageVoiceDuration02 = 6
-    
+
+    //猜价教学时长
+    let guessPriceGuideDuration = 21
+
 
     //广告间隔时长
     let advDiffDuration = 60
@@ -94,7 +97,16 @@ export default function () {
                     store.commit('SET_VOICE_CAPTION', 'advPlayEnd')
                     playJxmsSounds('./voice/01_02.mp3', () => {
                         duration -= guessPriceStageVoiceDuration02
-                        videoPlay(duration, type)
+                        if(duration >= guessPriceGuideDuration){
+                            store.state.showGuide = true
+                            store.commit('SET_VOICE_CAPTION', 1)
+                            setTimeout(() => {
+                                store.commit('SET_VOICE_CAPTION', 2)
+                            }, 10000);
+                            playJxmsSounds('./voice/rule_01.mp3', () => {
+                                videoPlay(duration, type)
+                            })
+                        }
                     })
                 }
             }else{
@@ -116,10 +128,10 @@ export default function () {
         
         state.guideTimer = setTimeout(() => {
             pauseJxmsBgm()
-            
+            store.commit('SET_VOICE_CAPTION', 'panicBuyBefore')
             playJxmsSounds('./voice/02_06.mp3', () => {
-                store.state.showGuide = true
                 store.commit('SET_VOICE_CAPTION', 3)
+                store.state.showGuide = true
                 playJxmsSounds('./voice/rule_02.mp3', () => {
                     playJxmsBgm('./sounds/guess.mp3', true)
                 })

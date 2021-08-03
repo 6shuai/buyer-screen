@@ -7,24 +7,6 @@ export default function () {
     
     const store = useStore()
 
-    const linshi = computed(() => {
-        return store.state.linshi
-    })
-
-    watch(linshi, (newState, oldState) => {
-        if(newState){
-            setTimeout(() => {
-                let data = {
-                    id: 3013,
-                    auctionId: 23
-                }
-    
-                console.log('再来一次', websocketSendData)
-                websocketSendData(data);
-            }, 20 * 1000);
-        }
-    })
-
     //初始化websocket
     const initWebsocket = () => {
         closeSocket();
@@ -99,7 +81,7 @@ export default function () {
                         beginTime: 1627644600000,
                         goodsCover: "https://static.xfengjing.com/picture/2021/07/30/79cbc343-6bee-4ea9-9e9a-4b4fb7796b63.png",
                         goodsDescription: "HD08 中国红",
-                        goodsName: "戴森（Dyson）吹风机",
+                        goodsName: "戴森吹风机",
                         marketValue: 3190,
                         priceDeclineRate: 200,
                         totalGuessAward: 0
@@ -120,7 +102,7 @@ export default function () {
                     beginTime: 1627644600000,
                     goodsCover: "https://static.xfengjing.com/picture/2021/07/30/79cbc343-6bee-4ea9-9e9a-4b4fb7796b63.png",
                     goodsDescription: "HD08 中国红",
-                    goodsName: "戴森（Dyson）吹风机",
+                    goodsName: "戴森吹风机",
                     marketValue: 3190,
                     priceDeclineRate: 200,
                     totalGuessAward: 0
@@ -251,8 +233,7 @@ export default function () {
         reconnectionIng: false,
         overtime: 30,                //超时时间
         initWebsocket,
-        websocketSendData,
-        linshi
+        websocketSendData
     })
 
     const getQueryString = (name) => {
@@ -266,14 +247,14 @@ export default function () {
     const test = () => {
         
         //预览
-        // setTimeout(() => {
-        //     let data = {
-        //         id: socketId.Preview,
-        //         auctionId: getQueryString('id')
-        //     }
-        //     websocketSendData(data);
-        // }, 22 * 1000);
-        // return
+        setTimeout(() => {
+            let data = {
+                id: socketId.Preview,
+                auctionId: getQueryString('id') || 22
+            }
+            websocketSendData(data);
+        }, 20 * 1000);
+        return
 
         setTimeout(() => {
             
@@ -285,7 +266,7 @@ export default function () {
                     "auctionId":675026,
                     "beginTime":1624944864000,
                     "countdown":10,
-                    "currentPrice":10.0,
+                    "currentPrice":2099,
                     "depositRatio":2,
                     "gameStateId":0,
                     "getGameStateTimer":9,
@@ -300,14 +281,14 @@ export default function () {
                         {"id":12,"url":"https://static.xfengjing.com/video/2021/07/30/b78fdc33-1bd7-422f-852f-1c10973919e8.mp4","usage":2, duration: 15}]
                     },
                     "guessRules":[{"award":30.0,"correctDigit":3,"id":13},{"award":20.0,"correctDigit":2,"id":12},{"award":10.0,"correctDigit":1,"id":11}],
-                    "guessTime":17,
+                    "guessTime":170,
                     "id":7005,
                     "marketValue":2099,
                     "orderExpiration":30,
                     "paymentMethod":1,
                     "pickUpAddresses":[{"address":"酷乐潮玩  上海市宝山区  宝山龙湖天街B1-104号","deliverType":1,"id":35,"placeId":15}],
-                    "preheatTime":18,
-                    "priceDecline":0.3,
+                    "preheatTime":30,
+                    "priceDecline": 0.16,
                     "priceDeclineFrequency":0.1,
                     "priceDeclineRate": 100
                 })
@@ -317,7 +298,9 @@ export default function () {
                 }, 200);
 
                 setTimeout(() => {
-                    // store.commit('SET_GAME_STATE', 1)
+                    store.commit('SET_GAME_STATE', 1)
+
+                    return
 
 
                     setTimeout(() => {
@@ -327,7 +310,10 @@ export default function () {
 
                         setTimeout(() => {
                             store.commit('SET_GAME_STATE', 4)
-                            store.commit('SET_BUY_MEMBER_LIST', [{"avatar":"999.jpg","nickName":"小钱","price":3.0},{"avatar":"555.jpg","nickName":"小王","price":3.1},{"avatar":"333.jpg","nickName":"小花","price":3.2},{"avatar":"888.jpg","nickName":"小赵","price":3.5},{"avatar":"111.jpg","nickName":"小红","price":3.6},{"avatar":"444.jpg","nickName":"小翠","price":3.7},{"avatar":"777.jpg","nickName":"小韩","price":3.8},{"avatar":"1100.jpg","nickName":"随便","price":3.9},{"avatar":"1000.jpg","nickName":"小王八","price":4.0},{"avatar":"222.jpg","nickName":"小吕","price":4.3}])
+                            store.commit('SET_BUY_MEMBER_LIST', [{"avatar":"999.jpg","nickName":"小钱","price":3.0},{"avatar":"555.jpg","nickName":"小王","price":3.1},{"avatar":"333.jpg","nickName":"小花","price":3.2},{"avatar":"888.jpg","nickName":"小赵","price":3.5},{"avatar":"111.jpg","nickName":"小红","price":3.6},{"avatar":"444.jpg","nickName":"小翠","price":3.7},{"avatar":"777.jpg","nickName":"小韩","price":3.8},{"avatar":"1100.jpg","nickName":"随便","price":3.9},{"avatar":"1000.jpg","nickName":"小王八","price":4.0},{"avatar":"222.jpg","nickName":"小吕","price":4.3}, 
+                            {"avatar":"999.jpg","nickName":"小钱","price":3.0},{"avatar":"555.jpg","nickName":"小王","price":3.1},{"avatar":"333.jpg","nickName":"小花","price":3.2},{"avatar":"888.jpg","nickName":"小赵","price":3.5},{"avatar":"111.jpg","nickName":"小红","price":3.6},{"avatar":"444.jpg","nickName":"小翠","price":3.7},{"avatar":"777.jpg","nickName":"小韩","price":3.8},{"avatar":"1100.jpg","nickName":"随便","price":3.9},{"avatar":"1000.jpg","nickName":"小王八","price":4.0},{"avatar":"222.jpg","nickName":"小吕","price":4.3},
+                            {"avatar":"999.jpg","nickName":"小钱","price":3.0},{"avatar":"555.jpg","nickName":"小王","price":3.1},{"avatar":"333.jpg","nickName":"小花","price":3.2},{"avatar":"888.jpg","nickName":"小赵","price":3.5},{"avatar":"111.jpg","nickName":"小红","price":3.6},{"avatar":"444.jpg","nickName":"小翠","price":3.7},{"avatar":"777.jpg","nickName":"小韩","price":3.8},{"avatar":"1100.jpg","nickName":"随便","price":3.9},{"avatar":"1000.jpg","nickName":"小王八","price":4.0},{"avatar":"222.jpg","nickName":"小吕","price":4.3}
+                            ])
 
                             store.commit('SET_GUESS_PRICE_MEMBER_LIST', [
                                 {
@@ -345,7 +331,7 @@ export default function () {
                             ])
 
 
-                        }, 18 * 1000);
+                        }, 180 * 1000);
 
                         return
 
@@ -407,7 +393,7 @@ export default function () {
 
                     }, 5 * 1000);
 
-                }, 18 * 1000);
+                }, 30 * 1000);
 
             }, 2 * 1000)
 

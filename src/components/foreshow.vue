@@ -47,16 +47,16 @@ export default {
 
         onMounted(() => {
             let { currentGoodsIndex, goodsListData } = store.state
-            if(currentGoodsIndex < goodsListData.length-1){
-                state.nextGoods = goodsListData[currentGoodsIndex]
+            // if(currentGoodsIndex < goodsListData.length-1){
+            //     state.nextGoods = goodsListData[currentGoodsIndex]
 
-                setTimeout(() => {
-                    store.state.currentGoodsIndex += 1
-                    store.state.showRankList = false
-                    store.commit('SET_GAME_STATE', null)
-                }, 200000);
+                // setTimeout(() => {
+                //     store.state.currentGoodsIndex += 1
+                //     store.state.showRankList = false
+                //     store.commit('SET_GAME_STATE', null)
+                // }, 200000);
 
-            }else{
+            // }else{
                 
                 setTimeout(() => {
                     //明天还有宝贝
@@ -77,7 +77,7 @@ export default {
 
                 }, 120 * 1000);
 
-            }
+            // }
         })
         
         const state = reactive({

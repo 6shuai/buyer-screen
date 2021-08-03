@@ -46,7 +46,7 @@ export default {
         onMounted(() => {
             setTimeout(() => {
                 store.state.showRankList = true
-
+                store.commit('SET_VOICE_CAPTION', 'showRank02')
                 playJxmsSounds.value('./voice/03_02.mp3')
 
 

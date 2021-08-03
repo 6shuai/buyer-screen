@@ -133,9 +133,10 @@ export default {
 					break
 				case 1:
 					// 竞猜阶段
-					store.state.showGuide = true
-					store.commit('SET_VOICE_CAPTION', 1)
+					store.commit('SET_VOICE_CAPTION', 'guessStart')
 					playJxmsSounds.value("./voice/01_01.mp3", () => {
+						store.state.showGuide = true
+						store.commit('SET_VOICE_CAPTION', 1)
 						setTimeout(() => {
 							store.commit('SET_VOICE_CAPTION', 2)
 						}, 10000);

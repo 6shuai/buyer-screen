@@ -125,6 +125,7 @@ export default {
                 width: 750px;
                 transform: skew(19deg);
                 position: absolute;
+                left: 0;
             }
         }
 

@@ -59,8 +59,8 @@ export default {
             //         0%{ width: ${(currentPrice / marketValue) * 100}% }
             //         100%{ width: 0%}
             //     }`)
-
 			state.progressRef.style.width = `${(currentPrice / marketValue) * 100}%`
+			state.progressWidth = 100
 			progress()
 		})
 			
@@ -68,12 +68,19 @@ export default {
 		//进度条
 		const progress = () => {
 				
-			state.progressWidth = (state.realTimePrice.full / marketValue) * 100
+			// state.progressWidth = (state.realTimePrice.full / marketValue) * 100
+			// state.progressWidth -= currentPrice / priceDeclineRate / 60 / 10
+			let priceDeclineCopy = JSON.parse(JSON.stringify(priceDecline))
+
 			if(state.progressWidth < 10){
-				state.progressWidth * 1.05
+				priceDeclineCopy = priceDeclineCopy * 0.5
 			}else{
-				state.progressWidth * 0.95
+				priceDeclineCopy = priceDeclineCopy * 1.5
 			}
+
+			state.progressWidth -= priceDeclineCopy / marketValue * 100
+
+
 
 			if(state.progressWidth <= 0){
 				clearTimeout(state.progressTimer)
