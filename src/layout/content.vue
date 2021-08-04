@@ -25,8 +25,11 @@
                     <span class="price_text_qi">起</span>
                 </div>
                 <div class="price_down_wrap text_medium">   
-                    <p class="down_text">每分钟<span>直降</span></p>
-                    <p class="down_price">￥{{ priceFormat(currentGoods.priceDeclineRate).int }}<span class="decimals">{{ priceFormat(currentGoods.priceDeclineRate).decimals }}</span></p>
+                    <img src="../images/light_blue.png" class="light">
+                    <div class="text_wrap">
+                        <p class="down_text">每分钟<span>直降</span></p>
+                        <p class="down_price">￥{{ priceFormat(currentGoods.priceDeclineRate).int }}<span class="decimals">{{ priceFormat(currentGoods.priceDeclineRate).decimals }}</span></p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -240,6 +243,7 @@ export default {
                     .goods_image{
                         display: inline-block;
                         vertical-align: top;
+                        animation: goodsImgAnim 5s linear infinite alternate;
                     }
                     .goods_detail_right{
                         display: inline-block;
@@ -278,6 +282,8 @@ export default {
 
                             span{
                                 padding-left: 40px;
+                                display: inline-block;
+                                width: 400px;
                             }
                         }   
                     }
@@ -292,12 +298,34 @@ export default {
                     position: absolute;
                     bottom: 0;
                     right: -32px;
+                    border-top-right-radius: 18px;
+                    border-bottom-right-radius: 18px;
+                    overflow: hidden;
+
+                    .light{
+                        height: 100%;
+                        position: absolute;
+                        left: 0;
+                        animation: lightRedAnim 2s ease-out infinite;
+                    }
 
                     .data{
                         text-align: center;
                         font-size: 50px;
                         font-weight: bold;
                         color: #fff;
+                        display: flex;
+                        align-items: baseline;
+                        position: absolute;
+                        z-index: 99;
+                        
+                        .text{
+                            padding-left: 100px;
+                        }
+
+                        .price_num_wrap{
+                            flex: 1;
+                        }
 
                         .price_int{
                             font-size: 170px;
@@ -483,10 +511,26 @@ export default {
                 right: -35px;
                 font-weight: bold;
                 color: #fff;
+                overflow: hidden;
+                border-top-right-radius: 18px;
+                border-bottom-right-radius: 18px;
+                
+                .light{
+                    height: 100%;
+                    position: absolute;
+                    left: 0;
+                    animation: lightBlueAnim 2s ease-out infinite;
+                }
+
+                .text_wrap{
+                    position: absolute;
+                    z-index: 99;
+                }
 
                 .down_text{
                     font-size: 80px;
                     padding-top: 25px;
+                    z-index: 99;
 
                     span{
                         font-size: 100px;
@@ -503,5 +547,22 @@ export default {
                 }
             }
         }
+    }
+
+    @keyframes lightBlueAnim {
+        0%{ transform: translate(0) }
+        30%{ transform: translate(35vw) }
+        100%{ transform: translate(35vw) }
+    }
+
+    @keyframes lightRedAnim {
+        0%{ transform: translate(0) }
+        50%{ transform: translate(58vw) }
+        100%{ transform: translate(58vw) }
+    }
+
+    @keyframes goodsImgAnim {
+        0% { transform: translate(0, 0) }
+        100% { transform: translate(0, -6%) }
     }
 </style>

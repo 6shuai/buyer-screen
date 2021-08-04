@@ -42,10 +42,13 @@
 
                     <!-- 抢购中 实时价格 -->
                     <div class="goods_detail_bottom real_time_price text_medium" v-if="gameState == gameStateId.panicBuyIng">
-                        <p class="real_time_text">实时价格</p>
-                        <div class="price" v-if="realTimePrice">
-                            <span class="int">￥{{ priceFormat(realTimePrice).int }}</span>
-                            <span class="decimals">{{ priceFormat(realTimePrice).decimals }}</span>
+                        <img src="../images/light_red.png" class="light">
+                        <div class="real_time_content">
+                            <p class="real_time_text">实时价格</p>
+                            <div class="price" v-if="realTimePrice">
+                                <span class="int">￥{{ priceFormat(realTimePrice).int }}</span>
+                                <span class="decimals">{{ priceFormat(realTimePrice).decimals }}</span>
+                            </div>
                         </div>
                     </div>
 
@@ -641,10 +644,31 @@ export default {
                     color: #fff;
                     line-height: 110px;
                 }
-    
-                .real_time_price .price{
-                    padding-top: 15px;
-                }
+                
+                .real_time_price{
+                    height: 220px;
+                    position: relative;
+                    border-bottom-left-radius: 25px;
+                    border-bottom-right-radius: 25px;
+                    overflow: hidden;
+
+                    .light{
+                        height: 100%;
+                        position: absolute;
+                        left: 0;
+                        animation: leftLightRedAnim 2s ease-out infinite;
+                    }
+
+                    .real_time_content{
+                        position: absolute;
+                        width: 100%;
+                        z-index: 99;
+                    }
+                    .price{
+                        width: 100%;
+                        padding-top: 15px;
+                    }
+                } 
             }
     
             //抢购结束
@@ -679,5 +703,11 @@ export default {
             }
     
         }
+    }
+
+    @keyframes leftLightRedAnim {
+        0%{ transform: translate(-10vw) }
+        20%{ transform: translate(15vw) }
+        100%{ transform: translate(15vw) }
     }
 </style>

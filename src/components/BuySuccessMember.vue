@@ -64,7 +64,9 @@ export default {
                         state.danmakulist.push(item)
                         state.danmakuId = state.danmakuId + 1
                         nextTick(() => {
-                            playJxmsSounds.value('./sounds/buy_success.mp3')
+                            setTimeout(() => {
+                                playJxmsSounds.value('./sounds/buy_success.mp3')
+                            }, 600);
                         })
                         deleteDanmaku()
                     }

@@ -257,7 +257,7 @@ export default {
             display: inline-block;
             text-align: center;
             padding: 10px 25px;
-            background: rgba(0, 0, 0, .8);
+            background: rgba(74, 36, 83);
             border-radius: 10px;
         }
     }

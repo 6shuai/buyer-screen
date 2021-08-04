@@ -15,6 +15,22 @@
 					changeTwoDecimal_f(100 - (realTimePrice.full / marketValue) * 100)
 				}}%
 			</div>
+
+			<div 
+				class="sale_img"
+				:class="{ active: showSale && saleStep == 1 }"
+			>
+				<div class="number">{{ 10 - saleNum + 1 }}</div>
+				<div class="zhe">折</div>
+			</div>
+			<div 
+				class="sale_img"
+				:class="{ active: showSale & saleStep == 2 }"
+			>
+				<div class="number">{{ 10 - saleNum + 1 }}</div>
+				<div class="zhe">折</div>
+			</div>
+
 		</div>
 	</div>
 </template>
@@ -128,6 +144,13 @@ export default {
 			while (s_x.length <= pos_decimal + 2) {
 				s_x += '0'
 			}
+
+			if(s_x >= state.saleNum * 10){
+				state.showSale = true
+				state.saleNum += 1
+				state.saleStep = state.saleStep == 1 ? 2 : 1
+			}
+
 			return s_x
 		}
 
@@ -138,7 +161,10 @@ export default {
 			marketValue,
 			progressWidth: 100,
 			progressRef,
-			changeTwoDecimal_f
+			changeTwoDecimal_f,
+			saleNum: 1,         //折扣
+			saleStep: 1,        //步骤
+			showSale: false     //是否显示折扣
 		})
 
 		onUnmounted(() => {
@@ -185,6 +211,42 @@ export default {
 			text-align: center;
 			position: absolute;
 			top: 0;
+		}
+
+		.sale_img{
+			position: absolute;
+			top: -40px;
+			right: -80px;
+			width: 207px;
+			height: 207px;
+			background: url('../images/sale.png') center no-repeat;
+			background-size: 100% 100%;
+			color: #FF0000;
+			line-height: 207px;
+			display: flex;
+			align-items: baseline;
+
+
+			transform-origin: 50% 50%;
+			transform: rotate(-15deg) scale(5);
+			transition: all .3s cubic-bezier(0.6, 0.04, 0.98, 0.335);
+			opacity: 0;
+
+			&.active{
+				opacity: 1;
+				transform: rotate(0deg) scale(1);
+			}
+
+			.number{
+				font-size: 130px;
+				width: 70px;
+				text-align: center;
+				margin-left: 60px;
+			}
+
+			.zhe{
+				font-size: 40px;
+			}
 		}
 	}
 

@@ -115,6 +115,8 @@ export default {
 			//开始之前 背景音乐
 			gameBgm()
 
+			//音频预加载
+			preload()
 		})
 
 		watch(gameState, (newState, oldState) => {
@@ -200,13 +202,69 @@ export default {
 			})
 		}
 
+
+		const preload = () => {
+			let audios = [
+				{ id: 'before', src: "./sounds/before.mp3" },
+				{ id: 'buy_end', src: "./sounds/buy_end.mp3" },
+				{ id: 'buy_ing', src: "./sounds/buy_ing.mp3" },
+				{ id: 'buy_success', src: "./sounds/buy_success.mp3" },
+				{ id: 'count_down_end', src: "./sounds/count_down_end.wav" },
+				{ id: 'count_down_num', src: "./sounds/count_down_num.mp3" },
+				{ id: 'guess', src: "./sounds/guess.mp3" },
+				{ id: 'warning', src: "./sounds/warning.mp3" },
+				{ id: '00_01', src: "./voice/00_01.mp3" },
+				{ id: '00_02', src: "./voice/00_02.mp3" },
+				{ id: '01_01', src: "./voice/01_01.mp3" },
+				{ id: '01_02', src: "./voice/01_02.mp3" },
+				{ id: '01_03', src: "./voice/01_03.mp3" },
+				{ id: '01_04', src: "./voice/01_04.mp3" },
+				{ id: '02_01', src: "./voice/02_01.mp3" },
+				{ id: '02_02', src: "./voice/02_02.mp3" },
+				{ id: '02_03', src: "./voice/02_03.mp3" },
+				{ id: '02_04', src: "./voice/02_04.mp3" },
+				{ id: '02_05', src: "./voice/02_05.mp3" },
+				{ id: '02_06', src: "./voice/02_06.mp3" },
+				{ id: '03_01', src: "./voice/03_01.mp3" },
+				{ id: '03_02', src: "./voice/03_02.mp3" },
+				{ id: '04_01', src: "./voice/04_01.mp3" },
+				{ id: '04_02', src: "./voice/04_02.mp3" },
+				{ id: 'digi_1', src: "./voice/digi_1.mp3" },
+				{ id: 'digi_2', src: "./voice/digi_2.mp3" },
+				{ id: 'digi_3', src: "./voice/digi_3.mp3" },
+				{ id: 'digi_4', src: "./voice/digi_4.mp3" },
+				{ id: 'digi_5', src: "./voice/digi_5.mp3" },
+				{ id: 'digi_6', src: "./voice/digi_6.mp3" },
+				{ id: 'digi_7', src: "./voice/digi_7.mp3" },
+				{ id: 'digi_8', src: "./voice/digi_8.mp3" },
+				{ id: 'digi_9', src: "./voice/digi_9.mp3" },
+				{ id: 'rule_01', src: "./voice/rule_01.mp3" },
+				{ id: 'rule_02', src: "./voice/rule_02.mp3" },
+				{ src: "./Dior口红套装.png" },
+				{ src: "./戴森无绳吸尘器V11.png" },
+				{ src: "./索尼85寸液晶电视.png" }
+			]
+
+			var queue = new createjs.LoadQueue()
+			queue.installPlugin(createjs.Sound)
+			queue.on("complete", handleComplete, this)
+			queue.loadManifest(audios)
+			function handleComplete() {
+				console.log('preload')
+				// audios.forEach(e => {
+				// 	store.state.jxmsudio[e.id] = queue.getResult(e.id).src
+				// })
+			}
+
+		}
+
 		watch(showAdvVideo, (newState, oldState) => {
 			if (newState) {
 				pauseJxmsBgm.value()
 			} else {
 				if(state.gameState != 4) playJxmsBgm.value(null, true)
 			}
-		});
+		})
 
 		const state = reactive({
 			gameState,

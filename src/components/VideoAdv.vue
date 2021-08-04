@@ -6,9 +6,18 @@
     >
         <video id="video" :autoplay="showAdvVideo" :loop="isLoop" :src="videoUrl"></video>
         <div class="count_down_wrap" v-if="!showTomorrowGoods">
-            广告时间 {{ countDownTime }}
+            {{ countDownTime }}
+        </div>
+
+        <div class="buying_continues" v-if="gameState == 3">
+            <div class="text_wrap">
+                <img src="../images/light_red.png" class="light">
+                <p class="text">抢购持续进行中</p>
+            </div>
         </div>
     </div>
+
+
 </template>
 
 <script>
@@ -186,5 +195,48 @@ export default {
             bottom: 70px;
             right: 30px;
         }
+        
+        .buying_continues{
+            position: absolute;
+            width: 100%;
+            height: 59px;
+            bottom: 20px;
+            text-align: center;
+
+            .text_wrap{
+                width: 453px;
+                height: 59px;
+                display: inline-block;
+                background: url('../images/buying_continues.png') center no-repeat;
+                background-size: 100% 100%;
+                line-height: 59px;
+                color: #fff;
+                font-size: 40px;
+                text-align: center;
+                position: relative;
+                border-radius: 20px;
+                overflow: hidden;
+
+                .light{
+                    height: 100%;
+                    position: absolute;
+                    left: 0;
+                    animation: continueLightRedAnim 2s ease-out infinite;
+                }
+
+                .text{
+                    position: absolute;
+                    width: 100%;
+                    z-index: 99;
+                }
+            }
+        }
     }
+
+    @keyframes continueLightRedAnim {
+        0%{ transform: translate(-10vw) }
+        50%{ transform: translate(453px) }
+        100%{ transform: translate(453px) }
+    }
+
 </style>

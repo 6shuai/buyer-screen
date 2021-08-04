@@ -6,7 +6,7 @@
                 v-for="(page, pindex) in totalPage"
                 :key="pindex"
             >
-                <div v-if="pageIndex == pindex">
+                <div class="member_list_item" v-if="pageIndex == pindex">
                     <div 
                         class="item"
                         v-for="(item, index) in rankList"
@@ -124,14 +124,18 @@ export default {
             .member_list{
                 width: 750px;
                 transform: skew(19deg);
-                position: absolute;
+                position: relative;
                 left: 0;
+
+                .member_list_item{
+                    position: absolute;
+                }
             }
         }
 
         .item{
             height: 104px;
-            padding: 0 40px 0 80px;
+            padding: 0 40px 0 30px;
             display: flex;
             align-items: center;
             font-weight: bold;

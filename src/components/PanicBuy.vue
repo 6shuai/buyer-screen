@@ -2,16 +2,26 @@
 	<div class="tip text_medium">当前宝贝</div>
 	<div class="goods_detail">
 		<div class="goods_image">
-			<div class="img" :style="{ background: `url(${data.goodsCover}) center no-repeat`, backgroundSize: '100% 100%' }"></div>
+			<div
+				class="img"
+				:style="{
+					background: `url(${data.goodsCover}) center no-repeat`,
+					backgroundSize: '100% 100%',
+				}"
+			></div>
 		</div>
 		<div class="goods_detail_right">
 			<p class="goods_name text_overflow">
-				<span class="text_medium">{{ data.goodsName}}</span>
+				<span class="text_medium">{{ data.goodsName }}</span>
 				<span class="goods_desc">{{ data.goodsDescription }}</span>
 			</p>
 			<div class="buy_in_price">
-				<span class="int">￥{{ priceFormat(data.marketValue).int }}</span>
-				<span class="decimals">{{ priceFormat(data.marketValue).decimals }}</span>
+				<span class="int"
+					>￥{{ priceFormat(data.marketValue).int }}</span
+				>
+				<span class="decimals">{{
+					priceFormat(data.marketValue).decimals
+				}}</span>
 				<span class="price_text_qi">起</span>
 			</div>
 			<p class="buy_in_price_down text_medium">
@@ -22,11 +32,20 @@
 			</p>
 		</div>
 	</div>
-	<div class="real_price_warp" :class="{ sell_out_crad: gameState == gameStateId.panicBuyEnd }">
-		<div class="data" v-if="gameState == gameStateId.panicBuyEnd">已售罄</div>
+	<div
+		class="real_price_warp"
+		:class="{ sell_out_crad: gameState == gameStateId.panicBuyEnd }"
+	>	
+		<img src="../images/light_red.png" class="light">
+		<div class="data" v-if="gameState == gameStateId.panicBuyEnd">
+			已售罄
+		</div>
 		<div class="data text_medium" v-else>
-			实时价格: <span class="price_int">￥{{ realTimePrice.int }}</span
-			><span class="price_decimals">{{ realTimePrice.decimals }}</span>
+			<div class="text">实时价格: </div>
+			<div class="price_num_wrap">
+				<span class="price_int">￥{{ realTimePrice.int }}</span>
+				<span class="price_decimals">{{ realTimePrice.decimals }}</span>
+			</div>
 		</div>
 	</div>
 </template>
@@ -61,6 +80,7 @@ export default {
 			setRealTimePrice(currentPrice, priceDeclineFrequency);
 		});
 
+
 		//实时价格
 		const setRealTimePrice = (price, priceDeclineFrequency) => {
 			clearTimeout(state.timer);
@@ -74,7 +94,7 @@ export default {
 			store.commit("SET_REAL_TIME_PRICE", state.realTimePrice);
 
 			state.timer = setTimeout(() => {
-				setRealTimePrice(newPrice, priceDeclineFrequency);
+				setRealTimePrice(newPrice, priceDeclineFrequency)
 			}, priceDeclineFrequency * 1000);
 		};
 

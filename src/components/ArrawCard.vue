@@ -9,7 +9,7 @@
         <!-- 即将开始  倒计时 -->
         <div 
             class="about_begin" 
-            v-if="gameState == null"
+            v-if="gameState == null || gameState == 0"
         >
             <div class="text text_medium">即将开始</div>
             <div class="count_down">{{ countDownTime }}</div>
@@ -107,8 +107,8 @@ export default {
 
             console.log('距离游戏开始还有---->(', num , ')秒')
         
-            countDownFun(20)
-            videoPlay.value(20, -1)
+            countDownFun(50)
+            videoPlay.value(50, -1)
         }
 
         //游戏开始前 倒计时

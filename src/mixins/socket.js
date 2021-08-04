@@ -247,14 +247,14 @@ export default function () {
     const test = () => {
         
         //预览
-        setTimeout(() => {
-            let data = {
-                id: socketId.Preview,
-                auctionId: getQueryString('id') || 22
-            }
-            websocketSendData(data);
-        }, 20 * 1000);
-        return
+        // setTimeout(() => {
+        //     let data = {
+        //         id: socketId.Preview,
+        //         auctionId: getQueryString('id') || 22
+        //     }
+        //     websocketSendData(data);
+        // }, 20 * 1000);
+        // return
 
         setTimeout(() => {
             
@@ -298,14 +298,15 @@ export default function () {
                 }, 200);
 
                 setTimeout(() => {
-                    store.commit('SET_GAME_STATE', 1)
+                    // store.commit('SET_GAME_STATE', 1)
 
-                    return
 
 
                     setTimeout(() => {
                         store.commit('SET_GAME_STATE', 3)
                         store.state.showCountDown = false
+
+                        return
 
 
                         setTimeout(() => {
@@ -331,7 +332,7 @@ export default function () {
                             ])
 
 
-                        }, 180 * 1000);
+                        }, 1 * 1000);
 
                         return
 
