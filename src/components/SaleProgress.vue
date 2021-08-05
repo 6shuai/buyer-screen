@@ -11,26 +11,38 @@
 
 			<div class="sale_data text_medium" v-if="realTimePrice">
 				已优惠:
-				{{
-					changeTwoDecimal_f(100 - (realTimePrice.full / marketValue) * 100)
-				}}%
+				<span 
+					v-for="(item, index) in changeTwoDecimal_f(100 - (realTimePrice.full / marketValue) * 100)" 
+					:key="index"
+					:class="{ number: item != '.' }"
+				>
+					{{ item }}
+				</span>
+				%
 			</div>
 
 			<div 
 				class="sale_img"
-				:class="{ active: showSale && saleStep == 1 }"
-			>
-				<div class="number">{{ 10 - saleNum + 1 }}</div>
-				<div class="zhe">折</div>
-			</div>
-			<div 
-				class="sale_img"
-				:class="{ active: showSale & saleStep == 2 }"
+				:class="{ active: showSale }"
 			>
 				<div class="number">{{ 10 - saleNum + 1 }}</div>
 				<div class="zhe">折</div>
 			</div>
 
+
+		</div>
+	</div>
+	<div 
+		class="sale_wrap"
+		:class="{ active: showSale }"
+	>
+		<div 
+			class="sale_count text_medium"
+			:class="{ show_sale_count: showSale }"
+		>
+			已达
+			<span class="count">{{ 10 - saleNum + 1 }}</span>
+			<span class="text">折!</span>
 		</div>
 	</div>
 </template>
@@ -38,10 +50,13 @@
 <script>
 import { reactive, toRefs, computed, onMounted, onUnmounted, ref } from "vue"
 import { useStore } from "vuex"
+import mixin from '../mixins/index'
+
 export default {
 	setup(props) {
 		const store = useStore()
 		const progressRef = ref(null)
+		const { playJxmsSounds } = mixin()
 
 		//marketValue               原价
 		//currentPrice              当前抢购价格
@@ -88,6 +103,12 @@ export default {
 			// state.progressWidth -= currentPrice / priceDeclineRate / 60 / 10
 			let priceDeclineCopy = JSON.parse(JSON.stringify(priceDecline))
 
+			let time = 100
+
+			if(priceDeclineFrequency != 0.1){
+				priceDeclineCopy = priceDecline / (priceDeclineFrequency * 1000 / time)
+			}
+
 			if(state.progressWidth < 10){
 				priceDeclineCopy = priceDeclineCopy * 0.5
 			}else{
@@ -106,7 +127,7 @@ export default {
 			state.progressRef.style.width = `${(state.progressWidth)}%`
 			state.progressTimer = setTimeout(() => {
 				progress()
-			}, 100)
+			}, time)
 		}
 
 		//获取 css animation @keyframes属性值
@@ -148,10 +169,22 @@ export default {
 			if(s_x >= state.saleNum * 10){
 				state.showSale = true
 				state.saleNum += 1
-				state.saleStep = state.saleStep == 1 ? 2 : 1
+				let saleNum = 10 - state.saleNum + 1
+				store.commit('SET_VOICE_CAPTION', 'sale_' + saleNum)
+				playJxmsSounds.value(`./voice/discount${saleNum}.mp3`)
+
+				hideSale()
 			}
 
 			return s_x
+		}
+
+
+		const hideSale = () => {
+			clearTimeout(state.saleTimer)
+			state.saleTimer = setTimeout(() => {
+				state.showSale = false
+			}, 3000);
 		}
 
 		const state = reactive({
@@ -162,14 +195,15 @@ export default {
 			progressWidth: 100,
 			progressRef,
 			changeTwoDecimal_f,
+			saleTimer: undefined,
 			saleNum: 1,         //折扣
-			saleStep: 1,        //步骤
 			showSale: false     //是否显示折扣
 		})
 
 		onUnmounted(() => {
 			clearTimeout(state.timer)
 			clearTimeout(state.progressTimer)
+			clearTimeout(state.saleTimer)
 		})
 
 		return toRefs(state)
@@ -211,6 +245,12 @@ export default {
 			text-align: center;
 			position: absolute;
 			top: 0;
+
+			.number{
+				display: inline-block;
+				width: 48px;
+				text-align: center;
+			}
 		}
 
 		.sale_img{
@@ -226,15 +266,10 @@ export default {
 			display: flex;
 			align-items: baseline;
 
-
-			transform-origin: 50% 50%;
-			transform: rotate(-15deg) scale(5);
-			transition: all .3s cubic-bezier(0.6, 0.04, 0.98, 0.335);
 			opacity: 0;
-
+			
 			&.active{
-				opacity: 1;
-				transform: rotate(0deg) scale(1);
+				animation: saleAnim 3s ease-in;
 			}
 
 			.number{
@@ -248,15 +283,88 @@ export default {
 				font-size: 40px;
 			}
 		}
+
+		
+	}
+}
+
+.sale_wrap{
+	position: absolute;
+	bottom: -100px;
+	width: 0;
+	height: 407px;
+	background: url('../images/sale_bg.png') no-repeat center;
+	background-size: 100% 100%;
+	z-index: 99999;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	opacity: 0;
+	transition: all .2s ease-in;
+
+	&.active{
+		opacity: 1;
+		width: 100%;
 	}
 
-	@keyframes progressAnim {
-		0% {
-			width: 100%;
+	.sale_count{
+		line-height: 350px;
+		display: inline-block;
+		font-size: 60px;
+		color: #4a2453;
+		transform: translate(-100vw);
+
+
+		&.show_sale_count{
+			animation: saleCountAnim 3s ease-in;
 		}
-		100% {
-			width: 0%;
+
+		.count{
+			font-size: 180px;
+			color: #fff;
 		}
+
+		.text{
+			color: #fff;
+		}
+	}
+}
+
+@keyframes progressAnim {
+	0% {
+		width: 100%;
+	}
+	100% {
+		width: 0%;
+	}
+}
+
+@keyframes saleAnim {
+	0% {
+		transform: rotate(-15deg) scale(5);
+		opacity: 0;
+	}
+	6% {
+		transform: rotate(0deg) scale(1);
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+	}
+}
+
+@keyframes saleCountAnim {
+	0%{
+		transform: translate(-100vw);
+	}
+	30%{
+		transform: translate(0);
+	}
+	90%{
+		transform: translate(6vw);
+	}
+	100%{
+		transform: translate(100vw);
 	}
 }
 </style>

@@ -12,6 +12,7 @@
   "dependencies": {
     "autoprefixer": "^10.2.5",
     "axios": "^0.21.1",
+    "csshake": "^1.5.3",
     "howler": "^2.2.3",
     "js-cookies": "^1.0.4",
     "qs": "^6.10.1",

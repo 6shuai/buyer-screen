@@ -8,17 +8,17 @@ export default function () {
     const store = useStore()
 
     //开始前 语音时长
-     let beforeStageVoiceDuration = 15      
+     let beforeStageVoiceDuration = 13      
 
     //猜价开始前 10秒  语音时长
     let guessBeforeVoiceDuration = 10
 
     //猜价阶段 语音时长
-    let guessPriceStageVoiceDuration01 = 8
-    let guessPriceStageVoiceDuration02 = 6
+    let guessPriceStageVoiceDuration01 = 5
+    let guessPriceStageVoiceDuration02 = 2
 
     //猜价教学时长
-    let guessPriceGuideDuration = 21
+    let guessPriceGuideDuration = 20
 
 
     //广告间隔时长
@@ -28,8 +28,8 @@ export default function () {
     let currentVideoIndex = 0
 
 
-    //教学阶段 时长  02_01 = 5s   02_02 = 3s      rule_01 = 21s  rule_02 = 33s       5 + 3 + 21 + 33 = 62
-    //猜价结束前30秒  猜价阶段即将结束，还没有参与朋友们请抓紧扫码参与。已经参与的朋友们千万不要⾛开，激动⼈⼼的抢购阶段将在30秒后开始！
+    
+    //抢购教学时长
     let guideDuration = 55
 
 
@@ -129,7 +129,7 @@ export default function () {
         state.guideTimer = setTimeout(() => {
             pauseJxmsBgm()
             store.commit('SET_VOICE_CAPTION', 'panicBuyBefore')
-            playJxmsSounds('./voice/02_06.mp3', () => {
+            playJxmsSounds('./voice/02_01.mp3', () => {
                 store.commit('SET_VOICE_CAPTION', 3)
                 store.state.showGuide = true
                 playJxmsSounds('./voice/rule_02.mp3', () => {

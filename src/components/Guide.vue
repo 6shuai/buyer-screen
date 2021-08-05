@@ -41,7 +41,7 @@ export default {
         const text = {
             //开始前每次广告播放结束后
             beforeText: [
-                { text: '猜价赢奖⾦，低价抢好物！这⾥是全国⾸款线下⼤型降价抢购互动，极限买⼿。', duration: 9 },
+                { text: '猜价赢奖⾦，低价抢好物！这⾥是全国⾸款线下⼤型降价抢购互动，极限买⼿。', duration: 8 },
                 { text: '我们的抢购活动⻢上开始， 赶快扫码参与，不要错过⼼仪的宝⻉哦！', duration: 5 }
             ],
 
@@ -53,28 +53,70 @@ export default {
 
             //猜价阶段 插入广告前
             advPlayBefore: [
-                { text: '猜价正在紧张进⾏中，还没有参与的⼈快扫码猜价吧！', duration: 5 },
-                { text: '已经猜价的朋友们请看个⼴告休息⼀下~', duration: 3 }
+                { text: '猜价正在紧张进⾏中，⼤家⼀起看段视频，了解下当前宝⻉吧~', duration: 5 },
             ],
 
             //猜价阶段 插入广告后  ⼴告切回⾄宝⻉信息
             advPlayEnd: [
-                { text: '⼤家好，欢迎回到极限买⼿！现在进⾏的极限买⼿的猜价阶段。', duration: 6 }
+                { text: '⼤家好，欢迎回到极限买⼿！', duration: 2 }
             ],
 
             //倒计时开始前
             countDownBefore: [
-                { text: '那么，各位准备好了吗？倒计时', duration: 3 }
+                { text: '那么，各位准备好了吗？倒计时', duration: 2 }
             ],
 
             //抢购开始
             panicBuyStart: [
-                { text: '宝⻉抢购，现在开始！', duration: 3 }
+                { text: '宝⻉抢购，现在开始！', duration: 2 }
             ],
 
             //库存紧张（闪屏动画播放完成后）
             inventoryWarning: [
                 { text: '宝⻉库存不多了！还没下⼿的朋友们快抓紧时机抢购吧！', duration: 4 }
+            ],
+
+            //第⼀个宝⻉已被抢⾛
+            firstBuy : [
+                { text: '本场第⼀个宝⻉已被抢⾛！让我们恭喜这位朋友！', duration: 4 }
+            ],
+            
+            //9折
+            sale_9 : [
+                { text: '宝⻉实时价格已达9折！', duration: 2 }
+            ],
+
+            //8折
+            sale_8 : [
+                { text: '宝⻉实时价格已达8折！', duration: 2 }
+            ],
+            //7折
+            sale_7 : [
+                { text: '宝⻉实时价格已达7折！', duration: 2 }
+            ],
+            //6折
+            sale_6 : [
+                { text: '宝⻉实时价格已达6折！', duration: 2 }
+            ],
+            //5折
+            sale_5 : [
+                { text: '宝⻉实时价格已达5折！', duration: 2 }
+            ],
+            //4折
+            sale_4 : [
+                { text: '宝⻉实时价格已达4折！', duration: 2 }
+            ],
+            //3折
+            sale_3 : [
+                { text: '宝⻉实时价格已达3折！', duration: 2 }
+            ],
+            //2折
+            sale_2 : [
+                { text: '宝⻉实时价格已达2折！', duration: 2 }
+            ],
+            //1折
+            sale_1 : [
+                { text: '宝⻉实时价格已达1折！', duration: 2 }
             ],
 
             //抢购结束  宝⻉售罄了
@@ -84,13 +126,13 @@ export default {
 
             //排行榜出现, （后⾯还有宝⻉）
             showRank01: [
-                { text: '以下是本场宝⻉的拍卖结果。你抢到⾃⼰⼼仪的宝⻉了吗？', duration: 4 },
+                { text: '以下是本场宝⻉的抢购结果。你抢到⾃⼰⼼仪的宝⻉了吗？', duration: 4 },
                 { text: '不要⾛开，后⾯还有更多宝⻉等你抢购，下⼀个宝⻉⻢上开始！', duration: 7 }
             ],
 
             //排行榜出现, （后⾯没有宝⻉）-
             showRank02: [
-                { text: '以下是本场宝⻉的拍卖结果。你抢到⾃⼰⼼仪的宝⻉了吗？', duration: 4 }
+                { text: '以下是本场宝⻉的抢购结果。你抢到⾃⼰⼼仪的宝⻉了吗？', duration: 4 }
             ],
 
             //活动结束 （明天还有宝⻉）
@@ -133,14 +175,14 @@ export default {
             //抢购教学
             guideText2: [
                 { text: '抢购是极限买⼿的核⼼玩法',duration: 3 },
-                { text: '在这⾥你有可能在任意价格买到你梦寐以求的宝⻉！',duration: 4 },
+                { text: '在这⾥你有可能在任意价格买到你梦寐以求的宝⻉！',duration: 5 },
                 { text: '抢购阶段开始后',duration: 2 },
                 { text: '当前宝贝会从⽴刻从官⽅零售价开始实时降价！',duration: 4 }, 
-                { text: '没错，是降价！',duration: 1 },
+                { text: '没错，是降价！',duration: 2 },
                 { text: '每分钟降低⼀定折扣',duration: 2 },
-                { text: '降价期间你在任意时间以当前折扣价格购买本宝⻉',duration: 5 },
+                { text: '降价期间你在任意时间以当前折扣价格购买本宝⻉',duration: 6 },
                 { text: '注意！极限买⼿中唯⼀未知的是每场宝⻉的库存数量',duration: 6 },
-                { text: '所以，你要做的就是在宝⻉被抢光前尽可能以满意的价格抢到宝⻉~', duration: 6 }
+                { text: '所以，你要做的就是在宝⻉被抢光前尽可能以满意的价格抢到宝⻉~', duration: 5 }
             ]
 
         }

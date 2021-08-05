@@ -12,7 +12,7 @@
                         v-for="(item, index) in rankList"
                         :key="index"
                         :style="{ animation: 
-                            hideRank ? `listAnmiHide_${index} 1s ease-in ${index * 0.2}s both` : `listAnmi_${index} 1s ease-in ${index * 0.2}s both`
+                            hideRank ? `listAnmiHide_${index} 1s ease-in ${index * 0.2}s both` : `listAnmi_${index} 1s ease-in ${index * 0.2}s both`,
                         }"
                     >
                         <div class="index text_medium">{{ item.index + 1 }}</div>
@@ -123,9 +123,9 @@ export default {
 
             .member_list{
                 width: 750px;
-                transform: skew(19deg);
+                // transform: skew(19deg);
                 position: relative;
-                left: 0;
+                left: 0; 
 
                 .member_list_item{
                     position: absolute;
@@ -140,11 +140,28 @@ export default {
             align-items: center;
             font-weight: bold;
 
+            &:nth-child(1){
+                width: 600px;
+            }
+            &:nth-child(2){
+                width: 635px;
+            }
+            &:nth-child(3){
+                width: 670px;
+            }
+            &:nth-child(4){
+                width: 705px;
+            }
+            &:nth-child(5){
+                width: 740px;
+            }
+
             .index{
                 width: 60px;
                 font-size: 50px;
                 color: #4a2453;
                 text-align: right;
+                transform: skew(19deg);
             }
 
             .head_img{
@@ -158,10 +175,11 @@ export default {
                 justify-content: center;
                 align-items: center;
                 margin-left: 10px;
+                transform: skew(19deg);
 
                 img{
-                    width: 70px;
-                    height: 70px;
+                    width: 73px;
+                    height: 73px;
                     border-radius: 50%;
                 }
             }
@@ -171,6 +189,7 @@ export default {
                 font-size: 35px;
                 color: #fff;
                 padding-left: 14px;
+                transform: skew(19deg);
             }
 
             .price{
@@ -178,7 +197,7 @@ export default {
                 color: #4a2453;
                 flex: 1;
                 text-align: right;
-
+                transform: skew(19deg);
                 .decimals{
                     font-size: 30px;
                 }

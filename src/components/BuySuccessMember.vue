@@ -65,7 +65,13 @@ export default {
                         state.danmakuId = state.danmakuId + 1
                         nextTick(() => {
                             setTimeout(() => {
-                                playJxmsSounds.value('./sounds/buy_success.mp3')
+                                playJxmsSounds.value('./sounds/buy_success.mp3', () => {
+                                    if(!state.firstBuy){
+                                        state.firstBuy = true
+                                        store.commit('SET_VOICE_CAPTION', 'firstBuy')
+                                        playJxmsSounds.value('./voice/02_06.mp3')
+                                    }
+                                })
                             }, 600);
                         })
                         deleteDanmaku()
@@ -114,6 +120,7 @@ export default {
         })
 
         const state = reactive({
+            firstBuy: false,
             danmakuId: 0,
             timer: undefined,
             list: [],   // 普通的弹幕队列

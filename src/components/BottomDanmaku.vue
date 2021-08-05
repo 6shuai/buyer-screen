@@ -135,6 +135,8 @@ export default {
 
         //猜价结果 通知
         watch(guessPriceData, (newData, oldData) => {
+
+            console.log('猜价结果--------->', newData)
             newData.forEach(item => {
                 state.list.push({
                     ...item,
@@ -192,7 +194,7 @@ export default {
                 font-size: 35px;
                 padding: 10px 0;
                 transform: translateZ(0);
-                animation: danmakuAnim 5s ease-in both;
+                animation: danmakuAnim 8s ease-in both;
 
                 .head_img{
                     width: 80px;

@@ -247,14 +247,14 @@ export default function () {
     const test = () => {
         
         //预览
-        // setTimeout(() => {
-        //     let data = {
-        //         id: socketId.Preview,
-        //         auctionId: getQueryString('id') || 22
-        //     }
-        //     websocketSendData(data);
-        // }, 20 * 1000);
-        // return
+        setTimeout(() => {
+            let data = {
+                id: socketId.Preview,
+                auctionId: getQueryString('id') || 22
+            }
+            websocketSendData(data);
+        }, 20 * 1000);
+        return
 
         setTimeout(() => {
             
@@ -281,16 +281,16 @@ export default function () {
                         {"id":12,"url":"https://static.xfengjing.com/video/2021/07/30/b78fdc33-1bd7-422f-852f-1c10973919e8.mp4","usage":2, duration: 15}]
                     },
                     "guessRules":[{"award":30.0,"correctDigit":3,"id":13},{"award":20.0,"correctDigit":2,"id":12},{"award":10.0,"correctDigit":1,"id":11}],
-                    "guessTime":170,
+                    "guessTime":20,
                     "id":7005,
                     "marketValue":2099,
                     "orderExpiration":30,
                     "paymentMethod":1,
                     "pickUpAddresses":[{"address":"酷乐潮玩  上海市宝山区  宝山龙湖天街B1-104号","deliverType":1,"id":35,"placeId":15}],
                     "preheatTime":30,
-                    "priceDecline": 0.16,
-                    "priceDeclineFrequency":0.1,
-                    "priceDeclineRate": 100
+                    "priceDecline": 0.32,
+                    "priceDeclineFrequency": 0.1,
+                    "priceDeclineRate": 200
                 })
 
                 setTimeout(() => {
@@ -298,7 +298,9 @@ export default function () {
                 }, 200);
 
                 setTimeout(() => {
-                    // store.commit('SET_GAME_STATE', 1)
+                    store.commit('SET_GAME_STATE', 1)
+
+    
 
 
 
@@ -307,7 +309,6 @@ export default function () {
                         store.state.showCountDown = false
 
                         return
-
 
                         setTimeout(() => {
                             store.commit('SET_GAME_STATE', 4)
@@ -332,9 +333,9 @@ export default function () {
                             ])
 
 
-                        }, 1 * 1000);
+                        }, 60 * 1000);
 
-                        return
+                        
 
                         setTimeout(() => {
                             store.commit('SET_BUY_SUCCESS_MEMBER', {
@@ -392,7 +393,7 @@ export default function () {
 
                         }, 2000);
 
-                    }, 5 * 1000);
+                    }, 30 * 1000);
 
                 }, 30 * 1000);
 

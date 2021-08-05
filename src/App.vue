@@ -2,7 +2,8 @@
 	<div
 		class="main"
 	>
-		<div class="left_goods_list">
+		<div 
+			class="left_goods_list">
 			<left-goods-list></left-goods-list>
 		</div>
 
@@ -128,7 +129,6 @@ export default {
 			switch (newState) {
 				case 0:
 					//预热阶段
-					gameBgm()
 					videoPlay.value(preheatTime - 10, 0)
 					gameGuessPriceStartVoice(preheatTime)
 					goodsListData[currentGoodsIndex].hide = true
@@ -238,6 +238,15 @@ export default {
 				{ id: 'digi_7', src: "./voice/digi_7.mp3" },
 				{ id: 'digi_8', src: "./voice/digi_8.mp3" },
 				{ id: 'digi_9', src: "./voice/digi_9.mp3" },
+				{ id: 'discount1', src: "./voice/discount1.mp3" },
+				{ id: 'discount2', src: "./voice/discount2.mp3" },
+				{ id: 'discount3', src: "./voice/discount3.mp3" },
+				{ id: 'discount4', src: "./voice/discount4.mp3" },
+				{ id: 'discount5', src: "./voice/discount5.mp3" },
+				{ id: 'discount6', src: "./voice/discount6.mp3" },
+				{ id: 'discount7', src: "./voice/discount7.mp3" },
+				{ id: 'discount8', src: "./voice/discount8.mp3" },
+				{ id: 'discount9', src: "./voice/discount9.mp3" },
 				{ id: 'rule_01', src: "./voice/rule_01.mp3" },
 				{ id: 'rule_02', src: "./voice/rule_02.mp3" },
 				{ src: "./Dior口红套装.png" },
@@ -310,13 +319,6 @@ export default {
 		width: 17.8%;
 		min-width: 17.8%;
 		height: 100%;
-		background: url("./images/sidebar_left.png") no-repeat center;
-		background-size: 100% 100%;
-	}
-
-	.right_info {
-		background: url("./images/sidebar_right.png") no-repeat center;
-		background-size: 100% 100%;
 	}
 
 	.goods_content {
@@ -370,4 +372,5 @@ export default {
 		}
 	}
 }
+
 </style>

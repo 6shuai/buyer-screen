@@ -75,7 +75,7 @@ export default {
                     //     playJxmsSounds.value('./voice/04_02.mp3')
                     // }, 60 * 1000);
 
-                }, 120 * 1000);
+                }, 60 * 1000);
 
             // }
         })

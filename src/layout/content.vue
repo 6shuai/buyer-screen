@@ -25,7 +25,9 @@
                     <span class="price_text_qi">起</span>
                 </div>
                 <div class="price_down_wrap text_medium">   
-                    <img src="../images/light_blue.png" class="light">
+                    <div class="light_bg">
+                        <img src="../images/light_blue.png" class="light">
+                    </div>
                     <div class="text_wrap">
                         <p class="down_text">每分钟<span>直降</span></p>
                         <p class="down_price">￥{{ priceFormat(currentGoods.priceDeclineRate).int }}<span class="decimals">{{ priceFormat(currentGoods.priceDeclineRate).decimals }}</span></p>
@@ -243,7 +245,6 @@ export default {
                     .goods_image{
                         display: inline-block;
                         vertical-align: top;
-                        animation: goodsImgAnim 5s linear infinite alternate;
                     }
                     .goods_detail_right{
                         display: inline-block;
@@ -302,10 +303,19 @@ export default {
                     border-bottom-right-radius: 18px;
                     overflow: hidden;
 
+                    .light_bg{
+                        position: absolute;
+                        width: 100%;
+                        height: 100%;
+                        transform: skewX(-19deg);
+                        left: 40px;
+                        overflow: hidden;
+                    }
+
                     .light{
                         height: 100%;
                         position: absolute;
-                        left: 0;
+                        left: -400px;
                         animation: lightRedAnim 2s ease-out infinite;
                     }
 
@@ -435,6 +445,7 @@ export default {
             .goods_image{
                 margin-top: -82px;
                 position: relative;
+                animation: goodsImgAnim 2s linear infinite alternate;
 
                 .img{
                     width: 500px;
@@ -514,11 +525,20 @@ export default {
                 overflow: hidden;
                 border-top-right-radius: 18px;
                 border-bottom-right-radius: 18px;
+
+                .light_bg{
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    transform: skewX(-19deg);
+                    left: 51px;
+                    overflow: hidden;
+                }
                 
                 .light{
                     height: 100%;
                     position: absolute;
-                    left: 0;
+                    left: -490px;
                     animation: lightBlueAnim 2s ease-out infinite;
                 }
 
@@ -550,19 +570,19 @@ export default {
     }
 
     @keyframes lightBlueAnim {
-        0%{ transform: translate(0) }
-        30%{ transform: translate(35vw) }
-        100%{ transform: translate(35vw) }
+        0%{ transform: translate(-490px) }
+        40%{ transform: translate(55vw) }
+        100%{ transform: translate(55vw) }
     }
 
     @keyframes lightRedAnim {
         0%{ transform: translate(0) }
-        50%{ transform: translate(58vw) }
-        100%{ transform: translate(58vw) }
+        45%{ transform: translate(72vw) }
+        100%{ transform: translate(72vw) }
     }
 
     @keyframes goodsImgAnim {
         0% { transform: translate(0, 0) }
-        100% { transform: translate(0, -6%) }
+        100% { transform: translate(0, -3%) }
     }
 </style>

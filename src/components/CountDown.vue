@@ -21,9 +21,11 @@
 <script>
 import { reactive, toRefs, onMounted, nextTick } from 'vue'
 import mixin from '../mixins/index'
+import { useStore } from "vuex"
 export default {
     emits: ['countDown'],
     setup(props, { emit }) {
+        const store = useStore();
         const { pauseJxmsBgm, playJxmsSounds } = mixin()
 
         onMounted(() => {
@@ -36,6 +38,9 @@ export default {
             if(state.countdownNum <= 1){
                 clearTimeout(state.timer)
                 emit('countDown', 'end')
+
+                store.commit('SET_GAME_STATE', 3)
+                        store.state.showCountDown = false
                 return
             }
 

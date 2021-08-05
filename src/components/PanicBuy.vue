@@ -36,7 +36,9 @@
 		class="real_price_warp"
 		:class="{ sell_out_crad: gameState == gameStateId.panicBuyEnd }"
 	>	
-		<img src="../images/light_red.png" class="light">
+		<div class="light_bg">
+			<img src="../images/light_red.png" class="light">
+		</div>
 		<div class="data" v-if="gameState == gameStateId.panicBuyEnd">
 			已售罄
 		</div>
@@ -51,7 +53,7 @@
 </template>
 
 <script>
-import { reactive, toRefs, onMounted, computed, onUnmounted } from "vue";
+import { reactive, toRefs, onMounted, computed, onUnmounted, nextTick } from "vue";
 import { priceFormat, gameStateId } from "../util/index";
 import { useStore } from "vuex";
 export default {
@@ -84,19 +86,55 @@ export default {
 		//实时价格
 		const setRealTimePrice = (price, priceDeclineFrequency) => {
 			clearTimeout(state.timer);
+
+			priceDownDiff(price, price - priceDecline)
+
+
+
+
 			let newPrice = price - priceDecline;
 
 			if (newPrice <= 0) {
 				newPrice = 0;
 				return;
 			}
-			state.realTimePrice = priceFormat(newPrice);
-			store.commit("SET_REAL_TIME_PRICE", state.realTimePrice);
+			// state.realTimePrice = priceFormat(newPrice);
+			// store.commit("SET_REAL_TIME_PRICE", state.realTimePrice);
 
 			state.timer = setTimeout(() => {
 				setRealTimePrice(newPrice, priceDeclineFrequency)
 			}, priceDeclineFrequency * 1000);
 		};
+
+		//下降差值计算
+		const priceDownDiff = (startNum, endNum) => {
+			clearInterval(state.diffTimer)
+			let num = 0.01
+			let time = 1
+			let sNum = startNum
+			if(priceDecline < 0.1){
+				time = 0.01
+			}else if(priceDecline < 1){
+				time = priceDecline / 10
+			}else if(priceDecline < 10){
+				time = priceDecline / 100
+			}else if(priceDecline < 100){
+				time = priceDecline / 1000
+			}
+			num =  priceDecline / (1000 / (time * 1000))
+
+			state.diffTimer = setInterval(() => {
+				sNum -= num
+				nextTick(() => {
+					state.realTimePrice = priceFormat(sNum);
+					store.commit("SET_REAL_TIME_PRICE", state.realTimePrice);
+					if(sNum <= endNum){
+						clearInterval(state.diffTimer)
+					}
+				})
+			}, time * 1000);
+
+		}
 
 		onUnmounted(() => {
 			clearTimeout(state.timer);
@@ -107,6 +145,7 @@ export default {
 			priceFormat,
 			gameStateId,
 			timer: undefined,
+			diffTimer: undefined,
 			realTimePrice: priceFormat(currentPrice),
 		});
 

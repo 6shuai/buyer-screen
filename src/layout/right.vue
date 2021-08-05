@@ -1,5 +1,9 @@
 <template>
-	<div class="right_wrap">
+	<div 
+		class="right_wrap"
+		:class="{ 'hideRight': showCountDown }"
+		:style="{ transition: `all .3s ease-in ${ !showCountDown ? '0s' : '.5s'}` }"
+	>
 		<div class="logo">
 			<img src="../images/logo.png" alt="logo" />
 		</div>
@@ -8,7 +12,7 @@
 			<div
 				class="state_info"
 				:class="
-					(gameState == gameStateId.guessPrice || gameState == gameStateId.countDown) && !store.state.showCountDown
+					(gameState == gameStateId.guessPrice || gameState == gameStateId.countDown) && !showCountDown
 						? 'show_guess'
 						: 'hide_guess'
 				"
@@ -17,8 +21,8 @@
 				<p class="count_down">{{ countDownNum }}</p>
 			</div>
 		</div>
-
-		<div class="qrcode_wrap">
+		
+		<div class="qrcode_wrap column_qrcode">
 			<p class="title text_medium">抢宝贝赢红包</p>
 			<div class="qrcode_box">
 				<p class="sao_text">微信扫一扫</p>
@@ -26,6 +30,15 @@
 			</div>
 		</div>
 	</div>
+
+	<div class="qrcode_wrap fixed_qrcode">
+		<p class="title text_medium"></p>
+		<div class="qrcode_box">
+			<p class="sao_text">微信扫一扫</p>
+			<img src="../images/qrcode.png" />
+		</div>
+	</div>
+
 </template>
 
 <script>
@@ -38,6 +51,10 @@ export default {
 	setup(props) {
 		const store = useStore();
 		const { pauseJxmsBgm, playJxmsSounds } = mixin()
+
+		const showCountDown = computed(() => {
+			return store.state.showCountDown
+		})
 
 		//游戏状态
 		const gameState = computed(() => {
@@ -78,6 +95,7 @@ export default {
 			timer: undefined,
 			countDownNum: 0, //倒计时
 			gameState,
+			showCountDown,
 			store,
 			gameStateId
 		})
@@ -93,7 +111,13 @@ export default {
 	padding: 22px 43px;
 	display: flex;
 	flex-flow: column;
-	justify-content: space-around;
+	justify-content: space-between;
+	background: url("../images/sidebar_right.png") no-repeat center;
+	background-size: 100% 100%;
+
+	&.hideRight{
+		transform: translate(100%);
+	}
 
 	.logo {
 		width: 317px;
@@ -118,7 +142,7 @@ export default {
 		background-size: 100% 100%;
 		text-align: center;
 		margin-top: 40px;
-		transition: all 0.5s ease-in;
+		transition: all 0.5s ease-in .5s;
 
 		&.show_guess {
 			transform: translate(0);
@@ -141,37 +165,50 @@ export default {
 			padding-top: 20px;
 		}
 	}
+}
 
-	.qrcode_wrap {
+.qrcode_wrap {
+	width: 364px;
+	text-align: center;
+	margin-top: 50px;
+
+	&.column_qrcode .qrcode_box{
+		opacity: 0;
+	}
+
+	&.fixed_qrcode{
+		position: fixed;
+		z-index: 999;
+		bottom: 0;
+		right: 43px;
+	}
+
+	.title {
+		font-size: 60px;
+		font-weight: bold;
+		color: #fff;
 		width: 100%;
-		text-align: center;
-		margin-top: 50px;
+		height: 88px;
+		padding-bottom: 28px;
+	}
 
-		.title {
-			font-size: 60px;
-			font-weight: bold;
-			color: #fff;
-			padding-bottom: 28px;
+	.qrcode_box {
+		padding: 19px;
+		background: url("../images/qrcode_card.png") center no-repeat;
+		background-size: 100% 100%;
+		margin-bottom: 42px;
+
+		.sao_text {
+			font-size: 40px;
+			color: #4a2453;
+			text-align: justify;
+			text-align-last: justify;
+			padding-bottom: 19px;
 		}
 
-		.qrcode_box {
-			padding: 19px;
-			background: url("../images/qrcode_card.png") center no-repeat;
-			background-size: 100% 100%;
-			margin-bottom: 42px;
-
-			.sao_text {
-				font-size: 40px;
-				color: #4a2453;
-				text-align: justify;
-				text-align-last: justify;
-				padding-bottom: 19px;
-			}
-
-			img {
-				width: 322px;
-				height: 322px;
-			}
+		img {
+			width: 322px;
+			height: 322px;
 		}
 	}
 }

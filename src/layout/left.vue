@@ -1,5 +1,9 @@
 <template>
-    <div class="goods_list_wrap">
+    <div 
+        class="goods_list_wrap"
+        :class="{ 'hideLeft': showCountDown }"
+        :style="{ transition: `all .3s ease-in ${ !showCountDown ? '0s' : '.5s'}` }"
+    >
 
         <!-- 当前宝贝 -->
         <div 
@@ -46,8 +50,25 @@
                         <div class="real_time_content">
                             <p class="real_time_text">实时价格</p>
                             <div class="price" v-if="realTimePrice">
-                                <span class="int">￥{{ priceFormat(realTimePrice).int }}</span>
-                                <span class="decimals">{{ priceFormat(realTimePrice).decimals }}</span>
+                                <span class="int">
+                                    <span>￥</span>
+                                    <span 
+                                        v-for="(item, index) in priceFormat(realTimePrice).int" 
+                                        :key="index"
+                                        :class="{ number_int: item != ',' }"
+                                    >
+                                        {{ item }}
+                                    </span>
+                                </span>
+                                <span class="decimals">
+                                    <span 
+                                        v-for="(item, index) in priceFormat(realTimePrice).decimals" 
+                                        :key="index"
+                                        :class="{ number_decimals: item != '.' }"
+                                    >
+                                        {{ item }}
+                                    </span>
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -304,6 +325,13 @@ export default {
         height: 100%;
         padding: 0 45px;
         overflow: hidden;
+        background: url("../images/sidebar_left.png") no-repeat center;
+		background-size: 100% 100%;
+        transition: all .3s ease-in .5s;
+
+        &.hideLeft{
+            transform: translate(-100%);
+        }
 
         .current_goods_wrap{
             margin-top: 66px;
@@ -667,6 +695,20 @@ export default {
                     .price{
                         width: 100%;
                         padding-top: 15px;
+                        
+                        .int{
+                            .number_int{
+                                display: inline-block;
+                                width: 36px;
+                                text-align: center;
+                            }
+                        }
+
+                        .number_decimals{
+                            display: inline-block;
+                            width: 28px;
+                            text-align: center;
+                        }
                     }
                 } 
             }
