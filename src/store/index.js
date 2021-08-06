@@ -21,8 +21,9 @@ const state = {
 	showHistryGoods: false,      //显示竞拍历史
 	showDanmaku: false,         //显示猜价弹幕
 
-	showGuide: false,
-	guideStep: null,
+	showGuide: false,			//显示字幕
+	guideStep: null,            //语音字幕
+	panicBuyMember: {},         //参加抢购的用户通知
 
 	tomorrowData: [            //明日宝贝
 		{
@@ -157,6 +158,11 @@ const mutations = {
 	//语音字幕
 	SET_VOICE_CAPTION(state, data){
 		state.guideStep = data
+	},
+
+	//玩家参加抢购
+	SET_MEMBER_LIST(state, data){
+		state.panicBuyMember = data
 	}
 
 }

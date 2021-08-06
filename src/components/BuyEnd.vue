@@ -15,8 +15,19 @@
                 >
             </div>
             <div class="goods_detail_right">
-                <p class="goods_name text_overflow"><span class="text_medium">{{ data.goodsName }}</span><span class="goods_desc">{{ data.goodsDescription }}</span></p>
-                <p class="goods_count text_medium">宝贝库存: 38</p>
+                <p class="goods_name text_overflow">
+                    <span 
+					class="name text_medium text_overflow"
+					:class="{ 
+                        'text_length_7': data.goodsName.length > 7,
+                        'text_length_10': data.goodsName.length > 9
+                     }"
+				>
+					{{ data.goodsName }}
+				</span>
+				<span class="goods_desc text_overflow">{{ data.goodsDescription }}</span>
+                </p>
+                <p class="goods_count text_medium">宝贝库存: {{ buyMemberList.length }}</p>
                 <p class="goods_del_price">￥{{ priceFormat(data.marketValue).int }}<span class="decimals">{{ priceFormat(data.marketValue).decimals }}</span></p>
             </div>
         </div>
@@ -43,13 +54,20 @@ export default {
             return store.state.buyKing
         })
 
+        const buyMemberList = computed(() => {
+            return store.state.buyMemberList
+        })
+
         onMounted(() => {
             setTimeout(() => {
                 store.state.showRankList = true
+                //后面还有宝贝
+                // store.commit('SET_VOICE_CAPTION', 'showRank01')
+                // playJxmsSounds.value('./voice/03_01')
+
+                //后面没有宝贝
                 store.commit('SET_VOICE_CAPTION', 'showRank02')
                 playJxmsSounds.value('./voice/03_02.mp3')
-
-
             }, 20000);
 
             setTimeout(() => {
@@ -60,6 +78,7 @@ export default {
         const state = reactive({
             priceFormat,
             buyKing,
+            buyMemberList,
             showSellOut: false
         })
         

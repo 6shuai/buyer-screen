@@ -1,5 +1,5 @@
 <template>
-	<div class="progress_wrap">
+	<div class="progress_wrap smiley">
 		<div class="progress">
 			<div
 				class="progress_bar"
@@ -20,15 +20,6 @@
 				</span>
 				%
 			</div>
-
-			<div 
-				class="sale_img"
-				:class="{ active: showSale }"
-			>
-				<div class="number">{{ 10 - saleNum + 1 }}</div>
-				<div class="zhe">折</div>
-			</div>
-
 
 		</div>
 	</div>
@@ -109,8 +100,8 @@ export default {
 				priceDeclineCopy = priceDecline / (priceDeclineFrequency * 1000 / time)
 			}
 
-			if(state.progressWidth < 10){
-				priceDeclineCopy = priceDeclineCopy * 0.5
+			if(state.progressWidth < 20){
+				priceDeclineCopy = priceDeclineCopy * 0.2
 			}else{
 				priceDeclineCopy = priceDeclineCopy * 1.5
 			}
@@ -170,7 +161,6 @@ export default {
 				state.showSale = true
 				state.saleNum += 1
 				let saleNum = 10 - state.saleNum + 1
-				store.commit('SET_VOICE_CAPTION', 'sale_' + saleNum)
 				playJxmsSounds.value(`./voice/discount${saleNum}.mp3`)
 
 				hideSale()
@@ -252,47 +242,16 @@ export default {
 				text-align: center;
 			}
 		}
-
-		.sale_img{
-			position: absolute;
-			top: -40px;
-			right: -80px;
-			width: 207px;
-			height: 207px;
-			background: url('../images/sale.png') center no-repeat;
-			background-size: 100% 100%;
-			color: #FF0000;
-			line-height: 207px;
-			display: flex;
-			align-items: baseline;
-
-			opacity: 0;
-			
-			&.active{
-				animation: saleAnim 3s ease-in;
-			}
-
-			.number{
-				font-size: 130px;
-				width: 70px;
-				text-align: center;
-				margin-left: 60px;
-			}
-
-			.zhe{
-				font-size: 40px;
-			}
-		}
-
 		
 	}
 }
 
 .sale_wrap{
 	position: absolute;
-	bottom: -100px;
-	width: 0;
-	height: 407px;
+	bottom: 100px;
+	left: 0;
+	width: 100%;
+	height: 324px;
 	background: url('../images/sale_bg.png') no-repeat center;
 	background-size: 100% 100%;
 	z-index: 99999;
@@ -300,15 +259,13 @@ export default {
 	justify-content: center;
 	align-items: center;
 	opacity: 0;
-	transition: all .2s ease-in;
+	transition: all .1s ease-in;
 
 	&.active{
 		opacity: 1;
-		width: 100%;
 	}
 
 	.sale_count{
-		line-height: 350px;
 		display: inline-block;
 		font-size: 60px;
 		color: #4a2453;
@@ -322,6 +279,7 @@ export default {
 		.count{
 			font-size: 180px;
 			color: #fff;
+			padding: 0 5px;
 		}
 
 		.text{
@@ -357,7 +315,7 @@ export default {
 	0%{
 		transform: translate(-100vw);
 	}
-	30%{
+	5%{
 		transform: translate(0);
 	}
 	90%{

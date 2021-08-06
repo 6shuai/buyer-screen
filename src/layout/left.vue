@@ -27,8 +27,8 @@
                                 class="sell_out_img"
                             >
                         </div>
-                        <p class="goods_name">{{ currentGoods.goodsName }}</p>
-                        <p class="goods_desc">{{ currentGoods.goodsDescription }}</p>
+                        <p class="goods_name text_overflow">{{ currentGoods.goodsName }}</p>
+                        <p class="goods_desc text_overflow">{{ currentGoods.goodsDescription }}</p>
                     </div>
 
                     <div class="goods_detail_bottom text_medium" v-if="!gameState || gameState < gameStateId.panicBuyIng">
@@ -75,7 +75,7 @@
 
                     <!-- 抢购结束 -->
                     <div class="goods_detail_bottom end text_medium" v-if="gameState == gameStateId.panicBuyEnd">
-                        <p class="goods_count">宝贝库存: 23</p>
+                        <p class="goods_count">宝贝库存: {{ buyMemberList.length }}</p>
                         <p class="price_text">极限秒杀价</p>
                         <div class="del_price">
                             <span class="int">￥{{ priceFormat(currentGoods.marketValue).int }}</span>
@@ -108,7 +108,7 @@
                     <div class="goods_img" :style="{ background: `url(${item.goodsCover}) center no-repeat`, backgroundSize: '100% 100%' }"></div>
                     <div class="info text_overflow">
                         <p class="time">{{ formatTime(item.beginTime) }}</p>
-                        <p class="goods_name">{{ item.goodsName }}</p>
+                        <p class="goods_name text_overflow">{{ item.goodsName }}</p>
                     </div>
                 </div>
                 
@@ -144,7 +144,7 @@
                     <div class="goods_img" :style="{ background: `url(${item.goodsCover}) center no-repeat`, backgroundSize: '100% 100%' }"></div>
                     <div class="info text_overflow">
                         <p class="time">明日 {{ formatTime(item.beginTime) }}</p>
-                        <p class="goods_name">{{ item.goodsName }}</p>
+                        <p class="goods_name text_overflow">{{ item.goodsName }}</p>
                     </div>
                 </div>
                 
@@ -294,6 +294,11 @@ export default {
             return state.showAdvVideo || state.showGuide || state.showRankList || state.showCountDown
         }
 
+        //库存
+        const buyMemberList = computed(() => {
+            return store.state.buyMemberList
+        })
+
         const state = reactive({
             goodsList,
             currentGoods,
@@ -312,7 +317,8 @@ export default {
             tomorrowData,
             historyGoodsData,
             showHistryGoods,
-            currentGoodsIsShow
+            currentGoodsIsShow,
+            buyMemberList
         })
 
         return toRefs(state)

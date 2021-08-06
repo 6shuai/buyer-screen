@@ -194,7 +194,7 @@ export default {
                 font-size: 35px;
                 padding: 10px 0;
                 transform: translateZ(0);
-                animation: danmakuAnim 8s ease-in both;
+                animation: danmakuAnim 5s ease-in both;
 
                 .head_img{
                     width: 80px;
@@ -241,7 +241,7 @@ export default {
 
 
             @keyframes danmakuAnim {
-                0% {transform: translate(100vw)}
+                0% {transform: translate(2528px)}
                 100% {transform: translate(-100%);}
             }
         }

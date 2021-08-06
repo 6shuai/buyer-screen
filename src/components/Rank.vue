@@ -7,7 +7,15 @@
                 <div class="img" :style="{ background: `url(${data.goodsCover}) center no-repeat`, backgroundSize: '100% 100%' }"></div>
                 <img src="../images/sell_out.png" alt="已售罄" class="sell_out">
             </div>
-            <p class="goods_name text_overflow">{{ data.goodsName }}</p>
+            <p 
+                class="goods_name text_overflow"
+                :class="{ 
+                    'text_length_7': data.goodsName.length > 7,
+                    'text_length_10': data.goodsName.length > 9
+                }"
+            >
+                {{ data.goodsName }}
+            </p>
             <p class="goods_desc text_overflow">{{ data.goodsDescription }}</p>
         </div>
         <div class="goods_price_wrap">

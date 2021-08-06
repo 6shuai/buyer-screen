@@ -63,7 +63,7 @@ export default function () {
             // 抢购列表
             case socketId.ScreenAuctionListNotice:
                 // store.commit('SET_GOODS_LIST', data.auctionList)
-
+                console.log(getQueryString('id'))
                 if(getQueryString('id') == 22){
                     store.commit('SET_GOODS_LIST', [{
                         beginTime: 1627642800000,
@@ -79,7 +79,7 @@ export default function () {
                 }else{
                     store.commit('SET_GOODS_LIST', [{
                         beginTime: 1627644600000,
-                        goodsCover: "https://static.xfengjing.com/picture/2021/07/30/79cbc343-6bee-4ea9-9e9a-4b4fb7796b63.png",
+                        goodsCover: "https://static.xfengjing.com/picture/2021/07/31/ad6d9432-74a9-4c47-befc-dc66e557d3ba.png",
                         goodsDescription: "HD08 中国红",
                         goodsName: "戴森吹风机",
                         marketValue: 3190,
@@ -88,25 +88,6 @@ export default function () {
                     }]
                 )
                 }
-
-                store.commit('SET_GOODS_LIST', [{
-                    beginTime: 1627642800000,
-                    goodsCover: "https://static.xfengjing.com/picture/2021/07/30/99312731-4922-49c5-903e-ef7062c48a89.png",
-                    goodsDescription: "红蓝续航增强版",
-                    goodsName: "任天堂Switch",
-                    marketValue: 2099,
-                    priceDeclineRate: 100,
-                    totalGuessAward: 0
-                },
-                {
-                    beginTime: 1627644600000,
-                    goodsCover: "https://static.xfengjing.com/picture/2021/07/30/79cbc343-6bee-4ea9-9e9a-4b4fb7796b63.png",
-                    goodsDescription: "HD08 中国红",
-                    goodsName: "戴森吹风机",
-                    marketValue: 3190,
-                    priceDeclineRate: 200,
-                    totalGuessAward: 0
-                }])
                 test()
                 break;
             // 抢购详情
@@ -146,6 +127,11 @@ export default function () {
             //库存预警, 显示3秒后消失,然后直到下一个用户抢购成功再次触发
             case socketId.InventoryForewarnNotice:
                 store.commit('SET_SHOW_WRRNING', true)
+                break;
+            //用户参加抢购通知  实时热度
+            case socketId.ParticipateAuctionNotice:
+                store.commit('SET_MEMBER_LIST', data)
+                break;
             default:
                 break;
         }
@@ -288,9 +274,9 @@ export default function () {
                     "paymentMethod":1,
                     "pickUpAddresses":[{"address":"酷乐潮玩  上海市宝山区  宝山龙湖天街B1-104号","deliverType":1,"id":35,"placeId":15}],
                     "preheatTime":30,
-                    "priceDecline": 0.32,
+                    "priceDecline": 0.16666666666666666,
                     "priceDeclineFrequency": 0.1,
-                    "priceDeclineRate": 200
+                    "priceDeclineRate": 100
                 })
 
                 setTimeout(() => {
@@ -309,6 +295,7 @@ export default function () {
                         store.state.showCountDown = false
 
                         return
+
 
                         setTimeout(() => {
                             store.commit('SET_GAME_STATE', 4)
@@ -332,66 +319,66 @@ export default function () {
                                 }
                             ])
 
-
-                        }, 60 * 1000);
-
-                        
-
-                        setTimeout(() => {
-                            store.commit('SET_BUY_SUCCESS_MEMBER', {
-                                nickName: '马冬梅',
-                                avatar: 'https://ec.xfengjing.com/picture/2020/12/09/804e982b-a0ce-4e0b-bfac-845c910b7d20.png',// 头像
-                                price: '56.78'// 买下的金额
-
-                            })
                             setTimeout(() => {
                                 store.commit('SET_BUY_SUCCESS_MEMBER', {
-                                    nickName: '哈哈哈',
+                                    nickName: '马冬梅',
                                     avatar: 'https://ec.xfengjing.com/picture/2020/12/09/804e982b-a0ce-4e0b-bfac-845c910b7d20.png',// 头像
                                     price: '56.78'// 买下的金额
     
                                 })
                                 setTimeout(() => {
                                     store.commit('SET_BUY_SUCCESS_MEMBER', {
-                                        nickName: '哈哈哈2',
+                                        nickName: '哈哈哈',
                                         avatar: 'https://ec.xfengjing.com/picture/2020/12/09/804e982b-a0ce-4e0b-bfac-845c910b7d20.png',// 头像
                                         price: '56.78'// 买下的金额
         
                                     })
-                                }, 3000);
+                                    setTimeout(() => {
+                                        store.commit('SET_BUY_SUCCESS_MEMBER', {
+                                            nickName: '哈哈哈2',
+                                            avatar: 'https://ec.xfengjing.com/picture/2020/12/09/804e982b-a0ce-4e0b-bfac-845c910b7d20.png',// 头像
+                                            price: '56.78'// 买下的金额
+            
+                                        })
+                                    }, 3000);
+                                    setTimeout(() => {
+                                        store.commit('SET_BUY_SUCCESS_MEMBER', {
+                                            nickName: '哈哈哈3',
+                                            avatar: 'https://ec.xfengjing.com/picture/2020/12/09/804e982b-a0ce-4e0b-bfac-845c910b7d20.png',// 头像
+                                            price: '56.78'// 买下的金额
+            
+                                        })
+                                    }, 3000);
+                                    setTimeout(() => {
+                                        store.commit('SET_BUY_SUCCESS_MEMBER', {
+                                            nickName: '哈哈哈4',
+                                            avatar: 'https://ec.xfengjing.com/picture/2020/12/09/804e982b-a0ce-4e0b-bfac-845c910b7d20.png',// 头像
+                                            price: '56.78'// 买下的金额
+            
+                                        })
+                                    }, 3000);
+                                    setTimeout(() => {
+                                        store.commit('SET_BUY_SUCCESS_MEMBER', {
+                                            nickName: '哈哈哈5',
+                                            avatar: 'https://ec.xfengjing.com/picture/2020/12/09/804e982b-a0ce-4e0b-bfac-845c910b7d20.png',// 头像
+                                            price: '56.78'// 买下的金额
+            
+                                        })
+                                    }, 3000);
+                                }, 1000);
+    
+    
                                 setTimeout(() => {
-                                    store.commit('SET_BUY_SUCCESS_MEMBER', {
-                                        nickName: '哈哈哈3',
-                                        avatar: 'https://ec.xfengjing.com/picture/2020/12/09/804e982b-a0ce-4e0b-bfac-845c910b7d20.png',// 头像
-                                        price: '56.78'// 买下的金额
-        
-                                    })
-                                }, 3000);
-                                setTimeout(() => {
-                                    store.commit('SET_BUY_SUCCESS_MEMBER', {
-                                        nickName: '哈哈哈4',
-                                        avatar: 'https://ec.xfengjing.com/picture/2020/12/09/804e982b-a0ce-4e0b-bfac-845c910b7d20.png',// 头像
-                                        price: '56.78'// 买下的金额
-        
-                                    })
-                                }, 3000);
-                                setTimeout(() => {
-                                    store.commit('SET_BUY_SUCCESS_MEMBER', {
-                                        nickName: '哈哈哈5',
-                                        avatar: 'https://ec.xfengjing.com/picture/2020/12/09/804e982b-a0ce-4e0b-bfac-845c910b7d20.png',// 头像
-                                        price: '56.78'// 买下的金额
-        
-                                    })
-                                }, 3000);
-                            }, 1000);
+                                    store.state.showTomorrowGoods = true
+                                    store.state.showAdvVideo = true
+                                }, 40000);
+    
+                            }, 2000);
 
+                        }, 60 * 1000);
 
-                            setTimeout(() => {
-                                store.state.showTomorrowGoods = true
-                                store.state.showAdvVideo = true
-                            }, 40000);
+                        
 
-                        }, 2000);
 
                     }, 30 * 1000);
 

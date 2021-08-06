@@ -39,7 +39,10 @@ export const socketId = {
     ScreenAuctionListNotice: 7025,
 
     //库存预警
-    InventoryForewarnNotice: 7034
+    InventoryForewarnNotice: 7034,
+
+    //参加抢购通知
+    ParticipateAuctionNotice: 7036
 
     // 抢购结果列表
     // 猜价结果列表

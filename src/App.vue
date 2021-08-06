@@ -46,7 +46,7 @@ import {
 import { useStore } from "vuex"
 import LeftGoodsList from "./layout/left.vue"
 import GoodsContent from "./layout/content.vue"
-import RightInfo from "./layout/right.vue"
+import RightInfo from "./layout/right_02.vue"
 import Warning from "./components/Warning.vue"
 import CountDown from "./components/CountDown.vue"
 import Miniview from "./components/Miniview.vue"
@@ -131,7 +131,7 @@ export default {
 					//预热阶段
 					videoPlay.value(preheatTime - 10, 0)
 					gameGuessPriceStartVoice(preheatTime)
-					goodsListData[currentGoodsIndex].hide = true
+					// goodsListData[currentGoodsIndex].hide = true
 					break
 				case 1:
 					// 竞猜阶段

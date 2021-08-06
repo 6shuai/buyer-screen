@@ -12,8 +12,16 @@
 		</div>
 		<div class="goods_detail_right">
 			<p class="goods_name text_overflow">
-				<span class="text_medium">{{ data.goodsName }}</span>
-				<span class="goods_desc">{{ data.goodsDescription }}</span>
+				<span 
+					class="name text_medium text_overflow"
+					:class="{ 
+                        'text_length_7': data.goodsName.length > 7,
+                        'text_length_10': data.goodsName.length > 9
+                     }"
+				>
+					{{ data.goodsName }}
+				</span>
+				<span class="goods_desc text_overflow">{{ data.goodsDescription }}</span>
 			</p>
 			<div class="buy_in_price">
 				<span class="int"
@@ -80,23 +88,23 @@ export default {
 		onMounted(() => {
 			state.marketValue = currentPrice;
 			setRealTimePrice(currentPrice, priceDeclineFrequency);
-		});
+		})
 
 
 		//实时价格
 		const setRealTimePrice = (price, priceDeclineFrequency) => {
-			clearTimeout(state.timer);
+			clearTimeout(state.timer)
 
 			priceDownDiff(price, price - priceDecline)
 
 
 
 
-			let newPrice = price - priceDecline;
+			let newPrice = price - priceDecline
 
 			if (newPrice <= 0) {
-				newPrice = 0;
-				return;
+				newPrice = 0
+				return
 			}
 			// state.realTimePrice = priceFormat(newPrice);
 			// store.commit("SET_REAL_TIME_PRICE", state.realTimePrice);

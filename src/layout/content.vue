@@ -15,7 +15,15 @@
                 <div class="goods_image">
                     <div class="img" :style="{ background: `url(${currentGoods.goodsCover}) center no-repeat`, backgroundSize: '100% 100%' }"></div>
                 </div>
-                <p class="goods_name text_overflow text_medium">{{ currentGoods.goodsName }}</p>
+                <p 
+                    class="goods_name text_overflow text_medium"
+                    :class="{ 
+                        'text_length_7': currentGoods.goodsName.length > 7,
+                        'text_length_10': currentGoods.goodsName.length > 9
+                     }"
+                >
+                    {{ currentGoods.goodsName }}
+                </p>
                 <p class="goods_desc text_overflow">{{ currentGoods.goodsDescription }}</p>
             </div>
             <div class="goods_price_wrap">
@@ -242,10 +250,13 @@ export default {
             &.buy_in{
                 position: relative;
                 .goods_detail{
+                    width: 100%;
+
                     .goods_image{
                         display: inline-block;
                         vertical-align: top;
                     }
+
                     .goods_detail_right{
                         display: inline-block;
                         margin-left: 50px;
@@ -253,9 +264,26 @@ export default {
 
                         .goods_name{
                             padding-top: 60px;
+                            width: 100%;
+
+                            .name{
+                                display: inline-block;
+                                max-width: 60%;
+
+                                &.text_length_7{
+                                    font-size: 60px;
+                                }
+
+                                &.text_length_10{
+                                    font-size: 45px;
+                                }
+                            }
+
                             .goods_desc{
                                 font-weight: normal;
+                                max-width: 40%;
                                 margin-left: 15px;
+                                vertical-align: middle;
                             }
                         } 
 
@@ -284,7 +312,7 @@ export default {
                             span{
                                 padding-left: 40px;
                                 display: inline-block;
-                                width: 400px;
+                                max-width: 400px;
                             }
                         }   
                     }
@@ -363,6 +391,8 @@ export default {
             &.buy_end{
 
                 .goods_detail{
+                    width: 100%;
+
                     .goods_image{
                         display: inline-block;
                         vertical-align: top;
@@ -380,9 +410,25 @@ export default {
 
                         .goods_name{
                             padding-top: 60px;
+
+                            .name{
+                                display: inline-block;
+                                max-width: 60%;
+
+                                &.text_length_7{
+                                    font-size: 60px;
+                                }
+
+                                &.text_length_10{
+                                    font-size: 45px;
+                                }
+                            }
+
                             .goods_desc{
                                 font-weight: normal;
+                                max-width: 40%;
                                 margin-left: 15px;
+                                vertical-align: middle;
                             }
                         } 
                     }
@@ -437,7 +483,7 @@ export default {
         }
 
         .goods_detail{
-            // width: 540px;
+            width: 540px;
             display: inline-block;
             padding: 0 31px 66px 95px;
             
@@ -477,6 +523,14 @@ export default {
                 color: #4A2453;
                 padding: 30px 0 18px 0;
                 font-weight: bold;
+                
+                &.text_length_7{
+                    font-size: 60px;
+                }
+
+                &.text_length_10{
+                    font-size: 45px;
+                }
             }
 
             .goods_desc{

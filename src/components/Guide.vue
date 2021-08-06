@@ -24,7 +24,7 @@
     </div>
 
 
-    <div class="guide_text" v-if="guideStep">
+    <div class="guide_subtitle" v-if="guideStep">
         <p>{{ guideText[guideTextIndex].text }}</p>
     </div>
 
@@ -79,44 +79,6 @@ export default {
             //第⼀个宝⻉已被抢⾛
             firstBuy : [
                 { text: '本场第⼀个宝⻉已被抢⾛！让我们恭喜这位朋友！', duration: 4 }
-            ],
-            
-            //9折
-            sale_9 : [
-                { text: '宝⻉实时价格已达9折！', duration: 2 }
-            ],
-
-            //8折
-            sale_8 : [
-                { text: '宝⻉实时价格已达8折！', duration: 2 }
-            ],
-            //7折
-            sale_7 : [
-                { text: '宝⻉实时价格已达7折！', duration: 2 }
-            ],
-            //6折
-            sale_6 : [
-                { text: '宝⻉实时价格已达6折！', duration: 2 }
-            ],
-            //5折
-            sale_5 : [
-                { text: '宝⻉实时价格已达5折！', duration: 2 }
-            ],
-            //4折
-            sale_4 : [
-                { text: '宝⻉实时价格已达4折！', duration: 2 }
-            ],
-            //3折
-            sale_3 : [
-                { text: '宝⻉实时价格已达3折！', duration: 2 }
-            ],
-            //2折
-            sale_2 : [
-                { text: '宝⻉实时价格已达2折！', duration: 2 }
-            ],
-            //1折
-            sale_1 : [
-                { text: '宝⻉实时价格已达1折！', duration: 2 }
             ],
 
             //抢购结束  宝⻉售罄了
@@ -284,7 +246,7 @@ export default {
         }
     }
 
-    .guide_text{
+    .guide_subtitle{
         font-size: 50px;
         color: #fff;
         text-align: center;
