@@ -61,9 +61,16 @@ export default {
         onMounted(() => {
             setTimeout(() => {
                 store.state.showRankList = true
+                let { goodsListData, currentGoodsIndex } = store.state
                 //后面还有宝贝
-                // store.commit('SET_VOICE_CAPTION', 'showRank01')
-                // playJxmsSounds.value('./voice/03_01')
+                if(currentGoodsIndex == goodsListData.length - 1){
+                    // store.commit('SET_VOICE_CAPTION', 'showRank01')
+                    // playJxmsSounds.value('./voice/03_01')   
+                }else{
+                    //后面没有宝贝
+                    // store.commit('SET_VOICE_CAPTION', 'showRank02')
+                    // playJxmsSounds.value('./voice/03_02.mp3')
+                }
 
                 //后面没有宝贝
                 store.commit('SET_VOICE_CAPTION', 'showRank02')

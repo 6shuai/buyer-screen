@@ -24,6 +24,7 @@ const state = {
 	showGuide: false,			//显示字幕
 	guideStep: null,            //语音字幕
 	panicBuyMember: {},         //参加抢购的用户通知
+	inventoryWarningVoiceIndex: 1,   //库存警告口播索引
 
 	tomorrowData: [            //明日宝贝
 		{

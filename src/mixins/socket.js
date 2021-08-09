@@ -73,9 +73,7 @@ export default function () {
                         marketValue: 2099,
                         priceDeclineRate: 100,
                         totalGuessAward: 0
-                    }]
-                )
-                    
+                    }])
                 }else{
                     store.commit('SET_GOODS_LIST', [{
                         beginTime: 1627644600000,
@@ -294,7 +292,7 @@ export default function () {
                         store.commit('SET_GAME_STATE', 3)
                         store.state.showCountDown = false
 
-                        return
+                        // return
 
 
                         setTimeout(() => {

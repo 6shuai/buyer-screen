@@ -14,11 +14,12 @@ export default function () {
     let guessBeforeVoiceDuration = 10
 
     //猜价阶段 语音时长
-    let guessPriceStageVoiceDuration01 = 5
-    let guessPriceStageVoiceDuration02 = 2
+    let guessPriceStageVoiceDuration01 = 4
+    //广告后语音时长
+    let guessPriceStageVoiceDuration02 = 5
 
     //猜价教学时长
-    let guessPriceGuideDuration = 20
+    let guessPriceGuideDuration = 17
 
 
     //广告间隔时长
@@ -30,7 +31,7 @@ export default function () {
 
     
     //抢购教学时长
-    let guideDuration = 55
+    let guideDuration = 50
 
 
     //每个状态 搁一分钟播放一次视频  duration = -1 无限次循环播放
@@ -62,7 +63,6 @@ export default function () {
                                 videoPlayEnd(type, duration, advDuration)
                             })
                         }else{
-                            console.log('广告----------->', type, duration)
                             store.state.showAdvVideo = true
                             videoPlayEnd(type, duration, advDuration)
                         }

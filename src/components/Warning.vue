@@ -10,27 +10,50 @@
 import { reactive, toRefs, onMounted, computed, watch, onUnmounted } from 'vue'
 import { useStore } from 'vuex'
 import mixin from '../mixins/index'
-import {Howl, Howler} from 'howler'
+import { Howl, Howler } from 'howler'
 
 export default {
     setup(props) {
         const store = useStore()
-        const { playJxmsSounds } = mixin()
 
         onMounted(() => {
             state.warningAudio = new Howl({
                 src: ['./sounds/warning.mp3'],
                 onend: function() {
-                    store.commit('SET_VOICE_CAPTION', 'inventoryWarning')
-
-                    
-                    state.warningEndAudio.play()
-
+                    let count = store.state.inventoryWarningVoiceIndex
+                    switch (count) {
+                        case 1:
+                            store.commit('SET_VOICE_CAPTION', 'inventoryWarning')
+                            state.warningEndAudio.play()
+                            break;
+                        case 2:
+                            store.commit('SET_VOICE_CAPTION', 'inventoryWarning2')
+                            state.warningEndAudio2.play()
+                            break;
+                        default:
+                            store.commit('SET_VOICE_CAPTION', 'inventoryWarning3')
+                            state.warningEndAudio3.play()
+                            break;
+                    }
+                    store.state.inventoryWarningVoiceIndex = count == 1 ? 2 : count == 2 ? 3 : 1
                 }
             })
 
             state.warningEndAudio = new Howl({
                 src: ['./voice/02_04.mp3'],
+                onend: function() {
+                    store.state.showWarning = false
+                }
+            })
+
+            state.warningEndAudio2 = new Howl({
+                src: ['./voice/02_08.mp3'],
+                onend: function() {
+                    store.state.showWarning = false
+                }
+            })
+            state.warningEndAudio3 = new Howl({
+                src: ['./voice/02_09.mp3'],
                 onend: function() {
                     store.state.showWarning = false
                 }
@@ -66,6 +89,8 @@ export default {
                 state.warningAudio.fade(1, 0, 1000)
                 try {
                     state.warningEndAudio.fade(1, 0, 1000)
+                    if(state.warningEndAudio2) state.warningEndAudio2.fade(1, 0, 1000)
+                    if(state.warningEndAudio3) state.warningEndAudio3.fade(1, 0, 1000)
                 } catch (error) {
                     console.log(error)
                 }
@@ -79,6 +104,8 @@ export default {
             state.warningAudio.fade(1, 0, 1000)
             try {
                 state.warningEndAudio.fade(1, 0, 1000)
+                if(state.warningEndAudio2) state.warningEndAudio2.fade(1, 0, 1000)
+                if(state.warningEndAudio3) state.warningEndAudio3.fade(1, 0, 1000)
             } catch (error) {
                 
             }
@@ -89,7 +116,9 @@ export default {
             show: false,
             showAdvVideo,
             warningAudio: null,
-            warningEndAudio: null
+            warningEndAudio: null,
+            warningEndAudio2: null,
+            warningEndAudio3: null
         })
         
         return toRefs(state)

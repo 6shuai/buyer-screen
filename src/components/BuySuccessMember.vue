@@ -69,7 +69,7 @@ export default {
                                     if(!state.firstBuy){
                                         state.firstBuy = true
                                         store.commit('SET_VOICE_CAPTION', 'firstBuy')
-                                        playJxmsSounds.value('./voice/02_06.mp3')
+                                        playJxmsSounds.value('./voice/02_07.mp3')
                                     }
                                 })
                             }, 600);

@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import { reactive, toRefs, computed, onMounted, watch, onUnmounted } from 'vue'
+import { reactive, toRefs, computed, watch, onUnmounted } from 'vue'
 import { useStore } from 'vuex'
 import { priceFormat } from '../util/index'
 export default {
@@ -59,29 +59,13 @@ export default {
             return store.state.showRankList
         })
 
-        onMounted(() => {
-
-            // setTimeout(() => {
-            //     state.list.push({ name: 'madongmei' })
-            //     setTimeout(() => {
-            //         state.list.push({ name: 'madongmei222' })
-            //         setTimeout(() => {
-            //             state.list.push({ name: 'madongmei3333' })
-            //             setTimeout(() => {
-            //                 state.list.push({ name: 'madongmei4444' })
-            //             }, 100);
-            //         }, 100);
-            //     }, 1000);
-            // }, 1000);
-        })
-
         const danmaku = () => {
             clearInterval(state.timer)
             let mainDom = document.getElementsByClassName('danmaku_list')[0].getBoundingClientRect()
             state.lineCount = parseInt((window.innerHeight - mainDom.height - 200) / 100 || 0)
             state.danmakuBottom = mainDom.height + mainDom.top
             
-            state.timer = setInterval(()=>{
+            state.timer = setInterval(() => {
                 if(!state.list.length) return
                 findLstRightDistance().then(res => {
                     if(!res) return
@@ -194,7 +178,7 @@ export default {
                 font-size: 35px;
                 padding: 10px 0;
                 transform: translateZ(0);
-                animation: danmakuAnim 5s ease-in both;
+                animation: danmakuAnim 5s ease-in-out both;
 
                 .head_img{
                     width: 80px;
@@ -241,7 +225,7 @@ export default {
 
 
             @keyframes danmakuAnim {
-                0% {transform: translate(2528px)}
+                0% {transform: translate(-100vw)}
                 100% {transform: translate(-100%);}
             }
         }
