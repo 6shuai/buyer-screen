@@ -24,7 +24,7 @@
     </div>
 
 
-    <div class="guide_subtitle" v-if="guideStep">
+    <div class="guide_subtitle text_medium" v-if="guideStep">
         <p>{{ guideText[guideTextIndex].text }}</p>
     </div>
 
@@ -272,8 +272,8 @@ export default {
             display: inline-block;
             text-align: center;
             padding: 10px 25px;
-            border: 2px solid #4a2453;
-            border-radius: 10px;
+            -webkit-text-stroke-color: #4a2453;
+            -webkit-text-stroke-width: 2px;
         }
     }
 </style>

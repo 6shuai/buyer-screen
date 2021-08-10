@@ -265,7 +265,7 @@ export default function () {
                         {"id":12,"url":"https://static.xfengjing.com/video/2021/07/30/b78fdc33-1bd7-422f-852f-1c10973919e8.mp4","usage":2, duration: 15}]
                     },
                     "guessRules":[{"award":30.0,"correctDigit":3,"id":13},{"award":20.0,"correctDigit":2,"id":12},{"award":10.0,"correctDigit":1,"id":11}],
-                    "guessTime":20,
+                    "guessTime": 100,
                     "id":7005,
                     "marketValue":2099,
                     "orderExpiration":30,
@@ -283,8 +283,12 @@ export default function () {
 
                 setTimeout(() => {
                     store.commit('SET_GAME_STATE', 1)
+                    
+                    setTimeout(() => {
+                        store.commit('SET_GUESS_NOTICE', {"avatar":"999.jpg","nickName":"小钱","price":3.0 } )
+                    }, 2000);
+                    
 
-    
 
 
 
@@ -373,16 +377,16 @@ export default function () {
     
                             }, 2000);
 
-                        }, 60 * 1000);
+                        }, 6 * 1000);
 
                         
 
 
-                    }, 30 * 1000);
+                    }, 110 * 1000);
 
                 }, 30 * 1000);
 
-            }, 2 * 1000)
+            }, 20 * 1000)
 
 
         }, 1000);

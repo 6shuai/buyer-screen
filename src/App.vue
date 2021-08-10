@@ -8,14 +8,8 @@
 		</div>
 
 		<div class="goods_content">
-			<!-- 倒计时 -->
-			<count-down
-				v-if="showCountDown"
-				@countDown="countDown"
-			></count-down>
-
 			<!-- 竞拍历史 扫码查看更多宝贝 -->
-			<miniview v-else-if="showHistryGoods"></miniview>
+			<miniview v-if="showHistryGoods"></miniview>
 
 			<!-- 抢购 -->
 			<div v-if="!showHistryGoods">
@@ -29,6 +23,12 @@
 
 		<!-- 数量不多了 警告 -->
 		<warning v-if="showWarning && !closeWarning && gameState != gameStateId.panicBuyEnd "></warning>
+
+		<!-- 倒计时 -->
+		<count-down
+			v-if="showCountDown"
+			@countDown="countDown"
+		></count-down>
 
 	</div>
 </template>

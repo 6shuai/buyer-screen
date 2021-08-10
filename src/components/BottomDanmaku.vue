@@ -106,10 +106,15 @@ export default {
             if(newState == null || state.showRankList){
                 store.state.showDanmaku = false
             }
+            if(newState == 3){
+                state.danmakulist = []
+                state.list = []
+            }
         })
 
          //猜价通知
         watch(guessNotice, (newData, oldData) => {
+            console.log('猜价通知', newData)
             state.list.push({
                 ...newData,
                 type: 1,
@@ -178,7 +183,7 @@ export default {
                 font-size: 35px;
                 padding: 10px 0;
                 transform: translateZ(0);
-                animation: danmakuAnim 5s ease-in-out both;
+                animation: danmakuAnim 6s ease-in both;
 
                 .head_img{
                     width: 80px;
@@ -225,7 +230,7 @@ export default {
 
 
             @keyframes danmakuAnim {
-                0% {transform: translate(-100vw)}
+                0% {transform: translate(2000px)}
                 100% {transform: translate(-100%);}
             }
         }

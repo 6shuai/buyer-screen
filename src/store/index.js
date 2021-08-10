@@ -48,8 +48,8 @@ const state = {
 		{
 			beginTime: 1627644600000,
 			goodsCover: "./戴森无绳吸尘器V11.png",
-			goodsDescription: "戴森⽆绳吸尘器V11",
-			goodsName: "戴森⽆绳吸尘器",
+			goodsDescription: "戴森无绳吸尘器V11",
+			goodsName: "戴森无绳吸尘器",
 			marketValue: 5299,
 			priceDeclineRate: 500,
 			totalGuessAward: 0
@@ -57,8 +57,8 @@ const state = {
 		{
 			beginTime: 1627646400000,
 			goodsCover: "./戴森无绳吸尘器V11.png",
-			goodsDescription: "戴森⽆绳吸尘器V11",
-			goodsName: "戴森⽆绳吸尘器",
+			goodsDescription: "戴森无绳吸尘器V11",
+			goodsName: "戴森无绳吸尘器",
 			marketValue: 5299,
 			priceDeclineRate: 500,
 			totalGuessAward: 0
@@ -87,8 +87,8 @@ const state = {
 		{
 			beginTime: 1626523200000,
 			goodsCover: "./戴森无绳吸尘器V11.png",
-			goodsDescription: "戴森⽆绳吸尘器V11",
-			goodsName: "戴森⽆绳吸尘器",
+			goodsDescription: "戴森无绳吸尘器V11",
+			goodsName: "戴森无绳吸尘器",
 			marketValue: 5299,
 			priceDeclineRate: 4299,
 			totalGuessAward: 0
@@ -96,8 +96,8 @@ const state = {
 		{
 			beginTime: 1626609600000,
 			goodsCover: "./戴森无绳吸尘器V11.png",
-			goodsDescription: "戴森⽆绳吸尘器V11",
-			goodsName: "戴森⽆绳吸尘器",
+			goodsDescription: "戴森无绳吸尘器V11",
+			goodsName: "戴森无绳吸尘器",
 			marketValue: 5299,
 			priceDeclineRate: 4580,
 			totalGuessAward: 0

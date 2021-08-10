@@ -119,7 +119,7 @@ export default {
 			if (num < 0) {
 				clearTimeout(state.timer)
 				return
-			}else if(num < 10){
+			}else if(num < 11){
                 //还剩最后十秒
                 store.state.showCountDown = true
                 clearTimeout(state.timer)

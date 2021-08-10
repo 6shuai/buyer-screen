@@ -20,7 +20,7 @@
         </div>
         <div class="goods_price_wrap">
             <!-- 买手榜 -->
-            <member-list></member-list>
+            <member-list v-if="gameState == gameStateId.panicBuyIng"></member-list>
         </div>
     </div>
 </template>
@@ -28,9 +28,23 @@
 
 <script>
 import MemberList from './MemberList.vue'
+import { toRefs, computed } from 'vue'
+import { useStore } from 'vuex'
+import { gameStateId } from '../util/index'
+ 
 export default {
     props: ['data'],
     setup(props) {
+        const store = useStore()
+
+        const gameState = computed(() => {
+            return store.state.gameState
+        })
+
+        return toRefs({
+            gameState,
+            gameStateId
+        })
 
     },
 
