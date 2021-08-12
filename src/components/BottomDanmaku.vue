@@ -3,7 +3,7 @@
         <div class="text" v-if="gameState == null">
             对宝贝不感兴趣?没关系,参与宝贝猜价可能赢得现金奖励哦!
         </div>
-        <div class="danmaku_list" v-show="showDanmaku">
+        <div class="danmaku_list base_bg_color" v-show="showDanmaku">
             <div 
                 class="item"
                 v-for="(item, index) in danmakulist"
@@ -114,7 +114,6 @@ export default {
 
          //猜价通知
         watch(guessNotice, (newData, oldData) => {
-            console.log('猜价通知', newData)
             state.list.push({
                 ...newData,
                 type: 1,
@@ -170,7 +169,6 @@ export default {
         .danmaku_list{
             width: 100%;
             height: 100%;
-            background: #4a2453;
             overflow: hidden;
             position: relative;
             z-index: 99;

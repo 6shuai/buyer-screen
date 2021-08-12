@@ -63,30 +63,29 @@ export default function () {
             // 抢购列表
             case socketId.ScreenAuctionListNotice:
                 // store.commit('SET_GOODS_LIST', data.auctionList)
-                console.log(getQueryString('id'))
-                if(getQueryString('id') == 22){
-                    store.commit('SET_GOODS_LIST', [{
-                        beginTime: 1627642800000,
-                        goodsCover: "https://static.xfengjing.com/picture/2021/07/30/99312731-4922-49c5-903e-ef7062c48a89.png",
-                        goodsDescription: "红蓝续航增强版",
-                        goodsName: "任天堂Switch",
-                        marketValue: 2099,
-                        priceDeclineRate: 100,
-                        totalGuessAward: 0
-                    }])
-                }else{
-                    store.commit('SET_GOODS_LIST', [{
-                        beginTime: 1627644600000,
-                        goodsCover: "https://static.xfengjing.com/picture/2021/07/31/ad6d9432-74a9-4c47-befc-dc66e557d3ba.png",
-                        goodsDescription: "HD08 中国红",
-                        goodsName: "戴森吹风机",
-                        marketValue: 3190,
-                        priceDeclineRate: 200,
-                        totalGuessAward: 0
-                    }]
-                )
-                }
-                test()
+
+                    store.commit('SET_GOODS_LIST', [
+                        {
+                            beginTime: 1627642800000,
+                            goodsCover: "https://static.xfengjing.com/picture/2021/07/30/99312731-4922-49c5-903e-ef7062c48a89.png",
+                            goodsDescription: "红蓝续航增强版",
+                            goodsName: "任天堂Switch",
+                            marketValue: 2099,
+                            priceDeclineRate: 100,
+                            totalGuessAward: 0
+                        },
+                        {
+                            beginTime: 1627644600000,
+                            goodsCover: "https://static.xfengjing.com/picture/2021/07/31/ad6d9432-74a9-4c47-befc-dc66e557d3ba.png",
+                            goodsDescription: "HD08 中国红",
+                            goodsName: "戴森吹风机",
+                            marketValue: 3190,
+                            priceDeclineRate: 200,
+                            totalGuessAward: 0
+                        }
+                    ])
+                
+                test(22)
                 break;
             // 抢购详情
             case socketId.GoodsDataDetail:
@@ -207,19 +206,6 @@ export default function () {
     }
 
 
-    const state = reactive({
-        websock: null,
-        heartBeatTimer: undefined,     //发送心跳定时器
-        reconnectionTimer: undefined,  //重连定时器
-        connectNumber: 0,             //断线重连次数
-        maxConnectNumber: 360,         //最大重连次数
-        pongTime: undefined,          //心跳收到回复 时间
-        reconnectionIng: false,
-        overtime: 30,                //超时时间
-        initWebsocket,
-        websocketSendData
-    })
-
     const getQueryString = (name) => {
         let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
         let r = window.location.search.substr(1).match(reg);
@@ -228,22 +214,21 @@ export default function () {
     }
 
 
-    const test = () => {
-        
+    const test = (id) => {
+    
         //预览
         setTimeout(() => {
+            console.log('预览开始----->', id)
             let data = {
                 id: socketId.Preview,
-                auctionId: getQueryString('id') || 22
+                auctionId: id
             }
             websocketSendData(data);
         }, 20 * 1000);
+        
         return
 
         setTimeout(() => {
-            
-
-
             setTimeout(() => {
                 
                 store.commit('SET_GOODS_DETAIL', {
@@ -370,10 +355,10 @@ export default function () {
                                 }, 1000);
     
     
-                                setTimeout(() => {
-                                    store.state.showTomorrowGoods = true
-                                    store.state.showAdvVideo = true
-                                }, 40000);
+                                // setTimeout(() => {
+                                //     store.state.showTomorrowGoods = true
+                                //     store.state.showAdvVideo = true
+                                // }, 40000);
     
                             }, 2000);
 
@@ -393,6 +378,21 @@ export default function () {
         
     }
     
+
+    const state = reactive({
+        websock: null,
+        heartBeatTimer: undefined,     //发送心跳定时器
+        reconnectionTimer: undefined,  //重连定时器
+        connectNumber: 0,             //断线重连次数
+        maxConnectNumber: 360,         //最大重连次数
+        pongTime: undefined,          //心跳收到回复 时间
+        reconnectionIng: false,
+        overtime: 30,                //超时时间
+        initWebsocket,
+        websocketSendData,
+        test
+    })
+
 
     return toRefs(state)
 }

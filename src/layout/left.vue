@@ -19,7 +19,7 @@
                     class="goods_detail buy_end" 
                     :class="gameState == gameStateId.panicBuyIng ? 'real_time' : ''"
                     v-if="currentGoods">
-                    <div class="goods_detail_top">
+                    <div class="goods_detail_top base_color">
                         <div class="goods_img" :style="{ background: `url(${currentGoods.goodsCover}) center no-repeat`, backgroundSize: '100% 100%' }">
                             <img 
                                 v-show="gameState == gameStateId.panicBuyEnd && showAdvVideo"
@@ -32,7 +32,7 @@
                     </div>
 
                     <div class="goods_detail_bottom text_medium" v-if="!gameState || gameState < gameStateId.panicBuyIng">
-                        <div class="price_start">
+                        <div class="price_start base_color">
                             <span class="int">￥{{ priceFormat(currentGoods.marketValue).int }}</span>
                             <span class="decimals">{{ priceFormat(currentGoods.marketValue).decimals }}</span>
                             <span class="price_text_qi">起</span>
@@ -76,8 +76,8 @@
                     <!-- 抢购结束 -->
                     <div class="goods_detail_bottom end text_medium" v-if="gameState == gameStateId.panicBuyEnd">
                         <p class="goods_count">宝贝库存: {{ buyMemberList.length }}</p>
-                        <p class="price_text">极限秒杀价</p>
-                        <div class="del_price">
+                        <p class="price_text base_color">极限秒杀价</p>
+                        <div class="del_price base_color">
                             <span class="int">￥{{ priceFormat(currentGoods.marketValue).int }}</span>
                             <span class="decimals">{{ priceFormat(currentGoods.marketValue).decimals }}</span>
                         </div>
@@ -96,7 +96,7 @@
         <div 
             class="goods_list"
             :class="{ put_away: currentGoodsIsShow() }"
-            v-if="goodsList.length && !showTomorrowGoods"
+            v-if="goodsList.length && !showTomorrowGoods && currentGoodsIndex != goodsList.length - 1"
         >
             <div class="title_card text_medium">即将开始</div>
             <div class="goods_item" 
@@ -107,13 +107,13 @@
                 <div class="goods_info">
                     <div class="goods_img" :style="{ background: `url(${item.goodsCover}) center no-repeat`, backgroundSize: '100% 100%' }"></div>
                     <div class="info text_overflow">
-                        <p class="time">{{ formatTime(item.beginTime) }}</p>
+                        <p class="time base_color">{{ formatTime(item.beginTime) }}</p>
                         <p class="goods_name text_overflow">{{ item.goodsName }}</p>
                     </div>
                 </div>
                 
                 <div class="goods_bottom text_medium">
-                    <div class="price">
+                    <div class="price base_color">
                         <span class="int">￥{{ priceFormat(item.marketValue).int }}</span>
                         <span class="decimals">{{ priceFormat(item.marketValue).decimals }}</span>
                         <span class="price_text_qi">起</span>
@@ -143,13 +143,13 @@
                 <div class="goods_info">
                     <div class="goods_img" :style="{ background: `url(${item.goodsCover}) center no-repeat`, backgroundSize: '100% 100%' }"></div>
                     <div class="info text_overflow">
-                        <p class="time">明日 {{ formatTime(item.beginTime) }}</p>
+                        <p class="time base_color">明日 {{ formatTime(item.beginTime) }}</p>
                         <p class="goods_name text_overflow">{{ item.goodsName }}</p>
                     </div>
                 </div>
                 
                 <div class="goods_bottom text_medium">
-                    <div class="price">
+                    <div class="price base_color">
                         <span class="int">￥{{ priceFormat(item.marketValue).int }}</span>
                         <span class="decimals">{{ priceFormat(item.marketValue).decimals }}</span>
                         <span class="price_text_qi">起</span>
@@ -179,14 +179,14 @@
                 <div class="goods_info">
                     <div class="goods_img" :style="{ background: `url(${item.goodsCover}) center no-repeat`, backgroundSize: '100% 100%' }"></div>
                     <div class="info text_overflow">
-                        <p class="time">{{ formatTime(item.beginTime, true) }}</p>
+                        <p class="time base_color">{{ formatTime(item.beginTime, true) }}</p>
                         <p class="goods_name">{{ item.goodsName }}</p>
                     </div>
                 </div>
                 
                 <div class="goods_bottom text_medium">
-                    <p class="price">极限秒杀价</p>
-                    <div class="del_price">
+                    <p class="price base_color">极限秒杀价</p>
+                    <div class="del_price base_color">
                         <span class="int">￥{{ priceFormat(item.marketValue).int }}</span>
                         <span class="decimals">{{ priceFormat(item.marketValue).decimals }}</span>
                     </div>
@@ -240,6 +240,11 @@ export default {
         const currentGoods = computed(() => {
             return store.state.goodsListData[store.state.currentGoodsIndex]
         }) 
+
+        //当前宝贝索引
+        const currentGoodsIndex = computed(() => {
+            return store.state.currentGoodsIndex
+        })
 
         //抢购详情
         const goodsDataDetail = computed(() => {
@@ -302,6 +307,7 @@ export default {
         const state = reactive({
             goodsList,
             currentGoods,
+            currentGoodsIndex,
             formatTime,
             priceFormat,
             gameStateId,
@@ -411,7 +417,6 @@ export default {
     
                         .time{
                             font-size: 30px;
-                            color: #4a2453;
                         }
     
                         .goods_name{
@@ -429,7 +434,6 @@ export default {
     
                     .price{
                         font-size: 35px;
-                        color: #4a2453;
                         padding: 15px 0 25px 0;
 
                         .decimals, .price_text_qi{
@@ -491,7 +495,6 @@ export default {
     
                             .time{
                                 font-size: 30px;
-                                color: #4a2453;
                             }
     
                             .goods_name{
@@ -566,12 +569,10 @@ export default {
             &.history{
                 .goods_bottom .price{
                     font-size: 35px;
-                    color: #4a2453;
                     padding: 15px 0 15px 0;
                 }
                 .del_price{
                     font-size: 35px;
-                    color: #4a2453;
                     text-decoration:line-through;
                     line-height: 40px;
                     font-weight: normal;
@@ -609,7 +610,6 @@ export default {
     
             .goods_detail_top{
                 height: 364px;
-                color: #4a2453;
                 text-align: center;
     
                 .goods_img{
@@ -644,7 +644,6 @@ export default {
     
                 .price_start{
                     font-size: 35px;
-                    color: #4a2453;
                     line-height: 68px;
 
                     .decimals, .price_text_qi{
@@ -731,14 +730,12 @@ export default {
     
                     .price_text{
                         font-size: 30px;
-                        color: #4a2453;
                         font-weight: bold;
                         padding-top: 15px;
                     }
     
                     .del_price{
                         font-size: 35px;
-                        color: #4a2453;
                         font-weight: normal;
                         text-decoration:line-through;
                         line-height: 50px;

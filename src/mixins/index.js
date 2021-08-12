@@ -1,7 +1,8 @@
 
 import { reactive, toRefs, onUnmounted, computed, watch } from 'vue'
 import { useStore } from 'vuex'
-import {Howl, Howler} from 'howler'
+import { Howl, Howler } from 'howler'
+import { gameStateId } from '../util/index'
 
 export default function () {
     
@@ -28,10 +29,8 @@ export default function () {
     //当前视频  索引
     let currentVideoIndex = 0
 
-
-    
     //抢购教学时长
-    let guideDuration = 50
+    let guideDuration = 46
 
 
     //每个状态 搁一分钟播放一次视频  duration = -1 无限次循环播放
@@ -51,11 +50,11 @@ export default function () {
                 clearTimeout(state.videoTimer)
 
         
-                if (duration > advDiffDuration + advDuration || type == 3) {
+                if (duration > advDiffDuration + advDuration || type == gameStateId.panicBuyIng) {
         
                     state.playTimer = setTimeout(() => {
         
-                        if(type == 1){
+                        if(type == gameStateId.guessPrice){
                             store.commit('SET_VOICE_CAPTION', 'advPlayBefore')
                             duration -= guessPriceStageVoiceDuration01
                             playJxmsSounds('./voice/01_03.mp3', () => {
@@ -85,14 +84,14 @@ export default function () {
         state.videoTimer = setTimeout(() => {
             duration = duration - advDiffDuration - advDuration
 
-            if(type == -1){
+            if(type == gameStateId.before){
                 if(duration >= beforeStageVoiceDuration){
                     store.commit('SET_VOICE_CAPTION', 'beforeText')
                     playJxmsSounds('./voice/00_01.mp3', () => {
                         videoPlay(duration, type)
                     })
                 }
-            }else if(type == 1){
+            }else if(type == gameStateId.guessPrice){
                 if(duration >= guessPriceStageVoiceDuration02){
                     store.commit('SET_VOICE_CAPTION', 'advPlayEnd')
                     playJxmsSounds('./voice/01_02.mp3', () => {
@@ -117,12 +116,10 @@ export default function () {
     }
 
 
-    //竞猜阶段  抢购教学
+    //竞猜阶段  最后抢购教学时间
     const guideStart = (duraton) => {
         clearTimer(state.guideTimer)
         let d = duraton - guideDuration <= 0 ? 1 : duraton - guideDuration
-
-        console.log('竞猜阶段--------->', d, duraton, guideDuration)
 
         if(!d) return
         
@@ -162,7 +159,7 @@ export default function () {
             volume,
             onend: function() {
                 if(call){
-                    console.log('Finished!');
+                    console.log('audioFinished!');
                     call()
                 }
             }
@@ -187,7 +184,7 @@ export default function () {
             volume: 1,
             onend: function() {
                 if(call){
-                    console.log('Finished!');
+                    console.log('audio Finished!');
                     call()
                 }
             }
@@ -213,7 +210,8 @@ export default function () {
         guideStart,
         guideTimer: undefined,
 
-        guideStep: 0
+        guideStep: 0,
+        guideDuration
     })
 
     return toRefs(state)

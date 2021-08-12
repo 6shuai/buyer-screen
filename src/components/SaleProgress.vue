@@ -28,7 +28,7 @@
 		:class="{ active: showSale }"
 	>
 		<div 
-			class="sale_count text_medium"
+			class="sale_count text_medium base_color"
 			:class="{ show_sale_count: showSale }"
 		>
 			已达
@@ -268,7 +268,6 @@ export default {
 	.sale_count{
 		display: inline-block;
 		font-size: 60px;
-		color: #4a2453;
 		transform: translate(-100vw);
 
 

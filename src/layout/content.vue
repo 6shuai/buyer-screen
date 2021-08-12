@@ -16,7 +16,7 @@
                     <div class="img" :style="{ background: `url(${currentGoods.goodsCover}) center no-repeat`, backgroundSize: '100% 100%' }"></div>
                 </div>
                 <p 
-                    class="goods_name text_overflow text_medium"
+                    class="goods_name text_overflow text_medium base_color"
                     :class="{ 
                         'text_length_7': currentGoods.goodsName.length > 7,
                         'text_length_10': currentGoods.goodsName.length > 9
@@ -27,7 +27,7 @@
                 <p class="goods_desc text_overflow">{{ currentGoods.goodsDescription }}</p>
             </div>
             <div class="goods_price_wrap">
-                <div class="real_price text_medium">
+                <div class="real_price text_medium base_color">
                     <span class="int">￥{{ priceFormat(currentGoods.marketValue).int }}</span>
                     <span class="decimals">{{ priceFormat(currentGoods.marketValue).decimals }}</span>
                     <span class="price_text_qi">起</span>
@@ -289,7 +289,6 @@ export default {
 
                         .buy_in_price{
                             font-size: 40px;
-                            color: #4A2453;
                             padding-top: 20px;
 
                             .decimals{
@@ -443,7 +442,6 @@ export default {
 
                 .goods_del_price{
                     font-size: 50px;
-                    color: #4A2453;
                     text-decoration:line-through;
 
                     .decimals{
@@ -520,7 +518,6 @@ export default {
 
             .goods_name{
                 font-size: 70px;
-                color: #4A2453;
                 padding: 30px 0 18px 0;
                 font-weight: bold;
                 
@@ -547,7 +544,6 @@ export default {
 
             .real_price{
                 padding-bottom: 80px;
-                color: #4A2453;
                 font-weight: bold;
                 text-align: center;
 

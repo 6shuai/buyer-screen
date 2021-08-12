@@ -4,7 +4,9 @@
         <div class="goods_card">
             <div class="next_text text_medium">
                 <p class="text">下个宝贝</p>
-                <p class="time">{{ formatTime(nextGoods.beginTime) }}</p>
+                <p class="time">
+                    {{ formatTime(nextGoods.beginTime) }}
+                </p>
             </div>
             <div class="goods_img">
                 <div class="img" :style="{ background: `url(${nextGoods.goodsCover}) center no-repeat`, backgroundSize: '100% 100%' }"></div>
@@ -12,18 +14,24 @@
         </div>
 
         <div class="goods_info">
-            <div class="goods_name text_overflow text_medium">
-                {{ nextGoods.goodsName }}
-                <span>{{ nextGoods.goodsDescription }}</span>
+            <div class="goods_name text_overflow">
+                <span class="text_medium">{{ nextGoods.goodsName }}</span>
+                <span class="goods_description">{{ nextGoods.goodsDescription }}</span>
             </div>
             <div class="price_s text_medium">
-                <span class="int">￥{{ priceFormat(nextGoods.marketValue).int }}</span>
-                <span class="decimals">{{ priceFormat(nextGoods.marketValue).decimals }}</span>
+                <span class="int">
+                    ￥{{ priceFormat(nextGoods.marketValue).int }}
+                </span>
+                <span class="decimals">
+                    {{ priceFormat(nextGoods.marketValue).decimals }}
+                </span>
                 <span class="price_text_qi">起</span>
             </div>
             <div class="price_d text_medium">每分钟直降 
                 ￥{{ priceFormat(nextGoods.priceDeclineRate).int }}
-                <span class="decimals">{{ priceFormat(nextGoods.priceDeclineRate).decimals }}</span>
+                <span class="decimals">
+                    {{ priceFormat(nextGoods.priceDeclineRate).decimals }}
+                </span>
             </div>
         </div>
     </div>
@@ -43,23 +51,31 @@ import socketMixin from "../mixins/socket"
 export default {
     setup(props) {
         const store = useStore()
+        const { test } = socketMixin()
         const { pauseJxmsBgm, playJxmsSounds } = mixin()
 
         onMounted(() => {
             let { currentGoodsIndex, goodsListData } = store.state
-            // if(currentGoodsIndex < goodsListData.length-1){
-            //     state.nextGoods = goodsListData[currentGoodsIndex]
 
-                // setTimeout(() => {
-                //     store.state.currentGoodsIndex += 1
-                //     store.state.showRankList = false
-                //     store.commit('SET_GAME_STATE', null)
-                // }, 200000);
+            //后面还有宝贝
+            if(currentGoodsIndex < goodsListData.length-1){
+                state.nextGoods = goodsListData[currentGoodsIndex]
 
-            // }else{
-                
                 setTimeout(() => {
-                    //明天还有宝贝
+                    store.state.currentGoodsIndex += 1
+                    console.log('再来一次???')
+                    store.state.showTomorrowGoods = false
+                    store.state.showAdvVideo = false
+                    store.state.showRankList = false
+                    store.commit('SET_GAME_STATE', null)
+                    test.value(23)
+                }, 60 * 1000);
+
+            }else{
+                //后面没有宝贝
+
+                setTimeout(() => {
+                    //明天有宝贝
                     store.commit('SET_VOICE_CAPTION', 'gameOver01')
                     pauseJxmsBgm.value()
                     playJxmsSounds.value('./voice/04_01.mp3', () => {
@@ -67,7 +83,7 @@ export default {
                         store.state.showAdvVideo = true
                     })
 
-                    //明天没有宝贝
+                    //明天没有宝贝  显示历史抢购
                     // setTimeout(() => {
                         // store.commit('SET_VOICE_CAPTION', 'gameOver02')
                     //     store.state.showAdvVideo = false
@@ -75,9 +91,10 @@ export default {
                     //     playJxmsSounds.value('./voice/04_02.mp3')
                     // }, 60 * 1000);
 
+
                 }, 60 * 1000)
 
-            // }
+            }
         })
         
         const state = reactive({
@@ -155,10 +172,11 @@ export default {
                 line-height: 60px;
                 padding-bottom: 42px;
 
-                span{
+                .goods_description{
                     font-size: 40px;
                     color: #e9b086;
                     font-weight: normal;
+                    margin-left: 10px;
                 }
             }
 

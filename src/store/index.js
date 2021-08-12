@@ -39,7 +39,7 @@ const state = {
 		{
 			beginTime: 1627642800000,
 			goodsCover: "./Dior口红套装.png",
-			goodsDescription: "Dior⼝红套装",
+			goodsDescription: "Dior口红套装",
 			goodsName: "Dior⼝红",
 			marketValue: 1299,
 			priceDeclineRate: 200,
@@ -78,8 +78,8 @@ const state = {
 		{
 			beginTime: 1626436800000,
 			goodsCover: "./Dior口红套装.png",
-			goodsDescription: "Dior⼝红套装",
-			goodsName: "Dior⼝红",
+			goodsDescription: "Dior口红套装",
+			goodsName: "Dior口红",
 			marketValue: 1299,
 			priceDeclineRate: 860,
 			totalGuessAward: 0

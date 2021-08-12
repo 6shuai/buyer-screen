@@ -14,8 +14,8 @@
                     <img :src="item.avatar">
                 </div>
                 <div class="member_right">
-                    <p class="name text_overflow">{{ item.nickName }}</p>
-                    <p class="price">秒杀价￥{{ item.price.int }}{{ item.price.decimals }}</p>
+                    <p class="name text_overflow base_color">{{ item.nickName }}</p>
+                    <p class="price base_color">秒杀价￥{{ item.price.int }}{{ item.price.decimals }}</p>
 
                     <div class="buy_success">抢到宝贝!</div>
                 </div>
@@ -183,13 +183,11 @@ export default {
                     .name{
                         font-size: 50px;
                         font-weight: bold;
-                        color: #4a2453;
                         padding-bottom: 15px;
                     }
 
                     .price{
                         font-size: 35px;
-                        color: #4a2453;
                     }
 
                     .buy_success{

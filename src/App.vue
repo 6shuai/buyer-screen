@@ -46,7 +46,7 @@ import {
 import { useStore } from "vuex"
 import LeftGoodsList from "./layout/left.vue"
 import GoodsContent from "./layout/content.vue"
-import RightInfo from "./layout/right_02.vue"
+import RightInfo from "./layout/right.vue"
 import Warning from "./components/Warning.vue"
 import CountDown from "./components/CountDown.vue"
 import Miniview from "./components/Miniview.vue"
@@ -58,11 +58,7 @@ export default {
 	setup(props) {
 		const store = useStore()
 		const { initWebsocket } = socketMixin()
-		const { videoPlay, clearTimer, playJxmsBgm, pauseJxmsBgm, playJxmsSounds, jxmsAudio, guideStart } = mixin()
-
-		//教学阶段 时长  02_01 = 5s   02_02 = 3s      rule_01 = 21s  rule_02 = 33s       5 + 3 + 21 + 33 = 62
-		//猜价结束前30秒  猜价阶段即将结束，还没有参与朋友们请抓紧扫码参与。已经参与的朋友们千万不要⾛开，激动⼈⼼的抢购阶段将在30秒后开始！
-		let guideDuration = 55
+		const { videoPlay, clearTimer, playJxmsBgm, pauseJxmsBgm, playJxmsSounds, jxmsAudio, guideStart, guideDuration } = mixin()
 
 		//是否显示倒计时
 		const showCountDown = computed(() => {
@@ -131,7 +127,7 @@ export default {
 					//预热阶段
 					videoPlay.value(preheatTime - 10, 0)
 					gameGuessPriceStartVoice(preheatTime)
-					// goodsListData[currentGoodsIndex].hide = true
+					goodsListData[currentGoodsIndex].hide = true
 					break
 				case 1:
 					// 竞猜阶段
@@ -149,7 +145,7 @@ export default {
 					
 					guideStart.value(guessTime + countdown - 9)
 					// 9 = 倒计时9秒   55 =抢购教学时长 
-					videoPlay.value(guessTime + countdown - 9 - guideDuration, 1)
+					videoPlay.value(guessTime + countdown - 9 - guideDuration.value, 1)
 					break
 				case 2:
 					// 倒计时

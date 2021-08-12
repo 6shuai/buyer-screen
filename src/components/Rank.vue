@@ -8,7 +8,7 @@
                 <img src="../images/sell_out.png" alt="已售罄" class="sell_out">
             </div>
             <p 
-                class="goods_name text_overflow"
+                class="goods_name text_overflow base_color"
                 :class="{ 
                     'text_length_7': data.goodsName.length > 7,
                     'text_length_10': data.goodsName.length > 9
@@ -20,7 +20,7 @@
         </div>
         <div class="goods_price_wrap">
             <!-- 买手榜 -->
-            <member-list v-if="gameState == gameStateId.panicBuyIng"></member-list>
+            <member-list v-if="gameState == gameStateId.panicBuyEnd"></member-list>
         </div>
     </div>
 </template>

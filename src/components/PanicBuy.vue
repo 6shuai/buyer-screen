@@ -11,7 +11,7 @@
 			></div>
 		</div>
 		<div class="goods_detail_right">
-			<p class="goods_name text_overflow">
+			<p class="goods_name text_overflow base_color">
 				<span 
 					class="name text_medium text_overflow"
 					:class="{ 
@@ -23,7 +23,7 @@
 				</span>
 				<span class="goods_desc text_overflow">{{ data.goodsDescription }}</span>
 			</p>
-			<div class="buy_in_price">
+			<div class="buy_in_price base_color">
 				<span class="int"
 					>￥{{ priceFormat(data.marketValue).int }}</span
 				>
@@ -85,33 +85,32 @@ export default {
 			priceDeclineFrequency,
 		} = store.state.goodsDataDetail;
 
+		let price = currentPrice
+
+
 		onMounted(() => {
 			state.marketValue = currentPrice;
-			setRealTimePrice(currentPrice, priceDeclineFrequency);
+			console.log('抢购开始-------->', new Date())
+			setRealTimePrice();
+			state.timer = setInterval(() => {
+				setRealTimePrice()
+			}, priceDeclineFrequency * 1000);
 		})
 
 
 		//实时价格
-		const setRealTimePrice = (price, priceDeclineFrequency) => {
-			clearTimeout(state.timer)
+		const setRealTimePrice = () => {
 
 			priceDownDiff(price, price - priceDecline)
 
+			price = price - priceDecline
 
-
-
-			let newPrice = price - priceDecline
-
-			if (newPrice <= 0) {
-				newPrice = 0
+			if (price <= 0) {
+				price = 0
 				return
 			}
-			// state.realTimePrice = priceFormat(newPrice);
+			// state.realTimePrice = priceFormat(price);
 			// store.commit("SET_REAL_TIME_PRICE", state.realTimePrice);
-
-			state.timer = setTimeout(() => {
-				setRealTimePrice(newPrice, priceDeclineFrequency)
-			}, priceDeclineFrequency * 1000);
 		};
 
 		//下降差值计算
@@ -145,7 +144,7 @@ export default {
 		}
 
 		onUnmounted(() => {
-			clearTimeout(state.timer);
+			clearInterval(state.timer);
 		});
 
 		const state = reactive({

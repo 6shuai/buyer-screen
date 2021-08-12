@@ -9,7 +9,7 @@
 
         <img src="../images/miniview_04.png" class="miniview_04" />
 
-        <div class="miniview_text">
+        <div class="miniview_text base_color">
             扫码查看更多宝贝, 不要错过优惠哦!
         </div>
 
@@ -80,7 +80,6 @@
             text-align: center;
             font-weight: bold;
             font-size: 60px;
-            color: #4a2453;
             z-index: 99;
             background: url('../images/miniview_text.png') top no-repeat;
             background-size: 1064px 214px;

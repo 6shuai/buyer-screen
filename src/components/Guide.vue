@@ -25,7 +25,7 @@
 
 
     <div class="guide_subtitle text_medium" v-if="guideStep">
-        <p>{{ guideText[guideTextIndex].text }}</p>
+        <p>{{ guideText[guideTextIndex] ? guideText[guideTextIndex].text : '' }}</p>
     </div>
 
 </template>
@@ -198,11 +198,11 @@ export default {
                 state.guideTextIndex += 1
                 
                 showGuideText()
-            }, state.guideText[state.guideTextIndex].duration  * 1000);
+            }, state.guideText[state.guideTextIndex].duration  * 1000)
         }
 
-        watch(showGuide, (newdState, oldState) => {
-            if(newdState){
+        watch(showGuide, (newdProp, oldProp) => {
+            if(newdProp){
                 clearTimeout(state.timer)
                 state.guideTextIndex = 0
                 showGuideText()
