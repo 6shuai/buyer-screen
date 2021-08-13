@@ -57,7 +57,7 @@ import { gameStateId } from './util/index'
 export default {
 	setup(props) {
 		const store = useStore()
-		const { initWebsocket } = socketMixin()
+		const { initWebsocket, test } = socketMixin()
 		const { videoPlay, clearTimer, playJxmsBgm, pauseJxmsBgm, playJxmsSounds, jxmsAudio, guideStart, guideDuration } = mixin()
 
 		//是否显示倒计时
@@ -69,8 +69,7 @@ export default {
 		const gameState = computed(() => {
 			return store.state.gameState
 		})
-		
-
+	
 		//倒计时
 		const countDown = (e) => {
 			try {
@@ -198,7 +197,7 @@ export default {
 			})
 		}
 
-
+		//资源预加载
 		const preload = () => {
 			let audios = [
 				{ id: 'before', src: "./sounds/before.mp3" },
@@ -269,6 +268,13 @@ export default {
 				pauseJxmsBgm.value()
 			} else {
 				if(state.gameState != 4) playJxmsBgm.value(null, true)
+			}
+		})
+
+		//抢购1结束后  抢购2预览开始
+		watch(gameState, (newState, oldState) => {
+			if(newState == null){
+				test.value(23)
 			}
 		})
 

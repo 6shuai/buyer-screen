@@ -9,7 +9,10 @@
                 </p>
             </div>
             <div class="goods_img">
-                <div class="img" :style="{ background: `url(${nextGoods.goodsCover}) center no-repeat`, backgroundSize: '100% 100%' }"></div>
+                <div 
+                    class="img" 
+                    :style="{ background: `url(${nextGoods.goodsCover}) center no-repeat`, backgroundSize: '100% 100%' }"
+                ></div>
             </div>
         </div>
 
@@ -46,13 +49,15 @@ import { reactive, toRefs, onMounted } from 'vue'
 import { useStore } from 'vuex'
 import { formatTime, priceFormat } from '../util/index'
 import mixin from '../mixins/index'
-import socketMixin from "../mixins/socket"
 
 export default {
     setup(props) {
         const store = useStore()
-        const { test } = socketMixin()
         const { pauseJxmsBgm, playJxmsSounds } = mixin()
+
+        const state = reactive({
+            nextGoods: undefined
+        })
 
         onMounted(() => {
             let { currentGoodsIndex, goodsListData } = store.state
@@ -62,13 +67,12 @@ export default {
                 state.nextGoods = goodsListData[currentGoodsIndex]
 
                 setTimeout(() => {
+                    //重置数据  开始下一轮抢购
                     store.state.currentGoodsIndex += 1
-                    console.log('再来一次???')
                     store.state.showTomorrowGoods = false
                     store.state.showAdvVideo = false
                     store.state.showRankList = false
                     store.commit('SET_GAME_STATE', null)
-                    test.value(23)
                 }, 60 * 1000);
 
             }else{
@@ -97,13 +101,11 @@ export default {
             }
         })
         
-        const state = reactive({
-            nextGoods: undefined,
+        return {
+            ...toRefs(state),
             formatTime,
             priceFormat
-        })
-        
-        return toRefs(state)
+        }
     }
 }
 </script>

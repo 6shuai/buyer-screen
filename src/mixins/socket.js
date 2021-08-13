@@ -43,9 +43,14 @@ export default function () {
         try {
             state.websock.send(JSON.stringify(data));
         } catch (error) {
-            console.log(data)
+            console.log(state)
+            console.log(error, data)
         }
     }
+
+    setTimeout(() => {
+        console.log(state)
+    }, 4000);
     
     //socket 收到消息
     const websocketonmessage = event => { 
@@ -85,7 +90,7 @@ export default function () {
                         }
                     ])
                 
-                test(22)
+                test(20)
                 break;
             // 抢购详情
             case socketId.GoodsDataDetail:
@@ -215,18 +220,19 @@ export default function () {
 
 
     const test = (id) => {
+
+        console.log(id)
     
         //预览
-        setTimeout(() => {
-            console.log('预览开始----->', id)
-            let data = {
-                id: socketId.Preview,
-                auctionId: id
-            }
-            websocketSendData(data);
-        }, 20 * 1000);
-        
-        return
+        // setTimeout(() => {
+        //     console.log('预览开始----->', id)
+        //     let data = {
+        //         id: socketId.Preview,
+        //         auctionId: id
+        //     }
+        //     websocketSendData(data);
+        // }, 20 * 1000);
+        // return
 
         setTimeout(() => {
             setTimeout(() => {

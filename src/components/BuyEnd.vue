@@ -50,6 +50,10 @@ export default {
         const store = useStore()
         const { playJxmsSounds } = mixin()
 
+        const state = reactive({
+            showSellOut: false
+        })
+
         const buyKing = computed(() => {
             return store.state.buyKing
         })
@@ -75,21 +79,20 @@ export default {
                 //后面没有宝贝
                 // store.commit('SET_VOICE_CAPTION', 'showRank02')
                 // playJxmsSounds.value('./voice/03_02.mp3')
-            }, 20000);
+            }, 20 * 1000);
 
             setTimeout(() => {
                 state.showSellOut = true
             }, 1000);
         })
 
-        const state = reactive({
+        
+        return toRefs({
+            ...state,
             priceFormat,
             buyKing,
             buyMemberList,
-            showSellOut: false
         })
-        
-        return toRefs(state)
     },
 }
 </script>

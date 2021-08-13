@@ -85,29 +85,13 @@ export default function () {
             duration = duration - advDiffDuration - advDuration
 
             if(type == gameStateId.before){
-                if(duration >= beforeStageVoiceDuration){
-                    store.commit('SET_VOICE_CAPTION', 'beforeText')
-                    playJxmsSounds('./voice/00_01.mp3', () => {
-                        videoPlay(duration, type)
-                    })
-                }
+
+                beforeStageVideoPlayEnd(duration, type)
+
             }else if(type == gameStateId.guessPrice){
-                if(duration >= guessPriceStageVoiceDuration02){
-                    store.commit('SET_VOICE_CAPTION', 'advPlayEnd')
-                    playJxmsSounds('./voice/01_02.mp3', () => {
-                        duration -= guessPriceStageVoiceDuration02
-                        if(duration >= guessPriceGuideDuration){
-                            store.state.showGuide = true
-                            store.commit('SET_VOICE_CAPTION', 1)
-                            setTimeout(() => {
-                                store.commit('SET_VOICE_CAPTION', 2)
-                            }, 10000);
-                            playJxmsSounds('./voice/rule_01.mp3', () => {
-                                videoPlay(duration, type)
-                            })
-                        }
-                    })
-                }
+
+                guessPriceStageVideoPlayEnd(duration, type)
+
             }else{
                 videoPlay(duration, type)
             }
@@ -115,6 +99,36 @@ export default function () {
         }, advDuration * 1000);
     }
 
+
+    //未开始阶段  广告播放完之后, 播放一段语音
+    const beforeStageVideoPlayEnd = (duration, type) => {
+        if(duration >= beforeStageVoiceDuration){
+            store.commit('SET_VOICE_CAPTION', 'beforeText')
+            playJxmsSounds('./voice/00_01.mp3', () => {
+                videoPlay(duration, type)
+            })
+        }
+    }
+
+    //猜价阶段  广告播放完之后, 开始猜价教学
+    const guessPriceStageVideoPlayEnd = (duration, type) => {
+        if(duration >= guessPriceStageVoiceDuration02){
+            store.commit('SET_VOICE_CAPTION', 'advPlayEnd')
+            playJxmsSounds('./voice/01_02.mp3', () => {
+                duration -= guessPriceStageVoiceDuration02
+                if(duration >= guessPriceGuideDuration){
+                    store.state.showGuide = true
+                    store.commit('SET_VOICE_CAPTION', 1)
+                    setTimeout(() => {
+                        store.commit('SET_VOICE_CAPTION', 2)
+                    }, 10000);
+                    playJxmsSounds('./voice/rule_01.mp3', () => {
+                        videoPlay(duration, type)
+                    })
+                }
+            })
+        }
+    }
 
     //竞猜阶段  最后抢购教学时间
     const guideStart = (duraton) => {

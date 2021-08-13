@@ -27,6 +27,13 @@ export default {
         const store = useStore();
         const { pauseJxmsBgm, playJxmsSounds } = mixin()
 
+        const state = reactive({
+            timer: undefined,
+            countdownNum: 10,
+            countdownNumShaow: null,
+            showImgShaow: false
+        })
+
         onMounted(() => {
             setTimeout(() => {
                 countdown()
@@ -35,6 +42,7 @@ export default {
             console.log('倒计时开始, 暂停背景音乐')
         })
 
+        //倒计时
         const countdown = () => {
             if(state.countdownNum <= 1){
                 clearTimeout(state.timer)
@@ -61,13 +69,6 @@ export default {
                 countdown()
             }, 1000);
         }
-
-        const state = reactive({
-            timer: undefined,
-            countdownNum: 10,
-            countdownNumShaow: null,
-            showImgShaow: false
-        })
 
         return toRefs(state)
     }
