@@ -1,9 +1,9 @@
 {
-  "name": "newvip.wismall.com",
+  "name": "xiaofengjing",
   "version": "1.0.0",
   "license": "UNLICENSED",
-  "description": "新媒体重构",
-  "repository": "newvip.wismall.com",
+  "description": "xiaofengjing",
+  "repository": "xiaofengjing",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

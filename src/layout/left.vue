@@ -91,12 +91,11 @@
             </div>
         </div>
 
-
         <!-- 即将开始  class  put_away  收起-->
         <div 
             class="goods_list"
             :class="{ put_away: currentGoodsIsShow() }"
-            v-if="goodsList.length && !showTomorrowGoods && currentGoodsIndex != goodsList.length - 1"
+            v-if="goodsList.length && !showTomorrowGoods"
         >
             <div class="title_card text_medium">即将开始</div>
             <div class="goods_item" 

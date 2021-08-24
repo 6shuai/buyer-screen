@@ -71,15 +71,6 @@ export default function () {
 
                     store.commit('SET_GOODS_LIST', [
                         {
-                            beginTime: 1627642800000,
-                            goodsCover: "https://static.xfengjing.com/picture/2021/07/30/99312731-4922-49c5-903e-ef7062c48a89.png",
-                            goodsDescription: "红蓝续航增强版",
-                            goodsName: "任天堂Switch",
-                            marketValue: 2099,
-                            priceDeclineRate: 100,
-                            totalGuessAward: 0
-                        },
-                        {
                             beginTime: 1627644600000,
                             goodsCover: "https://static.xfengjing.com/picture/2021/07/31/ad6d9432-74a9-4c47-befc-dc66e557d3ba.png",
                             goodsDescription: "HD08 中国红",
@@ -87,10 +78,19 @@ export default function () {
                             marketValue: 3190,
                             priceDeclineRate: 200,
                             totalGuessAward: 0
-                        }
+                        },
+                        // {
+                        //     beginTime: 1627642800000,
+                        //     goodsCover: "https://static.xfengjing.com/picture/2021/07/30/99312731-4922-49c5-903e-ef7062c48a89.png",
+                        //     goodsDescription: "红蓝续航增强版",
+                        //     goodsName: "任天堂Switch",
+                        //     marketValue: 2099,
+                        //     priceDeclineRate: 100,
+                        //     totalGuessAward: 0
+                        // }
                     ])
                 
-                test(20)
+                test()
                 break;
             // 抢购详情
             case socketId.GoodsDataDetail:
@@ -220,19 +220,17 @@ export default function () {
 
 
     const test = (id) => {
-
-        console.log(id)
     
         //预览
-        // setTimeout(() => {
-        //     console.log('预览开始----->', id)
-        //     let data = {
-        //         id: socketId.Preview,
-        //         auctionId: id
-        //     }
-        //     websocketSendData(data);
-        // }, 20 * 1000);
-        // return
+        setTimeout(() => {
+            console.log('预览开始----->', id)
+            let data = {
+                id: socketId.Preview,
+                auctionId: id || 23
+            }
+            websocketSendData(data);
+        }, 20 * 1000);
+        return
 
         setTimeout(() => {
             setTimeout(() => {

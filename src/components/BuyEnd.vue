@@ -75,10 +75,6 @@ export default {
                     store.commit('SET_VOICE_CAPTION', 'showRank02')
                     playJxmsSounds.value('./voice/03_02.mp3')
                 }
-
-                //后面没有宝贝
-                // store.commit('SET_VOICE_CAPTION', 'showRank02')
-                // playJxmsSounds.value('./voice/03_02.mp3')
             }, 20 * 1000);
 
             setTimeout(() => {

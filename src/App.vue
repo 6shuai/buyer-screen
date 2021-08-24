@@ -126,7 +126,7 @@ export default {
 					//预热阶段
 					videoPlay.value(preheatTime - 10, 0)
 					gameGuessPriceStartVoice(preheatTime)
-					goodsListData[currentGoodsIndex].hide = true
+					// goodsListData[currentGoodsIndex].hide = true
 					break
 				case 1:
 					// 竞猜阶段
@@ -247,7 +247,16 @@ export default {
 				{ id: 'rule_02', src: "./voice/rule_02.mp3" },
 				{ src: "./Dior口红套装.png" },
 				{ src: "./戴森无绳吸尘器V11.png" },
-				{ src: "./索尼85寸液晶电视.png" }
+				{ src: "./索尼85寸液晶电视.png" },
+				{ src: "./count_down/count_down_1.png" },
+				{ src: "./count_down/count_down_2.png" },
+				{ src: "./count_down/count_down_3.png" },
+				{ src: "./count_down/count_down_4.png" },
+				{ src: "./count_down/count_down_5.png" },
+				{ src: "./count_down/count_down_6.png" },
+				{ src: "./count_down/count_down_7.png" },
+				{ src: "./count_down/count_down_8.png" },
+				{ src: "./count_down/count_down_9.png" }
 			]
 
 			var queue = new createjs.LoadQueue()
